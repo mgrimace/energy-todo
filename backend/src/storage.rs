@@ -140,13 +140,17 @@ mod tests {
                 id: 1,
                 title: "one".to_string(),
                 energy: Energy::Low,
+                tags: vec!["home".to_string()],
                 completed: false,
+                completed_at: None,
             },
             Todo {
                 id: 2,
                 title: "two".to_string(),
                 energy: Energy::High,
+                tags: vec!["work".to_string(), "focus".to_string()],
                 completed: true,
+                completed_at: Some(1_730_000_000_000),
             },
         ];
 
@@ -211,13 +215,17 @@ mod tests {
             id: 11,
             title: "alpha".to_string(),
             energy: Energy::Low,
+            tags: vec!["quick".to_string()],
             completed: false,
+            completed_at: None,
         }];
         let todos_b = vec![Todo {
             id: 22,
             title: "beta".to_string(),
             energy: Energy::High,
+            tags: vec!["deep".to_string()],
             completed: true,
+            completed_at: Some(1_730_000_000_001),
         }];
 
         let expected_a = todos_a.clone();
