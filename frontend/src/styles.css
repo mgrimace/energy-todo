@@ -1,25 +1,26 @@
 :root {
-  --moondust-000: #f8f9fc;
-  --moondust-050: #f0f3f8;
-  --moondust-100: #e5eaf3;
-  --moondust-200: #d4dbe8;
-  --moondust-300: #c2cada;
-  --moondust-700: #465470;
-  --moondust-900: #1d2739;
-  --accent-base: #5b7198;
-  --accent-strong: #52668d;
-  --accent-soft: #dce4f1;
-  --danger-soft: #f2e8eb;
-  --danger-border: #d8bcc5;
-  --danger-text: #8b5a68;
-  --on-accent: #f7f9fd;
-  --focus-ring: rgba(102, 128, 174, 0.62);
+  --moondust-000: #f6f7f8;
+  --moondust-050: #ffffff;
+  --moondust-100: #e8ebed;
+  --moondust-200: #d7dcdf;
+  --moondust-300: #b6bec3;
+  --moondust-700: #575e66;
+  --moondust-900: #24292d;
+  --accent-base: #3882c2;
+  --accent-strong: #1f639e;
+  --accent-soft: #e2eff8;
+  --danger-soft: color-mix(in srgb, #e67c7c 14%, #d2d4d5);
+  --danger-border: color-mix(in srgb, #e67c7c 48%, #89949a);
+  --danger-text: #9f4f4f;
+  --on-accent: #f6f7f8;
+  --focus-ring: rgba(56, 130, 194, 0.45);
   --focus-outline-size: 2px;
   --shadow-color: rgba(23, 33, 50, 0.08);
 
-  --background: var(--moondust-050);
-  --surface: #ffffff;
-  --surface-muted: var(--moondust-000);
+  --background: var(--moondust-100);
+  --surface: var(--moondust-000);
+  --surface-muted: var(--moondust-100);
+  --row-control-bg: var(--moondust-000);
   --border: var(--moondust-200);
   --text: var(--moondust-900);
   --muted-text: var(--moondust-700);
@@ -28,22 +29,22 @@
   --shadow-hover: 0 8px 20px var(--shadow-color);
   --shadow-press: 0 3px 10px var(--shadow-color);
 
-  --energy-low-bg: #e9eff7;
-  --energy-low-text: #3f5778;
-  --energy-low-border: #7088a9;
+  --energy-low-bg: #e2eff8;
+  --energy-low-text: #144b7b;
+  --energy-low-border: #8ebce1;
   --energy-high-bg: #f4ede3;
   --energy-high-text: #6e5237;
   --energy-high-border: #9f7b58;
-  --energy-medium-bg: #e9edf4;
-  --energy-medium-text: #4d5f7a;
-  --energy-medium-border: #7d90ab;
+  --energy-medium-bg: #bbd7ec;
+  --energy-medium-text: #144b7b;
+  --energy-medium-border: #65a4d7;
 
   --energy-badge-bg: var(--energy-medium-bg);
   --energy-badge-text: var(--energy-medium-text);
   --energy-badge-border: var(--energy-medium-border);
-  --tag-bg: #f3f6fb;
-  --tag-border: #d9e1ed;
-  --tag-text: #5d6f8c;
+  --tag-bg: #f2f8fc;
+  --tag-border: #bbd7ec;
+  --tag-text: #144b7b;
 
   --space-1: 4px;
   --space-2: 8px;
@@ -68,46 +69,47 @@
 }
 
 html.dark {
-  --moondust-000: #212b3e;
-  --moondust-050: #141b2a;
-  --moondust-100: #1a2334;
-  --moondust-200: #2b3750;
-  --moondust-300: #394865;
-  --moondust-700: #adbbcf;
-  --moondust-900: #e6ecf8;
-  --accent-base: #84a0cb;
-  --accent-strong: #93add4;
-  --accent-soft: #2a3953;
-  --danger-soft: #3a2730;
-  --danger-border: #6b4755;
-  --danger-text: #deb8c4;
-  --on-accent: #0f1726;
-  --focus-ring: rgba(149, 178, 224, 0.62);
+  --moondust-000: #2c343a;
+  --moondust-050: #161a1d;
+  --moondust-100: #22272b;
+  --moondust-200: #343f46;
+  --moondust-300: #455259;
+  --moondust-700: #637179;
+  --moondust-900: #b1b6b9;
+  --accent-base: #2c75c3;
+  --accent-strong: #4d8fdb;
+  --accent-soft: #273545;
+  --danger-soft: color-mix(in srgb, #e67c7c 20%, #1e2225);
+  --danger-border: color-mix(in srgb, #e67c7c 52%, #343f46);
+  --danger-text: #e67c7c;
+  --on-accent: #d2d4d5;
+  --focus-ring: rgba(44, 117, 195, 0.58);
   --shadow-color: rgba(3, 8, 16, 0.4);
 
   --background: var(--moondust-050);
-  --surface: #1a2436;
+  --surface: #262c31;
   --surface-muted: var(--moondust-100);
+  --row-control-bg: var(--moondust-100);
   --border: var(--moondust-200);
   --text: var(--moondust-900);
   --muted-text: var(--moondust-700);
 
-  --energy-low-bg: #27364d;
-  --energy-low-text: #c7d8ee;
-  --energy-low-border: #7d9bbf;
-  --energy-high-bg: #3a3127;
-  --energy-high-text: #e5cfb4;
-  --energy-high-border: #b18f6c;
-  --energy-medium-bg: #253247;
-  --energy-medium-text: #c3d3e8;
-  --energy-medium-border: #7990b0;
+  --energy-low-bg: #222d39;
+  --energy-low-text: #b2d0eb;
+  --energy-low-border: #4d6680;
+  --energy-high-bg: color-mix(in srgb, #e8b87e 18%, #22272b);
+  --energy-high-text: #e8b87e;
+  --energy-high-border: color-mix(in srgb, #e8b87e 44%, #343f46);
+  --energy-medium-bg: #273545;
+  --energy-medium-text: #8fafcc;
+  --energy-medium-border: #3c5167;
 
   --energy-badge-bg: var(--energy-medium-bg);
   --energy-badge-text: var(--energy-medium-text);
   --energy-badge-border: var(--energy-medium-border);
-  --tag-bg: #1e2a3e;
-  --tag-border: #33435f;
-  --tag-text: #afc0da;
+  --tag-bg: #1f262e;
+  --tag-border: #304255;
+  --tag-text: #8fafcc;
 }
 
 * {
@@ -175,6 +177,10 @@ body {
   align-items: center;
   padding: 2px;
   transition: var(--transition-accent);
+}
+
+html:not(.dark) .theme-toggle-track {
+  background: #bbd7ec;
 }
 
 .theme-toggle-thumb {
@@ -263,31 +269,46 @@ main {
 }
 
 .task-energy-select {
+  border-color: var(--border);
+  background: var(--surface-muted);
+  color: var(--muted-text);
   transition: var(--transition-control), box-shadow 150ms ease;
 }
 
 .task-energy-select.energy-low {
-  background: color-mix(in srgb, var(--energy-low-bg) 58%, var(--surface-muted));
-  border-color: color-mix(in srgb, var(--energy-low-border) 62%, var(--border));
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--energy-low-border) 18%, transparent);
+  color: var(--muted-text);
 }
 
 .task-energy-select.energy-high {
-  background: color-mix(in srgb, var(--energy-high-bg) 62%, var(--surface-muted));
-  border-color: color-mix(in srgb, var(--energy-high-border) 60%, var(--border));
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--energy-high-border) 18%, transparent);
+  color: var(--muted-text);
 }
 
 .task-energy-select.energy-medium {
-  background: color-mix(in srgb, var(--energy-medium-bg) 58%, var(--surface-muted));
-  border-color: color-mix(in srgb, var(--energy-medium-border) 62%, var(--border));
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--energy-medium-border) 18%, transparent);
+  color: var(--muted-text);
 }
 
+.task-energy-select.energy-low:hover {
+  background: color-mix(in srgb, var(--energy-low-bg) 58%, var(--surface-muted));
+  border-color: color-mix(in srgb, var(--energy-low-border) 62%, var(--border));
+  color: var(--energy-low-text);
+}
+
+.task-energy-select.energy-high:hover {
+  background: color-mix(in srgb, var(--energy-high-bg) 62%, var(--surface-muted));
+  border-color: color-mix(in srgb, var(--energy-high-border) 60%, var(--border));
+  color: var(--energy-high-text);
+}
+
+.task-energy-select.energy-medium:hover {
+  background: color-mix(in srgb, var(--energy-medium-bg) 58%, var(--surface-muted));
+  border-color: color-mix(in srgb, var(--energy-medium-border) 62%, var(--border));
+  color: var(--energy-medium-text);
+}
+
+.task-energy-select:focus,
 .task-energy-select:focus-visible {
-  box-shadow:
-    inset 0 0 0 1px color-mix(in srgb, var(--accent-strong) 36%, transparent),
-    0 0 0 var(--focus-outline-size) var(--focus-ring);
+  outline: none;
+  box-shadow: none;
 }
 
 .task-tags input::placeholder {
@@ -331,7 +352,7 @@ main {
   min-height: 44px;
   border-radius: var(--radius-sm);
   border: 1px solid var(--border);
-  background: var(--surface);
+  background: var(--row-control-bg);
   padding: 0 var(--space-3);
   transition: var(--transition-control);
 }
@@ -367,11 +388,11 @@ main {
 
 .tabs {
   display: flex;
-  gap: var(--space-2);
+  gap: var(--space-1);
   overflow: auto;
-  padding: var(--space-1);
+  padding: 1px 0;
   border-radius: var(--radius-md);
-  background: var(--surface-muted);
+  background: transparent;
   transition: var(--transition-accent);
 }
 
@@ -391,20 +412,20 @@ main {
 .tab.active {
   color: var(--text);
   border-color: var(--border);
-  background: var(--surface);
+  background: var(--row-control-bg);
 }
 
 .tab.tab-quick:hover,
 .tab.tab-quick.active {
   color: var(--energy-low-text);
-  background: color-mix(in srgb, var(--energy-low-bg) 74%, var(--surface));
+  background: var(--row-control-bg);
   border-color: color-mix(in srgb, var(--energy-low-border) 64%, var(--border));
 }
 
 .tab.tab-deep:hover,
 .tab.tab-deep.active {
   color: var(--energy-high-text);
-  background: color-mix(in srgb, var(--energy-high-bg) 72%, var(--surface));
+  background: var(--row-control-bg);
   border-color: color-mix(in srgb, var(--energy-high-border) 62%, var(--border));
 }
 
