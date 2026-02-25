@@ -1,0 +1,25 @@
+services:
+  app:
+    container_name: energy-todo
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - app-data:/app/data
+    environment:
+      - RUST_LOG=${RUST_LOG:-info}
+      - CORS_ALLOWED_ORIGINS=${CORS_ALLOWED_ORIGINS:-}
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    read_only: true
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,size=64m
+      - /run:rw,noexec,nosuid,size=16m
+    restart: unless-stopped
+
+volumes:
+  app-data:
