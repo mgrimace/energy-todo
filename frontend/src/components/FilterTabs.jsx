@@ -14,7 +14,7 @@ export default function FilterTabs({ filter, setFilter }) {
           type="button"
           key={t.key}
           role="tab"
-          className={"tab " + (filter === t.key ? 'active' : '')}
+          className={`tab tab-${t.key} ${filter === t.key ? 'active' : ''}`}
           aria-selected={filter === t.key}
           onClick={() => setFilter(t.key)}
         >
