@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { GripVertical } from 'lucide-react'
 import EnergyBadge from './EnergyBadge'
 
 export default function TodoCard({ todo, onToggle, onDelete, onEdit, dragHandleProps }) {
@@ -41,20 +40,28 @@ export default function TodoCard({ todo, onToggle, onDelete, onEdit, dragHandleP
     }
   }
 
+  const dragProps = dragHandleProps ? { ...dragHandleProps } : {}
+  const suppressDragPropagation = dragHandleProps
+    ? (event) => {
+        event.stopPropagation()
+      }
+    : undefined
+
   return (
-    <article className={`card energy-${todo.energy} ${todo.completed ? 'is-complete' : ''}`} data-completed={todo.completed ? 'true' : 'false'}>
+    <article
+      className={`card energy-${todo.energy} ${todo.completed ? 'is-complete' : ''} ${dragHandleProps ? 'is-draggable' : ''}`}
+      data-completed={todo.completed ? 'true' : 'false'}
+      {...dragProps}
+    >
       <div className="card-left">
-        {dragHandleProps ? (
-          <button
-            type="button"
-            className="drag-handle"
-            aria-label="Reorder task"
-            {...dragHandleProps}
-          >
-            <GripVertical size={15} strokeWidth={1.8} aria-hidden="true" />
-          </button>
-        ) : null}
-        <button type="button" className="checkbox" onClick={onToggle} aria-pressed={todo.completed}>
+        <button
+          type="button"
+          className="checkbox"
+          onClick={onToggle}
+          aria-pressed={todo.completed}
+          onPointerDown={suppressDragPropagation}
+          onKeyDownCapture={suppressDragPropagation}
+        >
           {todo.completed ? '✓' : ''}
         </button>
         <div className="card-body">
@@ -101,7 +108,16 @@ export default function TodoCard({ todo, onToggle, onDelete, onEdit, dragHandleP
           </div>
         </div>
       </div>
-      <button type="button" className="delete" onClick={onDelete} aria-label="Delete todo">Delete</button>
+      <button
+        type="button"
+        className="delete"
+        onClick={onDelete}
+        aria-label="Delete todo"
+        onPointerDown={suppressDragPropagation}
+        onKeyDownCapture={suppressDragPropagation}
+      >
+        Delete
+      </button>
     </article>
   )
 }
