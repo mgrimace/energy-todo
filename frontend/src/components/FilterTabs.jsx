@@ -1,26 +1,34 @@
 import React from 'react'
 
+const TAB_CONFIG = [
+  { key: 'all', label: 'All', tone: 'base' },
+  { key: 'quick', label: 'Quick Wins', tone: 'low' },
+  { key: 'deep', label: 'Deep Focus', tone: 'high' },
+  { key: 'completed', label: 'Completed', tone: 'complete' }
+]
+
 export default function FilterTabs({ filter, setFilter }) {
-  const tabs = [
-    { key: 'all', label: 'All' },
-    { key: 'quick', label: 'Quick Wins' },
-    { key: 'deep', label: 'Deep Focus' },
-    { key: 'completed', label: 'Completed' }
-  ]
   return (
-    <div className="tabs" role="tablist">
-      {tabs.map(t => (
-        <button
-          type="button"
-          key={t.key}
-          role="tab"
-          className={`tab tab-${t.key} ${filter === t.key ? 'active' : ''}`}
-          aria-selected={filter === t.key}
-          onClick={() => setFilter(t.key)}
-        >
-          {t.label}
-        </button>
-      ))}
+    <div className="filter-pill">
+      <div className="filter-pill-track" role="tablist" aria-label="Filter todos by energy state">
+        {TAB_CONFIG.map(tab => {
+          const isActive = filter === tab.key
+            return (
+              <button
+                type="button"
+                key={tab.key}
+                role="tab"
+                className={`filter-pill-button ${isActive ? 'is-active' : ''}`}
+                data-filter-key={tab.key}
+                data-filter-tone={tab.tone}
+                aria-selected={isActive}
+                onClick={() => setFilter(tab.key)}
+              >
+                <span className="filter-pill-chip">{tab.label}</span>
+              </button>
+            )
+        })}
+      </div>
     </div>
   )
 }
