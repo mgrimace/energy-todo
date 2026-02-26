@@ -126,20 +126,22 @@ export default function App() {
             {activeTodos.length === 0 && completedTodos.length === 0 ? <p className="muted">No matching todos</p> : null}
 
             <DndContext sensors={sensors} onDragEnd={onActiveDragEnd}>
-              <SortableContext
-                items={activeTodos.map(todo => String(todo.id))}
-                strategy={verticalListSortingStrategy}
-              >
-                {activeTodos.map(t => (
-                  <SortableActiveTodo
-                    key={t.id}
-                    todo={t}
-                    onToggle={() => updateTodo(t.id, { completed: !t.completed })}
-                    onDelete={() => deleteTodo(t.id)}
-                    onEdit={(title) => updateTodo(t.id, { title })}
-                  />
-                ))}
-              </SortableContext>
+              <div className="stacked-list active-stack">
+                <SortableContext
+                  items={activeTodos.map(todo => String(todo.id))}
+                  strategy={verticalListSortingStrategy}
+                >
+                  {activeTodos.map(t => (
+                    <SortableActiveTodo
+                      key={t.id}
+                      todo={t}
+                      onToggle={() => updateTodo(t.id, { completed: !t.completed })}
+                      onDelete={() => deleteTodo(t.id)}
+                      onEdit={(title) => updateTodo(t.id, { title })}
+                    />
+                  ))}
+                </SortableContext>
+              </div>
             </DndContext>
 
             {completedTodos.length > 0 ? (
@@ -147,7 +149,7 @@ export default function App() {
                 <div className="completed-divider" role="separator" aria-hidden="true">
                   <span>Completed</span>
                 </div>
-                <div className="completed-list">
+                <div className="completed-list stacked-list">
                   {completedTodos.map(t => (
                     <TodoCard
                       key={t.id}
