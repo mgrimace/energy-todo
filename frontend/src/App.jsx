@@ -104,16 +104,18 @@ export default function App() {
         <div className="list-controls">
           <FilterTabs filter={filter} setFilter={setFilter} />
           <label className="search" htmlFor="task-search">
-            <svg viewBox="0 0 24 24" aria-hidden="true" className="search-icon">
-              <path d="M11 4a7 7 0 1 0 0 14a7 7 0 0 0 0-14Zm9 16-3.8-3.8" />
-            </svg>
-            <input
-              id="task-search"
-              type="search"
-              value={search}
-              onChange={event => setSearch(event.target.value)}
-              placeholder="Search tasks or tags"
-            />
+            <span className="search-chip">
+              <svg viewBox="0 0 24 24" aria-hidden="true" className="search-icon">
+                <path d="M11 4a7 7 0 1 0 0 14a7 7 0 0 0 0-14Zm9 16-3.8-3.8" />
+              </svg>
+              <input
+                id="task-search"
+                type="search"
+                value={search}
+                onChange={event => setSearch(event.target.value)}
+                placeholder="Search tasks or tags"
+              />
+            </span>
           </label>
         </div>
 
