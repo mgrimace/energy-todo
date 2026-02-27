@@ -8,7 +8,7 @@ import FilterTabs from './components/FilterTabs'
 import TodoCard from './components/TodoCard'
 import TaskInput from './components/TaskInput'
 
-function SortableActiveTodo({ todo, onToggle, onDelete, onEdit }) {
+function SortableActiveTodo({ todo, onToggle, onDelete, onEdit, onEditTags, onToggleEnergy }) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: String(todo.id)
   })
@@ -24,7 +24,9 @@ function SortableActiveTodo({ todo, onToggle, onDelete, onEdit }) {
         todo={todo}
         onToggle={onToggle}
         onDelete={onDelete}
-        onEdit={onEdit}
+        onEditTitle={onEdit}
+        onEditTags={onEditTags}
+        onToggleEnergy={onToggleEnergy}
         dragHandleProps={{ ...attributes, ...listeners }}
       />
     </div>
@@ -138,6 +140,8 @@ export default function App() {
                       onToggle={() => updateTodo(t.id, { completed: !t.completed })}
                       onDelete={() => deleteTodo(t.id)}
                       onEdit={(title) => updateTodo(t.id, { title })}
+                      onEditTags={(tags) => updateTodo(t.id, { tags })}
+                      onToggleEnergy={(energy) => updateTodo(t.id, { energy })}
                     />
                   ))}
                 </SortableContext>
@@ -156,7 +160,9 @@ export default function App() {
                       todo={t}
                       onToggle={() => updateTodo(t.id, { completed: !t.completed })}
                       onDelete={() => deleteTodo(t.id)}
-                      onEdit={(title) => updateTodo(t.id, { title })}
+                      onEditTitle={(title) => updateTodo(t.id, { title })}
+                      onEditTags={(tags) => updateTodo(t.id, { tags })}
+                      onToggleEnergy={(energy) => updateTodo(t.id, { energy })}
                     />
                   ))}
                 </div>
