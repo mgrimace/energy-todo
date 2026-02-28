@@ -88,7 +88,9 @@ export default function App() {
     })
 
     reorderActive(reorderedAllActive.map(todo => todo.id)).catch(error => {
-      console.error('failed to reorder active todos', error)
+      if (import.meta.env.DEV) {
+        console.error('failed to reorder active todos', error)
+      }
     })
   }
 

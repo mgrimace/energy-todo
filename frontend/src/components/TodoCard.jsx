@@ -54,7 +54,9 @@ export default function TodoCard({ todo, onToggle, onDelete, onEditTitle, onEdit
       await onEditTitle(trimmed)
       setIsEditing(false)
     } catch (error) {
-      console.error('failed to update todo title', error)
+      if (import.meta.env.DEV) {
+        console.error('failed to update todo title', error)
+      }
     }
   }
 
@@ -87,7 +89,9 @@ export default function TodoCard({ todo, onToggle, onDelete, onEditTitle, onEdit
       await onEditTags(nextTags)
       setIsEditingTags(false)
     } catch (error) {
-      console.error('failed to update todo tags', error)
+      if (import.meta.env.DEV) {
+        console.error('failed to update todo tags', error)
+      }
     }
   }
 
@@ -142,7 +146,9 @@ export default function TodoCard({ todo, onToggle, onDelete, onEditTitle, onEdit
     try {
       await onToggleEnergy(nextEnergy)
     } catch (error) {
-      console.error('failed to toggle todo energy', error)
+      if (import.meta.env.DEV) {
+        console.error('failed to toggle todo energy', error)
+      }
     }
   }
 

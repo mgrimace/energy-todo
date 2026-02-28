@@ -7,10 +7,10 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - app-data:/app/data
+      - ./energy-data:/app/data:rw
     environment:
       - RUST_LOG=${RUST_LOG:-info}
-      - CORS_ALLOWED_ORIGINS=${CORS_ALLOWED_ORIGINS:-}
+    user: "${LOCAL_UID:-1000}:${LOCAL_GID:-1000}"
     security_opt:
       - no-new-privileges:true
     cap_drop:
@@ -20,6 +20,3 @@ services:
       - /tmp:rw,noexec,nosuid,size=64m
       - /run:rw,noexec,nosuid,size=16m
     restart: unless-stopped
-
-volumes:
-  app-data:

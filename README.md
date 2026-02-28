@@ -44,27 +44,7 @@ docker compose up -d
 Notes
 
 - The backend serves static files from `frontend/dist` when present.
-- Todos are persisted to `backend/data/todos.json` (file is overwritten on each change).
+- Local backend runs directly against `backend/data/todos.json`; Docker Compose bind-mounts the host `./energy-data` directory so you can inspect or back up `energy-data/todos.json` between runs.
 - PWA manifest and icons are in `frontend/public`.
-- CORS origins are configurable via `CORS_ALLOWED_ORIGINS` (comma-separated); invalid origins cause backend startup to fail fast.
-- With Docker Compose, pass the value from your shell, for example: `CORS_ALLOWED_ORIGINS='http://192.168.1.20:3000,https://todo.domain.com' docker compose up`.
-
-Deployment recipes
-
-- LAN Docker (direct access via IP:port):
-
-```bash
-CORS_ALLOWED_ORIGINS='http://192.168.1.20:3000' docker compose up -d
-```
-
-- Reverse proxy TLS (public domain terminates HTTPS at proxy):
-
-```bash
-CORS_ALLOWED_ORIGINS='https://todo.domain.com' docker compose up -d
-```
-
-- Combined (both local LAN and public domain allowed):
-
-```bash
-CORS_ALLOWED_ORIGINS='http://192.168.1.20:3000,https://todo.domain.com' docker compose up -d
-```
+- The app expects the frontend and backend to share the same origin (served from the container on port 3000 or a reverse proxy that terminates HTTPS but forwards to the same origin).
+- Compose runs the container as `${LOCAL_UID}:${LOCAL_GID}` (default `1000:1000`) so the bind-mounted data folder stays writable. Override these variables in `.env` if your user/group IDs differ.
