@@ -1,34 +1,32 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import EnergyBadge from './EnergyBadge'
-
-const parseTags = (value) => {
-  const seen = new Set()
-  return value
-    .split(',')
-    .map(tag => tag.trim())
-    .filter(Boolean)
-    .filter((tag) => {
-      const normalized = tag.toLowerCase()
-      if (seen.has(normalized)) return false
-      seen.add(normalized)
-      return true
-    })
-}
+import useTagInputController from '../hooks/useTagInputController'
 
 export default function TodoCard({ todo, onToggle, onDelete, onEditTitle, onEditTags, onToggleEnergy, dragHandleProps }) {
   const tags = Array.isArray(todo.tags) ? todo.tags : []
   const [isEditing, setIsEditing] = useState(false)
   const [draftTitle, setDraftTitle] = useState(todo.title)
   const [isEditingTags, setIsEditingTags] = useState(false)
-  const [draftTags, setDraftTags] = useState(tags.join(', '))
+  const {
+    tags: editingTags,
+    inputValue: editingTagInput,
+    onInputChange: onTagEditorChange,
+    onKeyDown: onTagEditorKeyDown,
+    onPaste: onTagEditorPaste,
+    replaceTags: resetTagEditor,
+    getSnapshot: getTagEditorSnapshot
+  } = useTagInputController(tags)
+  const tagEditorInputRef = useRef(null)
+  const pendingTagKeyRef = useRef(null)
+  const tagKeyHandlerRef = useRef(onTagEditorKeyDown)
 
   useEffect(() => {
     if (!isEditing) setDraftTitle(todo.title)
   }, [todo.title, isEditing])
 
   useEffect(() => {
-    if (!isEditingTags) setDraftTags(tags.join(', '))
-  }, [isEditingTags, tags])
+    if (!isEditingTags) resetTagEditor(tags)
+  }, [isEditingTags, tags, resetTagEditor])
 
   const startEditing = () => {
     setDraftTitle(todo.title)
@@ -60,24 +58,27 @@ export default function TodoCard({ todo, onToggle, onDelete, onEditTitle, onEdit
     }
   }
 
-  const startEditingTags = () => {
-    setDraftTags(tags.join(', '))
+  const startEditingTags = (options = {}) => {
+    resetTagEditor(tags)
+    pendingTagKeyRef.current = options?.pendingKey || null
     setIsEditingTags(true)
   }
 
   const cancelEditingTags = () => {
-    setDraftTags(tags.join(', '))
+    pendingTagKeyRef.current = null
+    resetTagEditor(tags)
     setIsEditingTags(false)
   }
 
   const saveEditingTags = async () => {
-    const nextTags = parseTags(draftTags)
+    const nextTags = getTagEditorSnapshot()
     const current = tags.map(tag => tag.trim())
     const unchanged =
       nextTags.length === current.length &&
       nextTags.every((tag, index) => tag === current[index])
 
     if (unchanged) {
+      resetTagEditor(tags)
       setIsEditingTags(false)
       return
     }
@@ -90,8 +91,54 @@ export default function TodoCard({ todo, onToggle, onDelete, onEditTitle, onEdit
     }
   }
 
+  const handleTagEditorBlur = (event) => {
+    const nextFocus = event.relatedTarget
+    if (nextFocus && event.currentTarget.contains(nextFocus)) return
+    saveEditingTags()
+  }
+
+  useEffect(() => {
+    tagKeyHandlerRef.current = onTagEditorKeyDown
+  }, [onTagEditorKeyDown])
+
+  useEffect(() => {
+    if (!isEditingTags) {
+      pendingTagKeyRef.current = null
+      return
+    }
+
+    const input = tagEditorInputRef.current
+    if (input) {
+      input.focus()
+      if (pendingTagKeyRef.current) {
+        const syntheticEvent = {
+          key: pendingTagKeyRef.current,
+          preventDefault: () => {},
+          stopPropagation: () => {}
+        }
+        tagKeyHandlerRef.current?.(syntheticEvent)
+        pendingTagKeyRef.current = null
+      }
+    }
+  }, [isEditingTags])
+
+  const onTagTriggerKeyDown = (event) => {
+    suppressDragPropagation?.(event)
+    if (isEditingTags) return
+    if (event.key === 'Backspace' || event.key === 'Delete') {
+      event.preventDefault()
+      if (tags.length === 0) {
+        startEditingTags()
+        return
+      }
+      startEditingTags({ pendingKey: event.key === 'Delete' ? 'Delete' : 'Backspace' })
+    }
+  }
+
   const toggleEnergy = async () => {
-    const nextEnergy = todo.energy === 'low' ? 'high' : 'low'
+    const energyOrder = ['low', 'medium', 'high']
+    const currentIndex = Math.max(energyOrder.indexOf(todo.energy), 0)
+    const nextEnergy = energyOrder[(currentIndex + 1) % energyOrder.length]
     try {
       await onToggleEnergy(nextEnergy)
     } catch (error) {
@@ -99,8 +146,9 @@ export default function TodoCard({ todo, onToggle, onDelete, onEditTitle, onEdit
     }
   }
 
-  const dragProps = dragHandleProps ? { ...dragHandleProps } : {}
-  const suppressDragPropagation = dragHandleProps
+  const editingLocksDrag = isEditing || isEditingTags
+  const dragProps = dragHandleProps && !editingLocksDrag ? { ...dragHandleProps } : {}
+  const suppressDragPropagation = dragHandleProps && !editingLocksDrag
     ? (event) => {
         event.stopPropagation()
       }
@@ -108,7 +156,7 @@ export default function TodoCard({ todo, onToggle, onDelete, onEditTitle, onEdit
 
   return (
     <article
-      className={`card energy-${todo.energy} ${todo.completed ? 'is-complete' : ''} ${dragHandleProps ? 'is-draggable' : ''}`}
+      className={`card energy-${todo.energy} ${todo.completed ? 'is-complete' : ''} ${dragHandleProps && !editingLocksDrag ? 'is-draggable' : ''}`}
       data-completed={todo.completed ? 'true' : 'false'}
       {...dragProps}
     >
@@ -150,6 +198,8 @@ export default function TodoCard({ todo, onToggle, onDelete, onEditTitle, onEdit
               type="button"
               className="title-button"
               onClick={startEditing}
+              onPointerDown={suppressDragPropagation}
+              onKeyDownCapture={suppressDragPropagation}
               aria-label="Edit task title"
             >
               <span className="title">{todo.title}</span>
@@ -164,40 +214,49 @@ export default function TodoCard({ todo, onToggle, onDelete, onEditTitle, onEdit
             />
             <div className={`card-tags ${isEditingTags ? 'is-editing' : ''}`} aria-label="Task tags">
               {isEditingTags ? (
-                <input
-                  type="text"
-                  className="tag-inline-input"
-                  value={draftTags}
-                  onChange={event => setDraftTags(event.target.value)}
-                  onBlur={saveEditingTags}
-                  onKeyDown={(event) => {
-                    if (event.key === 'Enter') {
-                      event.preventDefault()
-                      saveEditingTags()
-                    }
-
-                    if (event.key === 'Escape') {
-                      event.preventDefault()
-                      cancelEditingTags()
-                    }
-                  }}
+                <div
+                  className="tag-inline-editor"
+                  onBlur={handleTagEditorBlur}
                   onPointerDown={suppressDragPropagation}
-                  onKeyDownCapture={suppressDragPropagation}
+                  role="group"
                   aria-label="Edit task tags"
-                  autoFocus
-                />
+                >
+                  {editingTags.map((tag, index) => (
+                    <span key={`${tag}-${index}`} className="tag-pill">{tag}</span>
+                  ))}
+                  <input
+                    type="text"
+                    ref={tagEditorInputRef}
+                    className="tag-inline-input"
+                    value={editingTagInput}
+                    onChange={onTagEditorChange}
+                    onKeyDown={(event) => {
+                      suppressDragPropagation?.(event)
+                      const handled = onTagEditorKeyDown(event)
+                      if (handled) return
+                      if (event.key === 'Escape') {
+                        event.preventDefault()
+                        cancelEditingTags()
+                      }
+                    }}
+                    onPaste={onTagEditorPaste}
+                    onPointerDown={suppressDragPropagation}
+                    autoFocus
+                  />
+                </div>
               ) : (
                 <button
                   type="button"
                   className="tag-inline-trigger"
-                  onClick={startEditingTags}
+                  onClick={() => startEditingTags()}
+                  onKeyDown={onTagTriggerKeyDown}
                   onPointerDown={suppressDragPropagation}
-                  onKeyDownCapture={suppressDragPropagation}
                   aria-label="Edit task tags"
                 >
                   {tags.length > 0 ? tags.map(tag => (
                     <span key={tag} className="tag-pill">{tag}</span>
-                  )) : <span className="tag-empty">Add tags</span>}
+                  )) : null}
+                  <span className="tag-add-affordance" aria-hidden="true">+</span>
                 </button>
               )}
             </div>

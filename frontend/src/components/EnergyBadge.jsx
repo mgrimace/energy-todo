@@ -2,14 +2,14 @@ import React from 'react'
 import { Leaf, Crosshair, Circle } from 'lucide-react'
 
 const config = {
-  low: { label: 'Low Energy', Icon: Leaf },
-  medium: { label: 'Steady Focus', Icon: Circle },
-  high: { label: 'High Energy', Icon: Crosshair }
+  low: { label: 'Quick Wins', Icon: Leaf },
+  medium: { label: 'High Priority', Icon: Circle },
+  high: { label: 'Deep Work', Icon: Crosshair }
 }
 
 export default function EnergyBadge({ energy, onClick, onPointerDown, onKeyDownCapture }) {
   const normalized = (energy || '').toLowerCase()
-  const option = config[normalized] || { label: 'Energy', Icon: Crosshair }
+  const option = config[normalized] || { label: 'Energy Mode', Icon: Crosshair }
   const { label, Icon } = option
   const isInteractive = typeof onClick === 'function'
 
