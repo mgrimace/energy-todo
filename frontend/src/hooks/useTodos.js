@@ -73,7 +73,9 @@ export default function useTodos() {
       const res = await axios.get('/api/todos')
       setTodos((Array.isArray(res.data) ? res.data : []).map(normalizeTodo))
     } catch (e) {
-      console.error(e)
+      if (import.meta.env.DEV) {
+        console.error(e)
+      }
     } finally {
       setLoading(false)
     }
@@ -105,13 +107,17 @@ export default function useTodos() {
           setTodos(prev => prev.filter(t => t.id !== payload.id))
         }
       } catch (e) {
-        console.error('failed to parse SSE payload', e)
+        if (import.meta.env.DEV) {
+          console.error('failed to parse SSE payload', e)
+        }
       }
     })
 
     es.addEventListener('error', (e) => {
       // EventSource will auto-retry; log for debugging
-      console.warn('SSE error', e)
+      if (import.meta.env.DEV) {
+        console.warn('SSE error', e)
+      }
     })
 
     return () => es.close()

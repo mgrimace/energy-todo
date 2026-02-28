@@ -4,10 +4,10 @@ mod storage;
 mod state;
 mod errors;
 
-use actix_cors::Cors;
 use actix_files::{Files, NamedFile};
-use actix_web::{dev::Service, error, http::header, http::Uri, web, App, HttpRequest, HttpResponse, HttpServer, Responder, ResponseError, Result};
-use std::collections::HashSet;
+use actix_web::{dev::Service, error, http::header, web, App, HttpRequest, HttpResponse, HttpServer, Responder, ResponseError, Result};
+use std::fs;
+use std::path::Path;
 use std::sync::Arc;
 use models::Todo;
 use storage::load_todos;
@@ -16,83 +16,15 @@ use tracing::info;
 use tracing_actix_web::TracingLogger;
 use tokio::sync::RwLock;
 
-#[derive(Debug, Clone)]
-struct CompiledCorsOrigins {
-    exact: Vec<String>,
-}
-
-fn allowed_origins_from_env() -> Vec<String> {
-    let configured = std::env::var("CORS_ALLOWED_ORIGINS")
-        .ok()
-        .map(|value| {
-            value
-                .split(',')
-                .map(str::trim)
-                .filter(|origin| !origin.is_empty())
-                .map(ToOwned::to_owned)
-                .collect::<Vec<_>>()
-        })
-        .unwrap_or_default();
-
-    if configured.is_empty() {
-        vec![
-            "http://localhost:5173".to_string(),
-            "http://127.0.0.1:5173".to_string(),
-            "http://localhost:3000".to_string(),
-            "http://127.0.0.1:3000".to_string(),
-        ]
-    } else {
-        configured
-    }
-}
-
-fn compile_allowed_origins(allowed_origins: &[String]) -> Result<CompiledCorsOrigins, String> {
-    let mut invalid = Vec::new();
-    let mut exact = HashSet::new();
-
-    for origin in allowed_origins {
-        let parsed = origin.parse::<Uri>();
-        match parsed {
-            Ok(uri)
-                if matches!(uri.scheme_str(), Some("http") | Some("https"))
-                    && uri.authority().is_some() => {
-                exact.insert(origin.clone());
-            }
-            _ => invalid.push(origin.clone()),
-        }
-    }
-
-    if invalid.is_empty() {
-        Ok(CompiledCorsOrigins {
-            exact: exact.into_iter().collect(),
-        })
-    } else {
-        Err(format!(
-            "invalid CORS_ALLOWED_ORIGINS value(s): {}. Use exact origins like https://app.example.com or http://192.168.1.20:3000",
-            invalid.join(", ")
-        ))
-    }
-}
-
-fn build_cors(compiled_origins: &CompiledCorsOrigins) -> Cors {
-    let mut cors = Cors::default()
-        .allowed_methods(vec!["GET", "POST", "PATCH", "DELETE", "OPTIONS"])
-        .allowed_headers(vec![header::ACCEPT, header::CONTENT_TYPE])
-        .max_age(3600);
-
-    for origin in &compiled_origins.exact {
-        cors = cors.allowed_origin(origin);
-    }
-
-    cors
-}
-
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     tracing_subscriber::fmt::init();
 
     // runtime data path inside container
     let data_path = "data/todos.json".to_string();
+    ensure_seeded(&data_path, "seed/todos.seed.json").map_err(|e| {
+        std::io::Error::other(format!("failed to initialize todos data: {}", e))
+    })?;
     let todos = load_todos(&data_path).map_err(|e| {
         std::io::Error::new(
             std::io::ErrorKind::InvalidData,
@@ -128,17 +60,8 @@ async fn main() -> std::io::Result<()> {
         write_lock: Arc::new(tokio::sync::Mutex::new(())),
     };
 
-    let allowed_origins = allowed_origins_from_env();
-    let compiled_origins = compile_allowed_origins(&allowed_origins)
-        .map_err(|message| std::io::Error::new(std::io::ErrorKind::InvalidInput, message))?;
-
     let addr = ("0.0.0.0", 3000);
-    info!(
-        listen_host = addr.0,
-        listen_port = addr.1,
-        cors_origins = ?allowed_origins,
-        "starting energy todo backend"
-    );
+    info!(listen_host = addr.0, listen_port = addr.1, "starting energy todo backend");
 
     async fn spa_index(req: HttpRequest) -> Result<HttpResponse> {
         let accepts_html = req
@@ -205,7 +128,6 @@ async fn main() -> std::io::Result<()> {
                 }
             })
             .wrap(TracingLogger::default())
-            .wrap(build_cors(&compiled_origins))
             // register API routes before static files
             .service(web::scope("/api").configure(routes::configure_api))
             // serve static files from /app/dist mounted at ./dist in image
@@ -218,4 +140,27 @@ async fn main() -> std::io::Result<()> {
     .bind(addr)?
     .run()
     .await
+}
+
+// Seed file used only for first-run initialization.
+fn ensure_seeded(data_path: &str, seed_path: &str) -> std::io::Result<()> {
+    let data_path = Path::new(data_path);
+    if data_path.exists() {
+        return Ok(());
+    }
+
+    let seed_path = Path::new(seed_path);
+    if !seed_path.exists() {
+        return Err(std::io::Error::new(
+            std::io::ErrorKind::NotFound,
+            format!("missing seed file at {}", seed_path.display()),
+        ));
+    }
+
+    if let Some(parent) = data_path.parent() {
+        fs::create_dir_all(parent)?;
+    }
+
+    fs::copy(seed_path, data_path)?;
+    Ok(())
 }

@@ -1,0 +1,70 @@
+[
+  {
+    "id": 1,
+    "title": "Low (Easy tasks, like cleaning up some files or scheduling an appointment)",
+    "energy": "low",
+    "tags": [
+      "getting started"
+    ],
+    "completed": false,
+    "completedAt": null
+  },
+  {
+    "id": 2,
+    "title": "Tired? Choose a “Quick win”.",
+    "energy": "low",
+    "tags": [
+      "tip"
+    ],
+    "completed": false,
+    "completedAt": null
+  },
+  {
+    "id": 3,
+    "title": "Medium (Standard work, like answering an e-mail)",
+    "energy": "medium",
+    "tags": [
+      "getting started"
+    ],
+    "completed": false,
+    "completedAt": null
+  },
+  {
+    "id": 4,
+    "title": "Edit a task, toggle its energy, add or edit tags, drag to reorder, all from the list",
+    "energy": "medium",
+    "tags": [
+      "tip"
+    ],
+    "completed": false,
+    "completedAt": null
+  },
+  {
+    "id": 5,
+    "title": "High (complex tasks, usually requiring deep focus)",
+    "energy": "high",
+    "tags": [
+      "getting started"
+    ],
+    "completed": false,
+    "completedAt": null
+  },
+  {
+    "id": 6,
+    "title": "Focused? Choose “Deep work”.",
+    "energy": "high",
+    "tags": [
+      "tip"
+    ],
+    "completed": false,
+    "completedAt": null
+  },
+  {
+    "id": 7,
+    "title": "completed tasks appear below",
+    "energy": "medium",
+    "tags": [],
+    "completed": true,
+    "completedAt": 1772301901904
+  }
+]
