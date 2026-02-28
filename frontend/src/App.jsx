@@ -43,6 +43,7 @@ export default function App() {
 
   const matchesEnergyFilter = (todo) => {
     if (filter === 'quick') return todo.energy === 'low'
+    if (filter === 'priority') return todo.energy === 'medium'
     if (filter === 'deep') return todo.energy === 'high'
     return true
   }

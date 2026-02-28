@@ -1,50 +1,30 @@
 import React, { useState } from 'react'
+import useTagInputController from '../hooks/useTagInputController'
 
 export default function TaskInput({ onAdd, disabled }) {
   const [title, setTitle] = useState('')
   const [energy, setEnergy] = useState('low')
-  const [tagInput, setTagInput] = useState('')
-  const [tags, setTags] = useState([])
-
-  const addTag = (value) => {
-    const nextTag = value.trim().replace(/,+$/g, '')
-    if (!nextTag) return
-
-    setTags(prev => {
-      if (prev.some(tag => tag.toLowerCase() === nextTag.toLowerCase())) return prev
-      return [...prev, nextTag]
-    })
-  }
-
-  const onTagKeyDown = (event) => {
-    if (event.key === 'Enter' || event.key === ',') {
-      event.preventDefault()
-      addTag(tagInput)
-      setTagInput('')
-      return
-    }
-
-    if (event.key === 'Backspace' && tagInput.length === 0) {
-      setTags(prev => prev.slice(0, -1))
-    }
-  }
+  const {
+    tags,
+    inputValue: tagInput,
+    onInputChange: onTagInputChange,
+    onKeyDown: onTagKeyDown,
+    onPaste: onTagPaste,
+    clear: clearTags,
+    getSnapshot: getTagSnapshot
+  } = useTagInputController()
 
   const submit = async (event) => {
     event.preventDefault()
     const trimmedTitle = title.trim()
     if (!trimmedTitle) return
 
-    const finalTags = tagInput.trim() ? [...tags, tagInput.trim()] : tags
-    const dedupedTags = finalTags.filter((tag, index, all) => {
-      const normalized = tag.toLowerCase()
-      return all.findIndex(candidate => candidate.toLowerCase() === normalized) === index
-    })
+    const dedupedTags = getTagSnapshot()
 
     await onAdd(trimmedTitle, energy, dedupedTags)
     setTitle('')
     setEnergy('low')
-    setTagInput('')
-    setTags([])
+    clearTags()
   }
 
   return (
@@ -68,8 +48,9 @@ export default function TaskInput({ onAdd, disabled }) {
           onChange={event => setEnergy(event.target.value)}
           disabled={disabled}
         >
-          <option value="low">Low energy</option>
-          <option value="high">High energy</option>
+          <option value="low">Low Energy</option>
+          <option value="medium">Medium Energy</option>
+          <option value="high">High Energy</option>
         </select>
 
         <button type="submit" className="btn btn-primary" disabled={disabled || !title.trim()}>
@@ -86,8 +67,9 @@ export default function TaskInput({ onAdd, disabled }) {
           id="task-tag-input"
           type="text"
           value={tagInput}
-          onChange={event => setTagInput(event.target.value)}
+          onChange={onTagInputChange}
           onKeyDown={onTagKeyDown}
+          onPaste={onTagPaste}
           placeholder="Add tag (comma to create)"
           disabled={disabled}
         />

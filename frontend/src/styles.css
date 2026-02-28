@@ -28,20 +28,20 @@
   --color-search-border: color-mix(in srgb, var(--color-border) 74%, transparent);
 
   /* Energy colors */
-  --color-energy-low-bg: #e9f1ec;
-  --color-energy-low-border: #9fb8a8;
-  --color-energy-low-text: #2e4738;
-  --color-energy-medium-bg: #eceef2;
-  --color-energy-medium-border: #c9d0d9;
-  --color-energy-medium-text: #4b5563;
-  --color-energy-high-bg: #efebf7;
-  --color-energy-high-border: #afa3cc;
-  --color-energy-high-text: #4f456f;
+  --energy-low-bg: #e6f2eb;
+  --energy-low-border: #a5c4b3;
+  --energy-low-text: #2f4c3d;
+  --energy-medium-bg: #e0e7f1;
+  --energy-medium-border: #8ca7c5;
+  --energy-medium-text: #2f4760;
+  --energy-high-bg: #ebe8f3;
+  --energy-high-border: #b1a5c8;
+  --energy-high-text: #4a4162;
 
   /* Tag colors */
-  --color-tag-bg: #f2f8fc;
-  --color-tag-border: #bbd7ec;
-  --color-tag-text: #144b7b;
+  --color-tag-bg: transparent;
+  --color-tag-border: var(--color-border);
+  --color-tag-text: var(--color-text-muted);
 
   /* Completed state colors */
   --color-complete-divider: color-mix(in srgb, var(--color-divider-thread) 70%, transparent);
@@ -128,6 +128,10 @@
   --shadow: 0 6px 18px var(--color-shadow);
   --shadow-hover: 0 8px 20px var(--color-shadow);
   --shadow-press: 0 3px 10px var(--color-shadow);
+
+  /* Opacity tokens */
+  --opacity-tag-affordance-rest: 0;
+  --opacity-tag-affordance-active: 1;
 }
 
 html.dark {
@@ -154,19 +158,19 @@ html.dark {
   --color-toggle-track: var(--color-accent-soft);
   --color-search-border: color-mix(in srgb, var(--color-border) 74%, transparent);
 
-  --color-energy-low-bg: #1f2a24;
-  --color-energy-low-border: #42594d;
-  --color-energy-low-text: #acc8ba;
-  --color-energy-medium-bg: #242a33;
-  --color-energy-medium-border: #424a55;
-  --color-energy-medium-text: #aeb7c4;
-  --color-energy-high-bg: #29253a;
-  --color-energy-high-border: #5f567e;
-  --color-energy-high-text: #c4bbdf;
+  --energy-low-bg: #1f2a24;
+  --energy-low-border: #3d564a;
+  --energy-low-text: #b4d5c2;
+  --energy-medium-bg: #1c2431;
+  --energy-medium-border: #374f65;
+  --energy-medium-text: #b5cbe0;
+  --energy-high-bg: #241f34;
+  --energy-high-border: #5d5675;
+  --energy-high-text: #ccc2df;
 
-  --color-tag-bg: #1f262e;
-  --color-tag-border: #304255;
-  --color-tag-text: #8fafcc;
+  --color-tag-bg: transparent;
+  --color-tag-border: var(--color-border);
+  --color-tag-text: var(--color-text-muted);
 
   --color-complete-text: color-mix(in srgb, var(--color-text-muted) 80%, var(--color-text) 20%);
 
@@ -175,6 +179,9 @@ html.dark {
   --color-text-secondary: var(--color-text-muted);
   --color-text-tertiary: color-mix(in srgb, var(--color-text-muted) 92%, transparent);
   --color-text-action-secondary: color-mix(in srgb, var(--color-text-muted) 85%, transparent);
+
+  --opacity-tag-affordance-rest: 0;
+  --opacity-tag-affordance-active: 1;
 }
 
 * {
@@ -356,21 +363,21 @@ html.dark .theme-toggle-thumb {
 }
 
 .task-energy-select.energy-low:hover {
-  background: color-mix(in srgb, var(--color-energy-low-bg) 58%, var(--color-surface-muted));
-  border-color: color-mix(in srgb, var(--color-energy-low-border) 62%, var(--color-border));
-  color: var(--color-energy-low-text);
+  background: color-mix(in srgb, var(--energy-low-bg) 58%, var(--color-surface-muted));
+  border-color: color-mix(in srgb, var(--energy-low-border) 62%, var(--color-border));
+  color: var(--energy-low-text);
 }
 
 .task-energy-select.energy-medium:hover {
-  background: color-mix(in srgb, var(--color-energy-medium-bg) 58%, var(--color-surface-muted));
-  border-color: color-mix(in srgb, var(--color-energy-medium-border) 62%, var(--color-border));
-  color: var(--color-energy-medium-text);
+  background: color-mix(in srgb, var(--energy-medium-bg) 58%, var(--color-surface-muted));
+  border-color: color-mix(in srgb, var(--energy-medium-border) 62%, var(--color-border));
+  color: var(--energy-medium-text);
 }
 
 .task-energy-select.energy-high:hover {
-  background: color-mix(in srgb, var(--color-energy-high-bg) 62%, var(--color-surface-muted));
-  border-color: color-mix(in srgb, var(--color-energy-high-border) 60%, var(--color-border));
-  color: var(--color-energy-high-text);
+  background: color-mix(in srgb, var(--energy-high-bg) 62%, var(--color-surface-muted));
+  border-color: color-mix(in srgb, var(--energy-high-border) 60%, var(--color-border));
+  color: var(--energy-high-text);
 }
 
 /* ================= Buttons ================ */
@@ -445,6 +452,7 @@ html.dark .theme-toggle-thumb {
 .filter-pill-button {
   --filter-tone-text: var(--color-text-muted);
   --filter-tone-bg: transparent;
+  --filter-tone-border: var(--color-search-border);
   flex: 0 0 auto;
   min-height: var(--filter-control-height);
   padding: 0;
@@ -493,13 +501,19 @@ html.dark .theme-toggle-thumb {
 }
 
 .filter-pill-button[data-filter-tone='low'] {
-  --filter-tone-text: var(--color-energy-low-text);
-  --filter-tone-bg: color-mix(in srgb, var(--color-energy-low-text) 10%, transparent);
+  --filter-tone-text: var(--energy-low-text);
+  --filter-tone-bg: color-mix(in srgb, var(--energy-low-text) 10%, transparent);
+}
+
+.filter-pill-button[data-filter-tone='medium'] {
+  --filter-tone-text: var(--energy-medium-text);
+  --filter-tone-bg: color-mix(in srgb, var(--energy-medium-bg) 60%, transparent);
+  --filter-tone-border: color-mix(in srgb, var(--energy-medium-border) 60%, transparent);
 }
 
 .filter-pill-button[data-filter-tone='high'] {
-  --filter-tone-text: var(--color-energy-high-text);
-  --filter-tone-bg: color-mix(in srgb, var(--color-energy-high-text) 10%, transparent);
+  --filter-tone-text: var(--energy-high-text);
+  --filter-tone-bg: color-mix(in srgb, var(--energy-high-text) 10%, transparent);
 }
 
 .filter-pill-button[data-filter-tone='complete'] {
@@ -510,6 +524,7 @@ html.dark .theme-toggle-thumb {
 .filter-pill-button.is-active .filter-pill-chip {
   color: var(--filter-tone-text);
   background: var(--filter-tone-bg);
+  border-color: var(--filter-tone-border);
 }
 
 .filter-pill-button:not(.is-active) .filter-pill-chip {
@@ -651,15 +666,15 @@ html.dark .theme-toggle-thumb {
 }
 
 .card.energy-low {
-  --task-accent: color-mix(in srgb, var(--color-energy-low-border) 70%, var(--color-divider-thread));
+  --task-accent: color-mix(in srgb, var(--energy-low-border) 70%, var(--color-divider-thread));
 }
 
 .card.energy-medium {
-  --task-accent: color-mix(in srgb, var(--color-energy-medium-border) 70%, var(--color-divider-thread));
+  --task-accent: color-mix(in srgb, var(--energy-medium-border) 70%, var(--color-divider-thread));
 }
 
 .card.energy-high {
-  --task-accent: color-mix(in srgb, var(--color-energy-high-border) 70%, var(--color-divider-thread));
+  --task-accent: color-mix(in srgb, var(--energy-high-border) 70%, var(--color-divider-thread));
 }
 
 .card-left {
@@ -782,8 +797,10 @@ html.dark .theme-toggle-thumb {
 }
 
 .tag-inline-input {
-  min-width: 13rem;
-  width: min(100%, 18rem);
+  flex: 0 1 auto;
+  min-width: var(--size-inline-input-min);
+  max-width: 100%;
+  width: auto;
   min-height: var(--size-inline-input-min);
   border: 1px solid transparent;
   border-radius: var(--radius-pill);
@@ -797,6 +814,14 @@ html.dark .theme-toggle-thumb {
   border-radius: var(--radius-pill);
 }
 
+.tag-inline-editor {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-xs);
+  align-items: center;
+  width: 100%;
+}
+
 .card-tags.is-editing:focus-within {
   box-shadow: 0 0 0 2px var(--color-focus-ring);
 }
@@ -808,11 +833,22 @@ html.dark .theme-toggle-thumb {
   border-color: transparent;
 }
 
-.tag-empty {
+.tag-add-affordance {
   display: inline-flex;
   align-items: center;
   color: var(--color-text-tertiary);
   font-size: var(--font-size-xs);
+  opacity: var(--opacity-tag-affordance-rest);
+  transition: opacity var(--motion-fast);
+}
+
+.tag-inline-trigger .tag-pill + .tag-add-affordance {
+  margin-left: var(--spacing-xs);
+}
+
+.card-tags:hover .tag-add-affordance,
+.card-tags:focus-within .tag-add-affordance {
+  opacity: var(--opacity-tag-affordance-active);
 }
 
 .tag-pill {
@@ -919,30 +955,30 @@ html.dark .theme-toggle-thumb {
   padding: var(--spacing-xs) var(--spacing-md);
   border-radius: var(--radius-pill);
   border: 0;
-  background: color-mix(in srgb, var(--color-energy-medium-bg) 70%, var(--color-surface));
-  color: var(--color-energy-medium-text);
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-energy-medium-border) 55%, transparent);
+  background: color-mix(in srgb, var(--energy-medium-bg) 70%, var(--color-surface));
+  color: var(--energy-medium-text);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--energy-medium-border) 55%, transparent);
   font-size: var(--font-size-badge);
   font-weight: var(--font-weight-semibold);
   transition: background-color var(--motion-standard), color var(--motion-standard), box-shadow var(--motion-standard);
 }
 
 .energy-badge.energy-low {
-  color: color-mix(in srgb, var(--color-energy-low-text) 80%, var(--color-text));
-  background: color-mix(in srgb, var(--color-energy-low-bg) 70%, var(--color-surface));
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-energy-low-border) 60%, transparent);
+  color: color-mix(in srgb, var(--energy-low-text) 80%, var(--color-text));
+  background: color-mix(in srgb, var(--energy-low-bg) 70%, var(--color-surface));
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--energy-low-border) 60%, transparent);
 }
 
 .energy-badge.energy-high {
-  color: color-mix(in srgb, var(--color-energy-high-text) 80%, var(--color-text));
-  background: color-mix(in srgb, var(--color-energy-high-bg) 70%, var(--color-surface));
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-energy-high-border) 60%, transparent);
+  color: color-mix(in srgb, var(--energy-high-text) 80%, var(--color-text));
+  background: color-mix(in srgb, var(--energy-high-bg) 70%, var(--color-surface));
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--energy-high-border) 60%, transparent);
 }
 
 .energy-badge.energy-medium {
-  color: color-mix(in srgb, var(--color-energy-medium-text) 80%, var(--color-text));
-  background: color-mix(in srgb, var(--color-energy-medium-bg) 70%, var(--color-surface));
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-energy-medium-border) 60%, transparent);
+  color: color-mix(in srgb, var(--energy-medium-text) 80%, var(--color-text));
+  background: color-mix(in srgb, var(--energy-medium-bg) 70%, var(--color-surface));
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--energy-medium-border) 60%, transparent);
 }
 
 .energy-badge svg {
@@ -956,7 +992,7 @@ button.energy-badge {
 }
 
 button.energy-badge:focus-visible {
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-energy-medium-border) 60%, transparent), 0 0 0 2px var(--color-focus-ring);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--energy-medium-border) 60%, transparent), 0 0 0 2px var(--color-focus-ring);
 }
 
 /* ================= Helpers ================ */
