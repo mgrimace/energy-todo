@@ -26,3 +26,6 @@ yarn-error.log*
 # IDE/editor
 .vscode/
 .idea/
+
+# Development resources
+dev-resources/
