@@ -585,6 +585,11 @@ html.dark .theme-toggle-thumb {
   transition: border-color var(--motion-standard), box-shadow var(--motion-focus);
 }
 
+.search:hover .search-chip,
+.search:focus-within .search-chip {
+  border-color: var(--color-border-strong);
+}
+
 .search-icon {
   width: var(--size-icon-sm);
   height: var(--size-icon-sm);
