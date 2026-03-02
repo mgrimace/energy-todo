@@ -31,7 +31,7 @@
   },
   {
     "id": 4,
-    "title": "Edit a task, toggle its energy, add or edit tags, drag to reorder, all from the list",
+    "title": "Edit and reorder tasks right from the list",
     "energy": "medium",
     "tags": [
       "tip"
