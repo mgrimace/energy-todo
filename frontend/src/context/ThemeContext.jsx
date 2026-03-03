@@ -30,6 +30,7 @@ export function ThemeProvider({ children }) {
   useEffect(() => {
     const root = document.documentElement
     root.classList.toggle('dark', theme === 'dark')
+    root.setAttribute('data-theme', theme)
 
     const iconHref = theme === 'dark' ? '/icons/icon-dark.svg' : '/icons/icon-light.svg'
     const appIcon = document.getElementById('app-icon')
