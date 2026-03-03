@@ -221,10 +221,20 @@ main {
 }
 
 .top-header h1 {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-sm);
   margin: 0;
   font-size: var(--font-size-lg);
   letter-spacing: 0.01em;
   color: var(--color-text-primary);
+}
+
+.top-header-icon {
+  width: 1em;
+  height: 1em;
+  flex: 0 0 auto;
+  display: block;
 }
 
 .list {

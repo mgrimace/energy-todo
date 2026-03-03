@@ -1,0 +1,18 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="energyGradientDark" x1="146" y1="344" x2="346" y2="174" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#8fd2b0"></stop>
+      <stop offset="55%" stop-color="#8eb8e4"></stop>
+      <stop offset="100%" stop-color="#bfa9e8"></stop>
+    </linearGradient>
+  </defs>
+
+  <!-- Rounded square -->
+  <rect x="32" y="32" width="448" height="448" rx="96" fill="#161A1D"></rect>
+
+  <!-- Check -->
+  <path d="M146 304 L216 374 L328 202" fill="none" stroke="url(#energyGradientDark)" stroke-width="64" stroke-linecap="round" stroke-linejoin="round"></path>
+
+  <!-- Detached dot -->
+  <circle cx="372" cy="134" r="34" fill="#bfa9e8"></circle>
+</svg>

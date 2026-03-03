@@ -31,6 +31,16 @@ export function ThemeProvider({ children }) {
     const root = document.documentElement
     root.classList.toggle('dark', theme === 'dark')
 
+    const iconHref = theme === 'dark' ? '/icons/icon-dark.svg' : '/icons/icon-light.svg'
+    const appIcon = document.getElementById('app-icon')
+    const appleTouchIcon = document.getElementById('apple-touch-icon')
+    if (appIcon) {
+      appIcon.setAttribute('href', iconHref)
+    }
+    if (appleTouchIcon) {
+      appleTouchIcon.setAttribute('href', iconHref)
+    }
+
     try {
       window.localStorage.setItem(STORAGE_KEY, theme)
     } catch {
