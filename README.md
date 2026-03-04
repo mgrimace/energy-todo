@@ -20,7 +20,9 @@ I'm Mike, a healthcare provider, researcher, and educator who’s learning to co
 
 I built this alone, in my limited space time. I'm still learning. Pease be patient with any problems and contribute wherever you can. Pull requests to contribute improvements are welcome and encouraged. 
 
->[!CAUTION]: I used AI to help build this project. Without it, this tool wouldn’t exist. I used structured prompts, reviewed the output carefully, and treated the process as a way to learn while building something I genuinely needed.
+> [!CAUTION]
+> I used AI to help build this project. Without it, this tool wouldn’t exist. 
+> I used structured prompts, reviewed the output carefully, and treated the process as a way to learn while building something I genuinely needed.
 
 ## Accessibility & Design
 
@@ -50,11 +52,29 @@ Built with accessibility and a neurodiversity-affirming experience in mind. It�
 
 **Prerequisites:** Docker and Docker Compose
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/yourusername/energy-todo.git
-   cd energy-todo
-   ```
+1. create a `docker-compose.yaml` file:
+   ```yaml   
+   services:
+     energy-todo:
+       container_name: energy-todo
+       image: ghcr.io/mgrimace/energy-todo:latest
+       ports:
+         - "3000:3000"
+       volumes:
+         - ./energy-data:/app/data:rw
+       environment:
+         - RUST_LOG=${RUST_LOG:-info}
+       user: "${LOCAL_UID:-1000}:${LOCAL_GID:-1000}"
+       security_opt:
+         - no-new-privileges:true
+       cap_drop:
+         - ALL
+       read_only: true
+       tmpfs:
+         - /tmp:rw,noexec,nosuid,size=64m
+         - /run:rw,noexec,nosuid,size=16m
+       restart: unless-stopped
+   ```   
 
 2. (Optional) Set up your environment:
    ```bash
@@ -98,19 +118,12 @@ The frontend dev server runs on `http://localhost:5173` and the backend on `http
 - **Database:** JSON file (local storage)
 - **Containerization:** Docker & Docker Compose
 
-The project is designed to be straightforward and easy to understand.
-
-## License
-
-This project is licensed under [GNU Affero General Public License v3.0 (AGPL-3.0)](https://www.gnu.org/licenses/agpl-3.0.html).
-
-In plain terms: you can use it, modify it, and share it. If you distribute it or run it as a service for others, you must make your source code available under the same license. This prevents the code from being bundled, sold, or used in closed-source products without sharing the source back.
-
-See the [LICENSE](./LICENSE) file for details.
+The project is intentionally simple, and it is not designed for enterprise use.
 
 ## Support
 
-If you've found this project helpful and would like to support further development, thank you:
+If you've found this project helpful and would like to support further development, please consider donating. Thank you:
 
-- **PayPal:** https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=R4QX73RWYB3ZA
-- **Buy Me a Coffee:** https://www.buymeacoffee.com/cammaratam
+[![Donate with PayPal](https://img.shields.io/badge/PayPal-00457C?logo=paypal&logoColor=white)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=R4QX73RWYB3ZA)
+
+[![Buy Me A Coffee](https://img.shields.io/badge/Buy%20Me%20A%20Coffee-FFDD00?logo=buymeacoffee&logoColor=black)](https://www.buymeacoffee.com/cammaratam)

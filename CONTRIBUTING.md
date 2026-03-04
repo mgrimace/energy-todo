@@ -1,6 +1,6 @@
 # Contributing
 
-This project uses a lightweight, solo-friendly workflow to keep `main` stable while we iterate quickly.
+This project uses a lightweight, solo-friendly workflow to keep `main` stable.
 
 ## Branch naming
 
