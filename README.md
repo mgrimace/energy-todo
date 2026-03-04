@@ -16,11 +16,11 @@ This project was directly inspired by [Executive Function as Code](https://milly
 
 I'm Mike, a healthcare provider, researcher, and educator who’s learning to code as a hobby. I built this after struggling to find a minimal, self-hosted task manager that worked with the way my brain organizes energy and attention.
 
-Reading [Executive Function as Code](https://milly.kittycloud.eu/posts/executive-function-as-code-doom-emacs-adhd/) articulated exactly what I felt I had been missing, and [Blake Watson’s article](https://blakewatson.com/journal/i-used-claude-code-and-gsd-to-build-the-accessibility-tool-ive-always-wanted/) inspired me to follow through and actualy build it myself.
+ [Executive Function as Code](https://milly.kittycloud.eu/posts/executive-function-as-code-doom-emacs-adhd/) articulated exactly what I felt I had been missing, and [Blake Watson’s article](https://blakewatson.com/journal/i-used-claude-code-and-gsd-to-build-the-accessibility-tool-ive-always-wanted/) inspired me to follow through and actualy build it myself.
 
 I built this alone, in my limited space time. I'm still learning. Pease be patient with any problems and contribute wherever you can. Pull requests to contribute improvements are welcome and encouraged. 
 
->[!IMPORTANT]: I used AI to help build this project. Without it, this tool wouldn’t exist. I used structured prompts, reviewed the output carefully, and treated the process as a way to learn while building something I genuinely needed.
+>[!CAUTION]: I used AI to help build this project. Without it, this tool wouldn’t exist. I used structured prompts, reviewed the output carefully, and treated the process as a way to learn while building something I genuinely needed.
 
 ## Accessibility & Design
 
