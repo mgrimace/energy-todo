@@ -20,7 +20,7 @@ I'm Mike, a healthcare provider, researcher, and educator who’s learning to co
 
 I built this alone, in my limited space time. I'm still learning. Pease be patient with any problems and contribute wherever you can. Pull requests to contribute improvements are welcome and encouraged. 
 
-> [!CAUTION]
+> [!WARNING]
 > I used AI to help build this project. Without it, this tool wouldn’t exist. 
 > I used structured prompts, reviewed the output carefully, and treated the process as a way to learn while building something I genuinely needed.
 
@@ -38,7 +38,8 @@ Built with accessibility and a neurodiversity-affirming experience in mind. It�
 
 - **Energy-based task categorization** — Assign low, medium, or high energy costs to your tasks
 - **Tagging** — Easily create additional tags
-- **Filter & search** — Filter by energy and search by words or tags
+- **Filter & search** — Filter by energy to match your battery, or search by words or tags
+- **Inline editing** — Easily edit a task right from the list. Reorder, add tags, and toggle energy costs. 
 - **Light & dark themes** — Easy on the eyes
 - **Keyboard accessibility** — Navigate and manage tasks without a mouse
 - **Minimal** — It's a minimal todo-list, with simple but (I think) clever functionality to reduce cognitive load

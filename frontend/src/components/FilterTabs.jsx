@@ -3,7 +3,7 @@ import React from 'react'
 const TAB_CONFIG = [
   { key: 'all', label: 'All', tone: 'base' },
   { key: 'quick', label: 'Quick Wins', tone: 'low' },
-  { key: 'priority', label: 'High Priority', tone: 'medium' },
+	{ key: 'priority', label: 'Well Balanced', tone: 'medium' },
   { key: 'deep', label: 'Deep Work', tone: 'high' },
   { key: 'completed', label: 'Completed', tone: 'base' }
 ]
