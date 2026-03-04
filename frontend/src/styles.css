@@ -150,8 +150,8 @@
   --size-tag-pill-min: 20px;
   --size-title-input-min: 34px;
   --size-tag-max-width: 420px;
-  --size-search-min: 18rem;
-  --size-search-max: 26rem;
+  --size-search-min: 14rem;
+  --size-search-max: 24rem;
 
   --filter-control-height: var(--size-chip-height);
 

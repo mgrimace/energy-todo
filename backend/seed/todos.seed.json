@@ -1,7 +1,7 @@
 [
   {
     "id": 1,
-    "title": "Low (Easy tasks, like cleaning up some files or scheduling an appointment)",
+    "title": "Low (Easy tasks, like making a cup of coffee)",
     "energy": "low",
     "tags": [
       "getting started"
@@ -11,7 +11,7 @@
   },
   {
     "id": 2,
-    "title": "Tired? Choose a “Quick win”.",
+    "title": "Battery Low? Choose a “Quick win”.",
     "energy": "low",
     "tags": [
       "tip"
@@ -29,9 +29,9 @@
     "completed": false,
     "completedAt": null
   },
-  {
+    {
     "id": 4,
-    "title": "Edit and reorder tasks right from the list",
+    "title": "Feeling ok? Choose a \"Well Balanced\" task.",
     "energy": "medium",
     "tags": [
       "tip"

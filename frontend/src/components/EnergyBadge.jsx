@@ -1,15 +1,15 @@
 import React from 'react'
-import { Leaf, Crosshair, Circle } from 'lucide-react'
+import { LeafIcon, CircleIcon, FlowerLotusIcon } from '@phosphor-icons/react'
 
 const config = {
-  low: { label: 'Quick Wins', Icon: Leaf },
-  medium: { label: 'High Priority', Icon: Circle },
-  high: { label: 'Deep Work', Icon: Crosshair }
+  low: { label: 'Quick Wins', Icon: LeafIcon },
+  medium: { label: 'Well Balanced', Icon: CircleIcon },
+  high: { label: 'Deep Work', Icon: FlowerLotusIcon }
 }
 
 export default function EnergyBadge({ energy, onClick, onPointerDown, onKeyDownCapture }) {
   const normalized = (energy || '').toLowerCase()
-  const option = config[normalized] || { label: 'Energy Mode', Icon: Crosshair }
+  const option = config[normalized] || { label: 'Energy Mode', Icon: FlowerLotusIcon }
   const { label, Icon } = option
   const isInteractive = typeof onClick === 'function'
 
