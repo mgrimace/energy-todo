@@ -1,0 +1,12 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="energyGradientDark" x1="146" y1="344" x2="346" y2="174" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#8fd2b0"></stop>
+      <stop offset="55%" stop-color="#8eb8e4"></stop>
+      <stop offset="100%" stop-color="#bfa9e8"></stop>
+    </linearGradient>
+  </defs>
+
+  <path d="M146 304 L216 374 L328 202" fill="none" stroke="url(#energyGradientDark)" stroke-width="64" stroke-linecap="round" stroke-linejoin="round"></path>
+  <circle cx="372" cy="134" r="34" fill="#bfa9e8"></circle>
+</svg>
