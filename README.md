@@ -1,4 +1,12 @@
-# <img src="./frontend/public/icons/icon-dark.svg" alt="Energy Todo icon" width="32" /> Energy Todo
+<div align="center" width="100%">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="./frontend/public/icons/icon-dark.svg">
+    <source media="(prefers-color-scheme: light)" srcset="./frontend/public/icons/icon-light.svg">
+    <img src="./frontend/public/icons/icon-light.svg" width="128" alt="Energy Todo icon" />
+  </picture>
+</div>
+
+# Energy Todo
 
 A self-hosted task manager for neurodiverse and neurospicy brains. Most to-do lists are built around deadlines and priority, but for some folks it’s not about time, it’s about *energy*. Tag tasks by energy cost instead of urgency, then filter your list to match your actual battery: Low battery? Clear a low-energy task for a quick win. Hyperfocused? Settle into a deep work task.
 
