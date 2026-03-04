@@ -86,16 +86,26 @@ Built with accessibility and a neurodiversity-affirming experience in mind. Itâ€
    ```   
 
 2. (Optional) Set up your environment:
-   ```bash
-   cp .env.example .env
-   ```
+  ```bash
+  cp .env.example .env
+  ```
 
-3. Start the app:
-   ```bash
-   docker compose up -d
-   ```
+3. Create the data directory (this matches the `./energy-data:/app/data` volume):
+  ```bash
+  mkdir -p energy-data
+  # If you get permission errors writing to this folder, run:
+  sudo chown -R 1000:1000 energy-data
+  ```
 
-4. Open your browser and go to `http://localhost:3000`
+  > [!TIP]
+  > If you changed the container `user:` in `docker-compose.yaml`, update the `1000:1000` above to match the UID/GID you set (via `LOCAL_UID`/`LOCAL_GID`).
+
+4. Start the app:
+  ```bash
+  docker compose up -d
+  ```
+
+5. Open your browser and go to `http://localhost:3000`
 
 Your tasks are saved in the `energy-data/` directory on your machine, so they persist between restarts.
 
