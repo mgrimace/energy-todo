@@ -1,6 +1,6 @@
-# Energy Todo
+# <img src="./frontend/public/icons/icon-dark.svg" alt="Energy Todo icon" width="32" /> Energy Todo
 
-A self-hosted task manager for neurodiverse and neurospicy brains.  Most to-do lists are built around deadlines and priority, but for some folks it’s not about time, it’s about *energy*. Tag tasks by energy cost instead of urgency, then filter your list to match your actual battery: Low battery? Clear a low-energy task for a quick win. Hyperfocused? Settle into a deep work task.
+A self-hosted task manager for neurodiverse and neurospicy brains. Most to-do lists are built around deadlines and priority, but for some folks it’s not about time, it’s about *energy*. Tag tasks by energy cost instead of urgency, then filter your list to match your actual battery: Low battery? Clear a low-energy task for a quick win. Hyperfocused? Settle into a deep work task.
 
 This project was directly inspired by [Executive Function as Code](https://milly.kittycloud.eu/posts/executive-function-as-code-doom-emacs-adhd/) by Milly. 
 
