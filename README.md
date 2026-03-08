@@ -44,6 +44,7 @@ Built with accessibility and a neurodiversity-affirming experience in mind. It�
 
 ## Features
 
+- **Fast & Lightweight** – ~8 MB RAM use. Fast task entry and instant sync across devices
 - **Energy-based task categorization** — Assign low, medium, or high energy costs to your tasks
 - **Tagging** — Easily create additional tags
 - **Filter & search** — Filter by energy to match your battery, or search by words or tags
