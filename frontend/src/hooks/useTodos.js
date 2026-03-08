@@ -81,14 +81,11 @@ export default function useTodos() {
     }
   }
 
+  useEffect(() => { fetchTodos() }, [])
+
   // subscribe to server-sent events for live updates
   useEffect(() => {
     const es = new EventSource('/api/events')
-
-    es.addEventListener('open', () => {
-      // Reconcile any missed updates whenever the SSE connection opens or reopens.
-      fetchTodos()
-    })
 
     es.addEventListener('message', (ev) => {
       try {
