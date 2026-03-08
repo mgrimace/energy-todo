@@ -34,6 +34,23 @@ Run these before merging:
 - `cargo clippy --manifest-path backend/Cargo.toml -- -D warnings`
 - `npm run build --prefix frontend`
 
+## Changelog workflow
+
+`CHANGELOG.md` is the source of truth for release notes.
+
+- Keep a `## [Unreleased]` section at the top of `CHANGELOG.md`.
+- Add entries for user-facing features, fixes, regressions, and notable behavior changes.
+- Skip trivial internal refactors unless they impact users or operators.
+- If a release is withdrawn, mark it clearly (for example, `(withdrawn)`) and document the replacement release.
+
+## Release checklist
+
+1. Confirm `main` is up to date and tests/build checks pass.
+2. Move release-ready entries from `## [Unreleased]` into a new version section (for example, `## [v1.0.4] - 2026-03-08`).
+3. Commit release prep docs changes (for example, `docs: prepare v1.0.4 changelog`).
+4. Create and push an annotated version tag: `git tag -a vX.Y.Z -m "Release vX.Y.Z"` then `git push origin vX.Y.Z`.
+5. Verify the GitHub release workflow publishes images and creates the release.
+
 ## Commit message style
 
 Use concise Conventional Commit prefixes:
