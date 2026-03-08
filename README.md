@@ -28,7 +28,7 @@ I'm Mike, a healthcare provider, researcher, and educator who’s learning to co
 
 I built this alone, in my limited space time. I'm still learning. Pease be patient with any problems and contribute wherever you can. Pull requests to contribute improvements are welcome and encouraged. 
 
-> [!WARNING]
+> [!NOTE]
 > I used AI to help build this project. Without it, this tool wouldn’t exist. 
 > I used structured prompts, reviewed the output carefully, and treated the process as a way to learn while building something I genuinely needed.
 
