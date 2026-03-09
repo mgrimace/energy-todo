@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+- No unreleased changes yet.
+
+## [v1.0.4] - 2026-03-09
+
 - Replaced the task energy dropdown CSS data-URI arrow with a Phosphor `CaretDownIcon` for consistent rendering across Safari and Firefox.
 - Kept normalized form control sizing while preserving a visible custom select indicator after native appearance removal.
 
