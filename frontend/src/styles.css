@@ -133,6 +133,8 @@
   /* ========== DIMENSION TOKENS ========== */
   --max-content-width: 880px;
   --size-control-height: 42px;
+  --size-control-padding-inline: var(--spacing-md);
+  --size-select-arrow: 10px;
   --size-chip-height: 28px;
   --size-checkbox: 24px;
   --size-toggle-track-width: 44px;
@@ -154,6 +156,7 @@
   --size-search-max: 24rem;
 
   --filter-control-height: var(--size-chip-height);
+  --control-height: var(--size-control-height);
 
   --motion-fast: 120ms ease-out;
   --motion-standard: 150ms ease;
@@ -249,6 +252,43 @@ body {
 :where(button, input, select, textarea) {
   outline: none;
   font: inherit;
+}
+
+:where(input:not([type='checkbox']):not([type='radio']), select, .btn) {
+  height: var(--control-height);
+  padding: 0 var(--size-control-padding-inline);
+  line-height: 1.2;
+  box-sizing: border-box;
+}
+
+select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  align-self: stretch;
+  background-image: none;
+  padding-right: calc(var(--size-control-padding-inline) * 2 + var(--size-select-arrow));
+}
+
+.select-field {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+}
+
+.select-field select {
+  width: 100%;
+}
+
+.select-caret {
+  position: absolute;
+  right: var(--size-control-padding-inline);
+  top: 50%;
+  width: var(--size-select-arrow);
+  height: var(--size-select-arrow);
+  transform: translateY(-50%);
+  color: var(--text-action-secondary);
+  pointer-events: none;
 }
 
 :where(button, input, select, textarea):focus-visible {
@@ -491,7 +531,7 @@ main {
     width: 100%;
   }
 
-  .task-row #task-energy {
+  .task-row .task-energy-field {
     grid-area: energy;
     min-width: 0;
     width: 100%;
@@ -499,32 +539,28 @@ main {
 
   .task-row .btn-primary {
     grid-area: save;
-    min-height: var(--size-control-height);
     height: 100%;
     align-self: stretch;
   }
 }
 
-.task-row select {
+.task-row .task-energy-field {
   min-width: var(--size-task-select-min);
 }
 
 .task-row .btn-primary {
   min-width: var(--size-task-button-min);
-  min-height: var(--size-control-height);
-  padding: var(--spacing-sm) var(--spacing-md);
+  padding-inline: var(--size-control-padding-inline);
   font-weight: var(--font-weight-medium);
 }
 
 .task-input input,
 .task-input select {
   width: 100%;
-  min-height: var(--size-control-height);
   border-radius: var(--radius-sm);
   border: var(--border-subtle);
-  background: var(--surface-field);
+  background-color: var(--surface-field);
   color: var(--text-primary);
-  padding: var(--spacing-sm) var(--spacing-md);
   font-size: var(--font-size-base);
   transition: background-color var(--motion-standard), border-color var(--motion-standard), color var(--motion-standard), box-shadow var(--motion-focus);
 }
@@ -581,10 +617,9 @@ main {
 
 /* ================= Buttons ================ */
 .btn {
-  min-height: var(--size-control-height);
   border: var(--border-hairline) solid transparent;
   border-radius: var(--radius-sm);
-  padding: var(--spacing-sm) var(--spacing-lg);
+  padding-inline: var(--spacing-lg);
   font-weight: var(--font-weight-semibold);
   cursor: pointer;
   transition: background-color var(--motion-standard), border-color var(--motion-standard), color var(--motion-standard), box-shadow var(--motion-standard);
