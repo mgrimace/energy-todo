@@ -266,16 +266,29 @@ select {
   -webkit-appearance: none;
   -moz-appearance: none;
   align-self: stretch;
-  background-repeat: no-repeat;
-  background-position: right var(--size-control-padding-inline) center;
-  background-size: var(--size-select-arrow) var(--size-select-arrow);
-  /* Keep a visible arrow after removing native select appearance. */
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23575e66' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-image: none;
   padding-right: calc(var(--size-control-padding-inline) * 2 + var(--size-select-arrow));
 }
 
-[data-theme='dark'] select {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23b1b6b9' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+.select-field {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+}
+
+.select-field select {
+  width: 100%;
+}
+
+.select-caret {
+  position: absolute;
+  right: var(--size-control-padding-inline);
+  top: 50%;
+  width: var(--size-select-arrow);
+  height: var(--size-select-arrow);
+  transform: translateY(-50%);
+  color: var(--text-action-secondary);
+  pointer-events: none;
 }
 
 :where(button, input, select, textarea):focus-visible {
@@ -412,7 +425,7 @@ main {
     width: 100%;
   }
 
-  .task-row #task-energy {
+  .task-row .task-energy-field {
     grid-area: energy;
     min-width: 0;
     width: 100%;
@@ -425,7 +438,7 @@ main {
   }
 }
 
-.task-row select {
+.task-row .task-energy-field {
   min-width: var(--size-task-select-min);
 }
 
