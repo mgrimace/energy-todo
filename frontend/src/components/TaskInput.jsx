@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { CaretDownIcon } from '@phosphor-icons/react'
 import useTagInputController from '../hooks/useTagInputController'
 
 export default function TaskInput({ onAdd, disabled }) {
@@ -41,17 +42,20 @@ export default function TaskInput({ onAdd, disabled }) {
         />
 
         <label className="sr-only" htmlFor="task-energy">Task energy</label>
-        <select
-          id="task-energy"
-          className={`task-energy-select energy-${energy}`}
-          value={energy}
-          onChange={event => setEnergy(event.target.value)}
-          disabled={disabled}
-        >
-          <option value="low">Low Energy</option>
-          <option value="medium">Medium Energy</option>
-          <option value="high">High Energy</option>
-        </select>
+        <div className="select-field task-energy-field">
+          <select
+            id="task-energy"
+            className={`task-energy-select energy-${energy}`}
+            value={energy}
+            onChange={event => setEnergy(event.target.value)}
+            disabled={disabled}
+          >
+            <option value="low">Low Energy</option>
+            <option value="medium">Medium Energy</option>
+            <option value="high">High Energy</option>
+          </select>
+          <CaretDownIcon className="select-caret" aria-hidden="true" />
+        </div>
 
         <button type="submit" className="btn btn-primary" disabled={disabled || !title.trim()}>
           Save
