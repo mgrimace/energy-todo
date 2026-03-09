@@ -133,6 +133,8 @@
   /* ========== DIMENSION TOKENS ========== */
   --max-content-width: 880px;
   --size-control-height: 42px;
+  --size-control-padding-inline: var(--spacing-md);
+  --size-select-arrow: 10px;
   --size-chip-height: 28px;
   --size-checkbox: 24px;
   --size-toggle-track-width: 44px;
@@ -154,6 +156,7 @@
   --size-search-max: 24rem;
 
   --filter-control-height: var(--size-chip-height);
+  --control-height: var(--size-control-height);
 
   --motion-fast: 120ms ease-out;
   --motion-standard: 150ms ease;
@@ -249,6 +252,30 @@ body {
 :where(button, input, select, textarea) {
   outline: none;
   font: inherit;
+}
+
+:where(input:not([type='checkbox']):not([type='radio']), select, .btn) {
+  height: var(--control-height);
+  padding: 0 var(--size-control-padding-inline);
+  line-height: 1.2;
+  box-sizing: border-box;
+}
+
+select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  align-self: stretch;
+  background-repeat: no-repeat;
+  background-position: right var(--size-control-padding-inline) center;
+  background-size: var(--size-select-arrow) var(--size-select-arrow);
+  /* Keep a visible arrow after removing native select appearance. */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23575e66' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  padding-right: calc(var(--size-control-padding-inline) * 2 + var(--size-select-arrow));
+}
+
+[data-theme='dark'] select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23b1b6b9' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
 }
 
 :where(button, input, select, textarea):focus-visible {
@@ -393,7 +420,6 @@ main {
 
   .task-row .btn-primary {
     grid-area: save;
-    min-height: var(--size-control-height);
     height: 100%;
     align-self: stretch;
   }
@@ -405,20 +431,17 @@ main {
 
 .task-row .btn-primary {
   min-width: var(--size-task-button-min);
-  min-height: var(--size-control-height);
-  padding: var(--spacing-sm) var(--spacing-md);
+  padding-inline: var(--size-control-padding-inline);
   font-weight: var(--font-weight-medium);
 }
 
 .task-input input,
 .task-input select {
   width: 100%;
-  min-height: var(--size-control-height);
   border-radius: var(--radius-sm);
   border: var(--border-subtle);
-  background: var(--surface-field);
+  background-color: var(--surface-field);
   color: var(--text-primary);
-  padding: var(--spacing-sm) var(--spacing-md);
   font-size: var(--font-size-base);
   transition: background-color var(--motion-standard), border-color var(--motion-standard), color var(--motion-standard), box-shadow var(--motion-focus);
 }
@@ -475,10 +498,9 @@ main {
 
 /* ================= Buttons ================ */
 .btn {
-  min-height: var(--size-control-height);
   border: var(--border-hairline) solid transparent;
   border-radius: var(--radius-sm);
-  padding: var(--spacing-sm) var(--spacing-lg);
+  padding-inline: var(--spacing-lg);
   font-weight: var(--font-weight-semibold);
   cursor: pointer;
   transition: background-color var(--motion-standard), border-color var(--motion-standard), color var(--motion-standard), box-shadow var(--motion-standard);
