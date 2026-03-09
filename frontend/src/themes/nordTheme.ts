@@ -1,0 +1,63 @@
+import type { ThemeDefinition } from './types'
+
+export const nordTheme: ThemeDefinition = {
+  id: 'nord',
+  name: 'Nord',
+  preview: ['#ECEFF4', '#5E81AC', '#81A1C1'],
+  palettes: {
+    light: {
+      bg: '#ECEFF4',
+      surface: '#E5E9F0',
+      surfaceAlt: '#D8DEE9',
+      text: '#2E3440',
+      textMuted: '#4C566A',
+      accent: '#5E81AC',
+      accentStrong: '#81A1C1',
+      accentOn: '#ECEFF4',
+      focus: '#88C0D0',
+      border: '#81A1C1',
+      borderStrong: '#5E81AC',
+      success: '#A3BE8C',
+      danger: '#BF616A',
+      warning: '#EBCB8B',
+      dangerSoft: '#E5E9F0',
+      toggleTrack: '#D8DEE9',
+      energyLowBg: '#D8E7D4',
+      energyLowBorder: '#A3BE8C',
+      energyLowText: '#2E3440',
+      energyMediumBg: '#D4E3EC',
+      energyMediumBorder: '#81A1C1',
+      energyMediumText: '#2E3440',
+      energyHighBg: '#DFD5E8',
+      energyHighBorder: '#B48EAD',
+      energyHighText: '#2E3440'
+    },
+    dark: {
+      bg: '#2E3440',
+      surface: '#3B4252',
+      surfaceAlt: '#434C5E',
+      text: '#ECEFF4',
+      textMuted: '#D8DEE9',
+      accent: '#88C0D0',
+      accentStrong: '#81A1C1',
+      accentOn: '#2E3440',
+      focus: '#8FBCBB',
+      border: '#4C566A',
+      borderStrong: '#81A1C1',
+      success: '#A3BE8C',
+      danger: '#BF616A',
+      warning: '#EBCB8B',
+      dangerSoft: '#434C5E',
+      toggleTrack: '#4C566A',
+      energyLowBg: '#3A4A43',
+      energyLowBorder: '#A3BE8C',
+      energyLowText: '#ECEFF4',
+      energyMediumBg: '#3A4A5C',
+      energyMediumBorder: '#81A1C1',
+      energyMediumText: '#ECEFF4',
+      energyHighBg: '#4B4258',
+      energyHighBorder: '#B48EAD',
+      energyHighText: '#ECEFF4'
+    }
+  }
+}

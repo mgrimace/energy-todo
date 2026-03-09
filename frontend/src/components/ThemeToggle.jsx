@@ -2,14 +2,14 @@ import React from 'react'
 import { useTheme } from '../context/ThemeContext'
 
 export default function ThemeToggle() {
-  const { theme, toggleTheme } = useTheme()
-  const isDark = theme === 'dark'
+  const { mode, toggleMode } = useTheme()
+  const isDark = mode === 'dark'
 
   return (
     <button
       type="button"
       className="theme-toggle"
-      onClick={toggleTheme}
+      onClick={toggleMode}
       role="switch"
       aria-checked={isDark}
       aria-label="Toggle dark mode"
