@@ -16,6 +16,9 @@ This project was directly inspired by [Executive Function as Code](https://milly
 
 *Light and dark mode shown side-by-side.*
 
+> [!TIP]
+> Theme support added as of v1.1.0! Nord, Everforest, and Catppuccin, with more to come!
+
 ## About This Project
 
 I'm Mike, a healthcare provider, researcher, and educator who’s learning to code as a hobby. I built this after struggling to find a minimal, self-hosted task manager that worked with the way my brain organizes energy and attention.
@@ -41,7 +44,7 @@ Built with accessibility and a neurodiversity-affirming experience in mind. It�
 - **Tagging** — Easily create additional tags
 - **Filter & search** — Filter by energy to match your battery, or search by words or tags
 - **Inline editing** — Easily edit a task right from the list. Reorder, add tags, and toggle energy costs. 
-- **Light & dark themes** — Easy on the eyes
+- **Themes with light & dark modes** — A minimal default theme, with Nord, Everforest, and Catppuccin (+more to come)
 - **Keyboard accessibility** — Navigate and manage tasks without a mouse
 - **Minimal** — It's a minimal todo-list, with simple but (I think) clever functionality to reduce cognitive load
 - **Self-hosted** — Run it yourself, your data is yours

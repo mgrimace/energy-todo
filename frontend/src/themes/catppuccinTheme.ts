@@ -1,6 +1,6 @@
 import type { ThemeDefinition } from './types'
 
-export const catpuccinTheme: ThemeDefinition = {
+export const catppuccinTheme: ThemeDefinition = {
   id: 'catppuccin',
   name: 'Catppuccin',
   palettes: {
