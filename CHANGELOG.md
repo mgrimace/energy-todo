@@ -34,3 +34,16 @@ All notable changes to this project will be documented in this file.
 - Released with a frontend SSE initialization regression.
 - Commit `4d306e1` changed reconnect behavior and caused the regression.
 - Reverted by `bf57147`; release/tag removed.
+
+## [v1.0.1] - 2026-03-04
+
+- Improved mobile task entry layout and usability.
+- Added Safari/macOS PWA icon support so Apple users see the proper app icon.
+- Added a README troubleshooting step for data directory permissions.
+
+## [v1.0.0] - 2026-03-04
+
+- Initial public release of Energy Todo.
+- Delivered the core energy-based task workflow with quick add/edit interactions.
+- Included self-hosted Docker deployment support and PWA/mobile install capability.
+- Bundled early UI and design polish across app styles, icons, labels, and README/docs.
