@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { DndContext, PointerSensor, useSensor, useSensors } from '@dnd-kit/core'
 import { SortableContext, arrayMove, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
+import { ChecksIcon } from '@phosphor-icons/react'
 import useTodos from './hooks/useTodos'
 import Header from './components/Header'
 import FilterTabs from './components/FilterTabs'
@@ -34,7 +35,7 @@ function SortableActiveTodo({ todo, onToggle, onDelete, onEdit, onEditTags, onTo
 }
 
 export default function App() {
-  const { todos, loading, createTodo, updateTodo, deleteTodo, reorderActive } = useTodos()
+  const { todos, loading, createTodo, updateTodo, deleteTodo, clearCompleted, reorderActive } = useTodos()
   const [filter, setFilter] = useState('all')
   const [search, setSearch] = useState('')
   const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 5 } }))
@@ -153,8 +154,19 @@ export default function App() {
 
             {completedTodos.length > 0 ? (
               <section className="completed-section" aria-label="Completed todos">
-                <div className="completed-divider" role="separator" aria-hidden="true">
+                <div className="completed-divider">
+                  <span className="completed-divider-rule" aria-hidden="true" />
                   <span>Completed</span>
+                  <span className="completed-divider-rule" aria-hidden="true" />
+                  <button
+                    type="button"
+                    className="completed-clear-btn"
+                    onClick={clearCompleted}
+                    aria-label="Delete all completed tasks"
+                  >
+                    Clear all
+                    <ChecksIcon weight="bold" aria-hidden="true" />
+                  </button>
                 </div>
                 <div className="completed-list stacked-list">
                   {completedTodos.map(t => (

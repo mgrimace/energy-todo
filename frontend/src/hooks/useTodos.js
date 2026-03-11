@@ -152,5 +152,10 @@ export default function useTodos() {
     // rely on server-sent events to update local state
   }
 
-  return { todos, loading, fetchTodos, createTodo, updateTodo, deleteTodo, reorderActive }
+  const clearCompleted = async () => {
+    const completedIds = todos.filter(t => t.completed).map(t => t.id)
+    await Promise.all(completedIds.map(id => axios.delete(`/api/todos/${id}`)))
+  }
+
+  return { todos, loading, fetchTodos, createTodo, updateTodo, deleteTodo, clearCompleted, reorderActive }
 }
