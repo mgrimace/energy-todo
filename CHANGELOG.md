@@ -4,7 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
-- No unreleased changes yet.
+- Fixed the internal Catppuccin theme identifier typo by renaming `catpuccin` references to `catppuccin`.
+- Updated README to explicitly note current theme support and that more themes are planned.
 
 ## [v1.1.0] - 2026-03-11
 
