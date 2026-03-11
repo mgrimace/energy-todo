@@ -1,10 +1,9 @@
 import React from 'react'
 import ThemeToggle from './ThemeToggle'
-import { useTheme } from '../context/ThemeContext'
+import ThemeSelector from './ThemeSelector'
 
 export default function Header() {
-  const { theme } = useTheme()
-  const iconSrc = theme === 'dark' ? '/icons/icon-dark.svg' : '/icons/icon-light.svg'
+  const iconSrc = '/icons/icon-dark-transparent.svg'
 
   return (
     <header className="top-header">
@@ -12,7 +11,10 @@ export default function Header() {
         <img className="top-header-icon" src={iconSrc} alt="" aria-hidden="true" />
         <span>Energy Todo</span>
       </h1>
-      <ThemeToggle />
+      <div className="header-actions">
+        <ThemeSelector />
+        <ThemeToggle />
+      </div>
     </header>
   )
 }
