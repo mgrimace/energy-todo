@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+- Added a `Clear all` action in the completed section header to quickly remove all completed tasks.
 - Fixed the internal Catppuccin theme identifier typo by renaming `catpuccin` references to `catppuccin`.
 - Updated README to explicitly note current theme support and that more themes are planned.
 
