@@ -2,13 +2,13 @@ import type { ThemeDefinition } from './types'
 
 export const defaultTheme: ThemeDefinition = {
   id: 'default',
-  name: 'Default',
-  preview: ['#ffffff', '#3882c2', '#1f639e'],
+  name: 'Default Theme',
   palettes: {
     light: {
       bg: '#ffffff',
       surface: '#e8ebed',
       surfaceAlt: '#f6f7f8',
+      hover: '#e8ebed',
       text: '#24292d',
       textMuted: '#434a51',
       accent: '#3882c2',
@@ -36,6 +36,7 @@ export const defaultTheme: ThemeDefinition = {
       bg: '#161a1d',
       surface: '#22272b',
       surfaceAlt: '#1e2225',
+      hover: '#262c31',
       text: '#d2d4d5',
       textMuted: '#b1b6b9',
       accent: '#2c75c3',

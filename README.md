@@ -1,9 +1,5 @@
 <div align="center" width="100%">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="./frontend/public/icons/icon-dark.svg">
-    <source media="(prefers-color-scheme: light)" srcset="./frontend/public/icons/icon-light.svg">
-    <img src="./frontend/public/icons/icon-light.svg" width="128" alt="Energy Todo icon" />
-  </picture>
+  <img src="./frontend/public/icons/icon-dark-transparent.svg" width="128" alt="Energy Todo icon" />
 </div>
 
 # Energy Todo
@@ -26,11 +22,7 @@ I'm Mike, a healthcare provider, researcher, and educator who’s learning to co
 
  [Executive Function as Code](https://milly.kittycloud.eu/posts/executive-function-as-code-doom-emacs-adhd/) articulated exactly what I felt I had been missing, and [Blake Watson’s article](https://blakewatson.com/journal/i-used-claude-code-and-gsd-to-build-the-accessibility-tool-ive-always-wanted/) inspired me to follow through and actualy build it myself.
 
-I built this alone, in my limited space time. I'm still learning. Pease be patient with any problems and contribute wherever you can. Pull requests to contribute improvements are welcome and encouraged. 
-
-> [!NOTE]
-> I used AI to help build this project. Without it, this tool wouldn’t exist. 
-> I used structured prompts, reviewed the output carefully, and treated the process as a way to learn while building something I genuinely needed.
+I built this alone, in my limited space time. I used AI to assisted with parts of the coding, but all decisions, design, and review were mine. I'm still learning. Pease be patient with me, constructive advice and contributions are welcome and encouraged. 
 
 ## Accessibility & Design
 

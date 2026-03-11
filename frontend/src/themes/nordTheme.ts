@@ -3,12 +3,12 @@ import type { ThemeDefinition } from './types'
 export const nordTheme: ThemeDefinition = {
   id: 'nord',
   name: 'Nord',
-  preview: ['#ECEFF4', '#5E81AC', '#81A1C1'],
   palettes: {
     light: {
       bg: '#ECEFF4',
       surface: '#E5E9F0',
       surfaceAlt: '#D8DEE9',
+      hover: '#E5E9F0',
       text: '#2E3440',
       textMuted: '#4C566A',
       accent: '#5E81AC',
@@ -36,6 +36,7 @@ export const nordTheme: ThemeDefinition = {
       bg: '#2E3440',
       surface: '#3B4252',
       surfaceAlt: '#434C5E',
+      hover: '#3B4252',
       text: '#ECEFF4',
       textMuted: '#D8DEE9',
       accent: '#88C0D0',

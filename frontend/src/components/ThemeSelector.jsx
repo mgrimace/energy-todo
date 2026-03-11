@@ -1,28 +1,31 @@
 import React, { useEffect, useRef, useState } from 'react'
+import { CaretDownIcon, CheckIcon } from '@phosphor-icons/react'
 import { useTheme } from '../context/ThemeContext'
 
-function ThemePreview({ colors }) {
-  const [first, second, third] = colors || []
+function ThemePreview({ theme, mode }) {
+  const palette = theme.palettes[mode]
 
   return (
     <span
       className="theme-preview"
+      data-preview-theme={theme.id}
       aria-hidden="true"
       style={{
-        '--preview-1': first,
-        '--preview-2': second,
-        '--preview-3': third
+        '--border-subtle': `1px solid ${palette.border}`,
+        '--surface-field': palette.surfaceAlt,
+        '--accent-bg': palette.accent,
+        '--text-primary': palette.text
       }}
     >
-      <span className="theme-preview-swatch" />
-      <span className="theme-preview-swatch" />
-      <span className="theme-preview-swatch" />
+      <span className="theme-preview-box">
+        <span className="theme-preview-dot" />
+      </span>
     </span>
   )
 }
 
 export default function ThemeSelector() {
-  const { themes, selectedTheme, setThemeId } = useTheme()
+  const { themes, selectedTheme, setThemeId, mode } = useTheme()
   const [isOpen, setIsOpen] = useState(false)
   const [activeIndex, setActiveIndex] = useState(0)
   const dropdownRef = useRef(null)
@@ -96,7 +99,7 @@ export default function ThemeSelector() {
         }}
       >
         <span className="theme-selector-label">{selectedTheme.name}</span>
-        <ThemePreview colors={selectedTheme.preview} />
+        <CaretDownIcon className="theme-selector-caret" weight="bold" aria-hidden="true" />
       </button>
 
       {isOpen ? (
@@ -143,8 +146,11 @@ export default function ThemeSelector() {
                     }
                   }}
                 >
-                  <span className="theme-selector-option-name">{theme.name}</span>
-                  <ThemePreview colors={theme.preview} />
+                  <span className="theme-selector-option-main">
+                    <ThemePreview theme={theme} mode={mode} />
+                    <span className="theme-selector-option-name">{theme.name}</span>
+                  </span>
+                  {isSelected ? <CheckIcon className="theme-selector-option-check" weight="bold" aria-hidden="true" /> : null}
                 </button>
               </li>
             )

@@ -4,6 +4,7 @@ const tokenToCssVarMap: Record<string, string[]> = {
   bg: ['--color-bg'],
   surface: ['--color-surface-muted', '--color-entry-card-bg'],
   surfaceAlt: ['--color-item-cards-bg', '--color-field-bg'],
+  hover: ['--surface-hover'],
   text: ['--color-text'],
   textMuted: ['--color-text-muted'],
   accent: ['--color-accent'],

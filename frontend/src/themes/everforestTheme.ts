@@ -3,12 +3,12 @@ import type { ThemeDefinition } from './types'
 export const everforestTheme: ThemeDefinition = {
   id: 'everforest',
   name: 'Everforest',
-  preview: ['#FDF6E3', '#3A94C5', '#35A77C'],
   palettes: {
     light: {
       bg: '#FDF6E3',
       surface: '#EFEBD4',
       surfaceAlt: '#F4F0D9',
+      hover: '#EFEBD4',
       text: '#5C6A72',
       textMuted: '#829181',
       accent: '#3A94C5',
@@ -36,6 +36,7 @@ export const everforestTheme: ThemeDefinition = {
       bg: '#2D353B',
       surface: '#343F44',
       surfaceAlt: '#3D484D',
+      hover: '#343F44',
       text: '#D3C6AA',
       textMuted: '#9DA9A0',
       accent: '#7FBBB3',

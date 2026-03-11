@@ -4,7 +4,9 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
-- No unreleased changes yet.
+- Added preliminary multi-theme support with `Default`, `Nord`, `Everforest`, and `Catppuccin` theme options.
+- Updated theme selection UI previews and selection indicators for clearer visual feedback.
+- Included supporting design and README refinements as part of the theme rollout groundwork.
 
 ## [v1.0.4] - 2026-03-09
 
