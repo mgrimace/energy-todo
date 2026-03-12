@@ -17,7 +17,7 @@ This project was directly inspired by [Executive Function as Code](https://milly
 *Light and dark mode shown side-by-side.*
 
 > [!TIP]
-> Theme support added as of v1.1.0! Nord, Everforest, and Catppuccin, with more to come!
+> Now with themes! Nord, Everforest, Gruvbox, Solarized, Catppuccin, and more!
 
 ## About This Project
 
@@ -25,7 +25,7 @@ I'm Mike, a healthcare provider, researcher, and educator who’s learning to co
 
  [Executive Function as Code](https://milly.kittycloud.eu/posts/executive-function-as-code-doom-emacs-adhd/) articulated exactly what I felt I had been missing, and [Blake Watson’s article](https://blakewatson.com/journal/i-used-claude-code-and-gsd-to-build-the-accessibility-tool-ive-always-wanted/) inspired me to follow through and actualy build it myself.
 
-I built this alone, in my limited space time. I used AI to assisted with parts of the coding, but all decisions, design, and review were mine. I'm still learning. Pease be patient with me, constructive advice and contributions are welcome and encouraged. 
+I'm still learning. Pease be patient with bug fixes. Constructive advice and contributions are welcome and encouraged. I used AI to assisted with parts of the coding, but all decisions, design, and review were mine. 
 
 ## Accessibility & Design
 
@@ -44,9 +44,8 @@ Built with accessibility and a neurodiversity-affirming experience in mind. It�
 - **Tagging** — Easily create additional tags
 - **Filter & search** — Filter by energy to match your battery, or search by words or tags
 - **Inline editing** — Easily edit a task right from the list. Reorder, add tags, and toggle energy costs. 
-- **Themes with light & dark modes** — A minimal default theme, with Nord, Everforest, and Catppuccin (+more to come)
+- **Themes with light & dark modes** — A minimal default theme, with Nord, Everforest, Gruvbox, Catppuccin, and more
 - **Keyboard accessibility** — Navigate and manage tasks without a mouse
-- **Minimal** — It's a minimal todo-list, with simple but (I think) clever functionality to reduce cognitive load
 - **Self-hosted** — Run it yourself, your data is yours
 - **Docker support** — Get it running quickly
 - **Progressive Web App** — Install it on your home screen like a native app on any device
