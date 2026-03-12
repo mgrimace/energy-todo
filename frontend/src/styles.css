@@ -611,6 +611,7 @@ main {
 .task-tags input {
   min-width: var(--size-tag-input-min);
   flex: 1;
+  height: var(--size-inline-input-min);
   min-height: var(--size-inline-input-min);
   border: 0;
   background: transparent;

@@ -31,8 +31,8 @@ export const scienceTheme: ThemeDefinition = {
       energyLowBorder: '#a8c8b8',
       energyLowText: '#2f5a44',
 
-      energyMediumBg: '#e5edf6',
-      energyMediumBorder: '#96b3d0',
+      energyMediumBg: '#e8f0f8',
+      energyMediumBorder: '#8fa9c4',
       energyMediumText: '#2e4a66',
 
       energyHighBg: '#ece9f4',
@@ -68,8 +68,8 @@ export const scienceTheme: ThemeDefinition = {
       energyLowBorder: '#3d5e50',
       energyLowText: '#a7d0bb',
 
-      energyMediumBg: '#1e2a36',
-      energyMediumBorder: '#3e5872',
+      energyMediumBg: '#223243',
+      energyMediumBorder: '#4f6f8a',
       energyMediumText: '#b6cce0',
 
       energyHighBg: '#27233a',
