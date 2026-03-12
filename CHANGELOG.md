@@ -4,7 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
-- No unreleased changes yet.
+- Added a new original Science inspired theme 
+- Tuned the Nord theme surface layering cards and backgrounds 
 
 ## [v1.1.1] - 2026-03-11
 
