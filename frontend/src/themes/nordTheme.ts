@@ -6,8 +6,8 @@ export const nordTheme: ThemeDefinition = {
   palettes: {
     light: {
       bg: '#ECEFF4',
-      surface: '#E5E9F0',
-      surfaceAlt: '#D8DEE9',
+      surface: '#D8DEE9',
+      surfaceAlt: '#E5E9F0',
       hover: '#E5E9F0',
       text: '#2E3440',
       textMuted: '#4C566A',
