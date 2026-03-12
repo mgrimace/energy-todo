@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 - Fixed inline tag editor input sizing by explicitly setting its height to the inline input token for consistent chip-row alignment.
+- Added new `Gruvbox` and `Solarized` theme options to expand the available presets.
 
 ## [v1.1.2] - 2026-03-12
 
