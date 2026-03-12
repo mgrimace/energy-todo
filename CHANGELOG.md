@@ -6,6 +6,8 @@ All notable changes to this project will be documented in this file.
 
 - Added a new original Science inspired theme 
 - Tuned the Nord theme surface layering cards and backgrounds 
+- Tuned Science theme medium-energy colors for stronger visibility in both light and dark modes.
+- Reduced task-entry tag input vertical footprint for a more compact card layout.
 
 ## [v1.1.1] - 2026-03-11
 
