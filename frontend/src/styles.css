@@ -1100,6 +1100,7 @@ main {
   min-width: var(--size-inline-input-min);
   max-width: 100%;
   width: auto;
+  height: var(--size-inline-input-min);
   min-height: var(--size-inline-input-min);
   border: var(--border-hairline) solid transparent;
   border-radius: var(--radius-pill);
