@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [v1.1.2] - 2026-03-12
+
 - Added a new original Science inspired theme 
 - Tuned the Nord theme surface layering cards and backgrounds 
 - Tuned Science theme medium-energy colors for stronger visibility in both light and dark modes.
