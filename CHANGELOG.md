@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+- Fixed inline tag editor input sizing by explicitly setting its height to the inline input token for consistent chip-row alignment.
+
 ## [v1.1.2] - 2026-03-12
 
 - Added a new original Science inspired theme 
