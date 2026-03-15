@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
-- No unreleased changes yet.
+- Made the tag add affordance persistently visible so the “+ add tag” indicator is easier to tap on mobile.
 
 ## [v1.1.3] - 2026-03-12
 

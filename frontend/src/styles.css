@@ -1136,19 +1136,14 @@ main {
 .tag-add-affordance {
   display: inline-flex;
   align-items: center;
-  color: var(--text-tertiary);
+  color: var(--text-muted);
   font-size: var(--font-size-xs);
-  opacity: var(--opacity-tag-affordance-rest);
+  opacity: var(--opacity-tag-affordance-active);
   transition: opacity var(--motion-fast);
 }
 
 .tag-inline-trigger .tag-pill + .tag-add-affordance {
   margin-left: var(--spacing-xs);
-}
-
-.card-tags:hover .tag-add-affordance,
-.card-tags:focus-within .tag-add-affordance {
-  opacity: var(--opacity-tag-affordance-active);
 }
 
 .tag-pill {
