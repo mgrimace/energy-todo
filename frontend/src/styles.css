@@ -1136,7 +1136,7 @@ main {
 .tag-add-affordance {
   display: inline-flex;
   align-items: center;
-  color: var(--text-muted);
+  color: var(--text-tertiary);
   font-size: var(--font-size-xs);
   opacity: var(--opacity-tag-affordance-active);
   transition: opacity var(--motion-fast);
