@@ -66,17 +66,6 @@ Built with accessibility and a neurodiversity-affirming experience in mind. Itâ€
          - "3000:3000"
        volumes:
          - ./energy-data:/app/data:rw
-       environment:
-         - RUST_LOG=${RUST_LOG:-info}
-       user: "${LOCAL_UID:-1000}:${LOCAL_GID:-1000}"
-       security_opt:
-         - no-new-privileges:true
-       cap_drop:
-         - ALL
-       read_only: true
-       tmpfs:
-         - /tmp:rw,noexec,nosuid,size=64m
-         - /run:rw,noexec,nosuid,size=16m
        restart: unless-stopped
    ```   
 
