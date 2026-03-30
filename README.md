@@ -6,36 +6,20 @@
 
 A self-hosted task manager for neurodiverse and neurospicy brains. Most to-do lists are built around deadlines and priority, but for some folks it’s not about time, it’s about *energy*. Tag tasks by energy cost instead of urgency, then filter your list to match your actual battery: Low battery? Clear a low-energy task for a quick win. Hyperfocused? Settle into a deep work task.
 
-This project was directly inspired by [Executive Function as Code](https://milly.kittycloud.eu/posts/executive-function-as-code-doom-emacs-adhd/) by Milly. 
-
 ## Screenshot
 
 | Light mode | Dark mode |
 | --- | --- |
 | ![Light mode screenshot](./docs/screenshot-light.png) | ![Dark mode screenshot](./docs/screenshot-dark.png) |
 
-*Light and dark mode shown side-by-side.*
-
 > [!TIP]
-> Now with themes! Nord, Everforest, Gruvbox, Solarized, Catppuccin, and more!
+> Now with themes support: Nord, Everforest, Gruvbox, Solarized, Catppuccin, and more!
 
 ## About This Project
 
 I'm Mike, a healthcare provider, researcher, and educator who’s learning to code as a hobby. I built this after struggling to find a minimal, self-hosted task manager that worked with the way my brain organizes energy and attention.
 
  [Executive Function as Code](https://milly.kittycloud.eu/posts/executive-function-as-code-doom-emacs-adhd/) articulated exactly what I felt I had been missing, and [Blake Watson’s article](https://blakewatson.com/journal/i-used-claude-code-and-gsd-to-build-the-accessibility-tool-ive-always-wanted/) inspired me to follow through and actualy build it myself.
-
-I'm still learning. Pease be patient with bug fixes. Constructive advice and contributions are welcome and encouraged. I used AI to assisted with parts of the coding, but all decisions, design, and review were mine. 
-
-## Accessibility & Design
-
-Built with accessibility and a neurodiversity-affirming experience in mind. It’s still very much a work in progress.
-
-- Designed with WCAG 2.2 AA in mind
-- Uses [Atkinson Hyperlegible](https://brailleinstitute.org/freefont) font for readability
-- Keyboard-navigable
-- Energy-first (not urgency-first) task categorization to reduce analysis paralysis when everything feels “important”
-- Calm, minimal interface to reduce the panic spiral when approaching tasks
 
 ## Features
 
@@ -49,6 +33,7 @@ Built with accessibility and a neurodiversity-affirming experience in mind. It�
 - **Self-hosted** — Run it yourself, your data is yours
 - **Docker support** — Get it running quickly
 - **Progressive Web App** — Install it on your home screen like a native app on any device
+- **Accessibility-first design** — Built to be readable, keyboard-friendly, and reduce cognitive overload (WCAG 2.2 AA–aligned, Atkinson Hyperlegible font).
 
 ## Installation
 
