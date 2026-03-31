@@ -1,36 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap');
 
 :root {
-  /* ========== PALETTE TOKENS (SET BY JS THEME) ========== */
-  --color-bg: initial;
-  --color-surface-muted: initial;
-  --color-item-cards-bg: initial;
-  --color-entry-card-bg: initial;
-  --color-border: initial;
-  --color-border-strong: initial;
-  --color-text: initial;
-  --color-text-muted: initial;
-  --color-divider-thread: initial;
-  --color-field-bg: initial;
-
-  --color-accent: initial;
-  --color-accent-strong: initial;
-  --color-accent-on: initial;
-  --color-focus-ring: initial;
-  --color-danger-soft: initial;
-  --color-danger-text: initial;
-  --color-toggle-track: initial;
-
-  --energy-low-bg: initial;
-  --energy-low-border: initial;
-  --energy-low-text: initial;
-  --energy-medium-bg: initial;
-  --energy-medium-border: initial;
-  --energy-medium-text: initial;
-  --energy-high-bg: initial;
-  --energy-high-border: initial;
-  --energy-high-text: initial;
-
   /* ========== SEMANTIC TOKENS ========== */
   --surface-app-bg: var(--color-bg);
   --surface-muted: var(--color-surface-muted);
