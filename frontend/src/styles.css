@@ -1,102 +1,78 @@
 @import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap');
 
 :root {
-  /* ========== PALETTE TOKENS (HEX ONLY) ========== */
-  --color-bg: #ffffff;
-  --color-surface-muted: #e8ebed;
-  --color-item-cards-bg: #f6f7f8;
-  --color-entry-card-bg: #e8ebed;
-  --color-border: #d7dcdf;
-  --color-border-strong: #b6bec3;
-  --color-text: #24292d;
-  --color-text-muted: #434a51;
-  --color-divider-thread: #d7dcdf;
-  --color-field-bg: #f6f7f8;
+  /* ========== PALETTE TOKENS (SET BY JS THEME) ========== */
+  --color-bg: initial;
+  --color-surface-muted: initial;
+  --color-item-cards-bg: initial;
+  --color-entry-card-bg: initial;
+  --color-border: initial;
+  --color-border-strong: initial;
+  --color-text: initial;
+  --color-text-muted: initial;
+  --color-divider-thread: initial;
+  --color-field-bg: initial;
 
-  --color-accent: #3882c2;
-  --color-accent-strong: #1f639e;
-  --color-accent-on: #ffffff;
-  --color-focus-ring: #65a4d7;
-  --color-danger-soft: #e8ebed;
-  --color-danger-text: #7d4e00;
-  --color-toggle-track: #bbd7ec;
+  --color-accent: initial;
+  --color-accent-strong: initial;
+  --color-accent-on: initial;
+  --color-focus-ring: initial;
+  --color-danger-soft: initial;
+  --color-danger-text: initial;
+  --color-toggle-track: initial;
 
-  --energy-low-bg: #e6f2eb;
-  --energy-low-border: #a5c4b3;
-  --energy-low-text: #2f4c3d;
-  --energy-medium-bg: #e0e7f1;
-  --energy-medium-border: #8ca7c5;
-  --energy-medium-text: #2f4760;
-  --energy-high-bg: #ebe8f3;
-  --energy-high-border: #b1a5c8;
-  --energy-high-text: #4a4162;
+  --energy-low-bg: initial;
+  --energy-low-border: initial;
+  --energy-low-text: initial;
+  --energy-medium-bg: initial;
+  --energy-medium-border: initial;
+  --energy-medium-text: initial;
+  --energy-high-bg: initial;
+  --energy-high-border: initial;
+  --energy-high-text: initial;
 
   /* ========== SEMANTIC TOKENS ========== */
-  /* App page background. */
   --surface-app-bg: var(--color-bg);
-  /* Surface used for muted panels, controls, and default hover fill. */
   --surface-muted: var(--color-surface-muted);
-  /* Surface used by list containers. */
   --surface-list: var(--color-item-cards-bg);
-  /* Surface used by the task input card. */
   --surface-entry: var(--color-entry-card-bg);
-  /* Surface used by form fields and edit inputs. */
   --surface-field: var(--color-field-bg);
-  /* Hover surface for list rows and checkboxes. */
   --surface-hover: var(--color-surface-muted);
-  /* Soft destructive hover/background treatment. */
+
   --state-danger-soft-bg: var(--color-danger-soft);
-  /* Default body/content text color. */
+
   --text-primary: var(--color-text);
-  /* Muted supporting text color. */
   --text-muted: var(--color-text-muted);
-  /* Secondary UI text color. */
-  --text-secondary: var(--color-text-muted);
-  /* Tertiary utility text color. */
-  --text-tertiary: #71787f;
-  /* Secondary action text (e.g., subtle buttons). */
-  --text-action-secondary: #575e66;
-  /* Destructive action text color. */
+  --text-dim: color-mix(in srgb, var(--text-muted) 50%, rgba(0, 0, 0, 0) 50%);
+
   --state-danger-text: var(--color-danger-text);
-  /* Accent background for primary actions. */
+
   --accent-bg: var(--color-accent);
-  /* Strong accent for interactive hover/focus borders. */
   --accent-strong: var(--color-accent-strong);
-  /* Text/icon color on accent backgrounds. */
   --text-on-accent: var(--color-accent-on);
-  /* Focus ring color for keyboard navigation. */
+
   --focus-ring-color: var(--color-focus-ring);
-  /* Default border color for controls and cards. */
+
   --border-default-color: var(--color-border);
-  /* Strong border color for hovered controls. */
   --border-strong-color: var(--color-border-strong);
-  /* Divider border color for threaded separators. */
   --border-divider-color: var(--color-divider-thread);
-  /* Toggle track background color. */
+
   --state-toggle-track-bg: var(--color-toggle-track);
-  /* Tag chip background color. */
+
   --state-tag-bg: transparent;
-  /* Tag chip border color. */
   --state-tag-border: var(--color-border);
-  /* Tag chip text color. */
   --state-tag-text: var(--color-text-muted);
-  /* Energy-low visual treatment background. */
+
   --state-energy-low-bg: var(--energy-low-bg);
-  /* Energy-low visual treatment border. */
   --state-energy-low-border: var(--energy-low-border);
-  /* Energy-low visual treatment text. */
   --state-energy-low-text: var(--energy-low-text);
-  /* Energy-medium visual treatment background. */
+
   --state-energy-medium-bg: var(--energy-medium-bg);
-  /* Energy-medium visual treatment border. */
   --state-energy-medium-border: var(--energy-medium-border);
-  /* Energy-medium visual treatment text. */
   --state-energy-medium-text: var(--energy-medium-text);
-  /* Energy-high visual treatment background. */
+
   --state-energy-high-bg: var(--energy-high-bg);
-  /* Energy-high visual treatment border. */
   --state-energy-high-border: var(--energy-high-border);
-  /* Energy-high visual treatment text. */
   --state-energy-high-text: var(--energy-high-text);
 
   /* ========== SPACING SYSTEM ========== */
@@ -168,75 +144,6 @@
   --opacity-tag-affordance-active: 1;
 }
 
-[data-theme='dark'] {
-  --color-bg: #161a1d;
-  --color-surface-muted: #22272b;
-  --color-item-cards-bg: #22272b;
-  --color-entry-card-bg: #1e2225;
-  --color-border: #2c343a;
-  --color-border-strong: #343f46;
-  --color-text: #d2d4d5;
-  --color-text-muted: #b1b6b9;
-  --color-divider-thread: #2c343a;
-  --color-field-bg: #22272b;
-
-  --color-accent: #2c75c3;
-  --color-accent-strong: #4d8fdb;
-  --color-accent-soft: #273545;
-  --color-accent-on: #d2d4d5;
-  --color-focus-ring: #4d8fdb;
-  --color-danger-soft: #262c31;
-  --color-danger-text: #b35900;
-  --color-toggle-track: #304255;
-
-  --energy-low-bg: #1f2a24;
-  --energy-low-border: #3d564a;
-  --energy-low-text: #b4d5c2;
-  --energy-medium-bg: #1c2431;
-  --energy-medium-border: #374f65;
-  --energy-medium-text: #b5cbe0;
-  --energy-high-bg: #241f34;
-  --energy-high-border: #5d5675;
-  --energy-high-text: #ccc2df;
-
-  --surface-app-bg: var(--color-bg);
-  --surface-muted: var(--color-surface-muted);
-  --surface-list: var(--color-item-cards-bg);
-  --surface-entry: var(--color-entry-card-bg);
-  --surface-field: var(--color-field-bg);
-  --surface-hover: #262c31;
-  --state-danger-soft-bg: var(--color-danger-soft);
-  --text-primary: var(--color-text);
-  --text-muted: var(--color-text-muted);
-  --text-secondary: var(--color-text-muted);
-  --text-tertiary: #89949a;
-  --text-action-secondary: #b1b6b9;
-  --state-danger-text: var(--color-danger-text);
-  --accent-bg: var(--color-accent);
-  --accent-strong: var(--color-accent-strong);
-  --text-on-accent: var(--color-accent-on);
-  --focus-ring-color: var(--color-focus-ring);
-  --border-default-color: var(--color-border);
-  --border-strong-color: var(--color-border-strong);
-  --border-divider-color: var(--color-divider-thread);
-  --state-toggle-track-bg: var(--color-toggle-track);
-  --state-tag-bg: transparent;
-  --state-tag-border: var(--color-border);
-  --state-tag-text: var(--color-text-muted);
-  --state-energy-low-bg: var(--energy-low-bg);
-  --state-energy-low-border: var(--energy-low-border);
-  --state-energy-low-text: var(--energy-low-text);
-  --state-energy-medium-bg: var(--energy-medium-bg);
-  --state-energy-medium-border: var(--energy-medium-border);
-  --state-energy-medium-text: var(--energy-medium-text);
-  --state-energy-high-bg: var(--energy-high-bg);
-  --state-energy-high-border: var(--energy-high-border);
-  --state-energy-high-text: var(--energy-high-text);
-
-  --opacity-tag-affordance-rest: 0;
-  --opacity-tag-affordance-active: 1;
-}
-
 * {
   box-sizing: border-box;
 }
@@ -287,7 +194,7 @@ select {
   width: var(--size-select-arrow);
   height: var(--size-select-arrow);
   transform: translateY(-50%);
-  color: var(--text-action-secondary);
+  color: var(--text-dim);
   pointer-events: none;
 }
 
@@ -395,7 +302,7 @@ main {
 }
 
 .theme-toggle-label {
-  color: var(--text-secondary);
+  color: var(--text-muted);
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-semibold);
 }
@@ -425,7 +332,7 @@ main {
 .theme-selector-caret {
   width: 14px;
   height: 14px;
-  color: var(--text-secondary);
+  color: var(--text-muted);
   transition: transform var(--motion-standard);
 }
 
@@ -592,7 +499,7 @@ main {
 }
 
 .task-input input::placeholder {
-  color: var(--text-secondary);
+  color: var(--text-muted);
 }
 
 .task-row #task-title:hover:not(:focus):not(:focus-visible):not(:disabled) {
@@ -615,13 +522,13 @@ main {
   min-height: var(--size-inline-input-min);
   border: 0;
   background: transparent;
-  color: var(--text-tertiary);
+  color: var(--text-dim);
   padding: 0;
   font-size: var(--font-size-xs);
 }
 
 .task-energy-select {
-  color: var(--text-secondary);
+  color: var(--text-muted);
 }
 
 .task-energy-select.energy-low:hover {
@@ -740,7 +647,7 @@ main {
   border-radius: var(--radius-pill);
   border: var(--border-subtle);
   background: transparent;
-  color: var(--text-secondary);
+  color: var(--text-muted);
   font-weight: var(--font-weight-semibold);
   font-size: var(--font-size-xs);
   line-height: var(--line-height-tight);
@@ -790,7 +697,7 @@ main {
 }
 
 .filter-pill-button:not(.is-active) .filter-pill-chip {
-  color: var(--text-secondary);
+  color: var(--text-muted);
 }
 
 .filter-pill-button:not(.is-active):hover .filter-pill-chip,
@@ -861,7 +768,7 @@ main {
 .search-icon {
   width: var(--size-icon-sm);
   height: var(--size-icon-sm);
-  stroke: var(--text-secondary);
+  stroke: var(--text-muted);
   fill: none;
   stroke-width: 1.8;
   stroke-linecap: round;
@@ -1105,7 +1012,7 @@ main {
   border: var(--border-hairline) solid transparent;
   border-radius: var(--radius-pill);
   background: transparent;
-  color: var(--text-tertiary);
+  color: var(--text-dim);
   padding: 0 var(--spacing-sm);
   font-size: var(--font-size-xs);
 }
@@ -1136,7 +1043,7 @@ main {
 .tag-add-affordance {
   display: inline-flex;
   align-items: center;
-  color: var(--text-tertiary);
+  color: var(--text-dim);
   font-size: var(--font-size-xs);
   opacity: var(--opacity-tag-affordance-active);
   transition: opacity var(--motion-fast);
@@ -1249,7 +1156,7 @@ main {
 .delete {
   border: 0;
   background: transparent;
-  color: var(--text-action-secondary);
+  color: var(--text-dim);
   border-radius: var(--radius-sm);
   padding: var(--spacing-xs) var(--spacing-sm);
   cursor: pointer;
@@ -1324,7 +1231,7 @@ button.energy-badge:focus-visible {
 
 /* ================= Helpers ================ */
 .muted {
-  color: var(--text-secondary);
+  color: var(--text-muted);
   margin: var(--spacing-md) var(--spacing-sm);
 }
 
