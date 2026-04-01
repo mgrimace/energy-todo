@@ -1,9 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap');
 
 :root {
-  /* For color tokens (--color-*, --energy-*, --surface-hover), see themes/defaultTheme.ts */
-  
-  /* ========== DERIVED & COMPOSITE TOKENS ========== */
+    /* ========== DERIVED & COMPOSITE TOKENS ========== */
   --text-dim: color-mix(in srgb, var(--color-text-muted) 50%, transparent 50%);
   --border-subtle: 1px solid var(--color-border);
   --border-hairline: 1px;
@@ -44,9 +42,6 @@
   --size-select-arrow: 10px;
   --size-chip-height: 28px;
   --size-checkbox: 24px;
-  --size-toggle-track-width: 44px;
-  --size-toggle-track-height: 24px;
-  --size-toggle-thumb: 20px;
   --size-icon-sm: 16px;
   --size-energy-badge-height: 26px;
   --size-task-select-min: 148px;
@@ -210,45 +205,26 @@ main {
 
 /* ================= Theme Toggle ================ */
 .theme-toggle {
+  margin-left: auto;
+}
+
+.btn-icon {
   display: inline-flex;
   align-items: center;
-  gap: var(--spacing-xs);
+  justify-content: center;
   border: 0;
-  background: none;
-  color: var(--color-text);
-  padding: 0;
-  cursor: pointer;
-  transition: background-color var(--motion-standard), border-color var(--motion-standard), color var(--motion-standard);
-}
-
-.theme-toggle-track {
-  width: var(--size-toggle-track-width);
-  height: var(--size-toggle-track-height);
-  border-radius: var(--radius-pill);
-  background: var(--color-toggle-track);
-  display: inline-flex;
-  align-items: center;
-  padding: var(--spacing-2xs);
-  transition: background-color var(--motion-standard);
-}
-
-.theme-toggle-thumb {
-  width: var(--size-toggle-thumb);
-  height: var(--size-toggle-thumb);
-  border-radius: var(--radius-pill);
-  background: var(--color-accent-strong);
-  transform: translateX(0);
-  transition: transform var(--motion-standard), background-color var(--motion-standard);
-}
-
-[data-theme='dark'] .theme-toggle-thumb {
-  transform: translateX(calc(var(--size-toggle-track-width) - var(--size-toggle-thumb) - var(--spacing-2xs) * 2));
-}
-
-.theme-toggle-label {
+  background: transparent;
   color: var(--color-text-muted);
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-semibold);
+  padding: var(--spacing-xs);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: color var(--motion-standard), background-color var(--motion-standard);
+}
+
+.btn-icon:hover,
+.btn-icon:focus-visible {
+  color: var(--color-text);
+  background: var(--color-surface-muted);
 }
 
 .theme-selector {
@@ -256,7 +232,7 @@ main {
 }
 
 .theme-selector-trigger {
-  min-height: var(--size-toggle-track-height);
+  min-height: var(--size-chip-height);
   border: var(--border-subtle);
   border-radius: var(--radius-pill);
   background: var(--color-surface-muted);

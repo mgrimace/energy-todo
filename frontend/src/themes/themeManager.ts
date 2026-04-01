@@ -17,7 +17,6 @@ const tokenToCssVarMap: Record<string, string[]> = {
   warning: ['--theme-warning'],
   danger: ['--color-danger-text'],
   dangerSoft: ['--color-danger-soft'],
-  toggleTrack: ['--color-toggle-track'],
   energyLowBg: ['--energy-low-bg'],
   energyLowBorder: ['--energy-low-border'],
   energyLowText: ['--energy-low-text'],
