@@ -2,7 +2,7 @@ import React from 'react'
 import { LeafIcon, CircleIcon, FlowerLotusIcon } from '@phosphor-icons/react'
 
 const config = {
-  low: { label: 'Quick Wins', Icon: LeafIcon },
+  low: { label: 'Quick Win', Icon: LeafIcon },
   medium: { label: 'Well Balanced', Icon: CircleIcon },
   high: { label: 'Deep Work', Icon: FlowerLotusIcon }
 }

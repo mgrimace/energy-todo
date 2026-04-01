@@ -2,9 +2,9 @@ import React from 'react'
 
 const TAB_CONFIG = [
   { key: 'all', label: 'All', tone: 'base' },
-  { key: 'quick', label: 'Quick Wins', tone: 'low' },
-	{ key: 'priority', label: 'Well Balanced', tone: 'medium' },
-  { key: 'deep', label: 'Deep Work', tone: 'high' },
+  { key: 'quick', label: 'Low', tone: 'low' },
+	{ key: 'priority', label: 'Medium', tone: 'medium' },
+  { key: 'deep', label: 'High', tone: 'high' },
   { key: 'completed', label: 'Completed', tone: 'base' }
 ]
 
