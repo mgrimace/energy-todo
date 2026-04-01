@@ -4,8 +4,11 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
-- refactor: single icon theme toggle; tidy themes. (most recent)
-- fix: rename default theme to `default` for mobile fit. (most recent)
+
+## [v1.1.8] - 2026-04-01
+
+- Refactor: single icon theme toggle; tidy themes.
+- Fix: rename default theme to `default` to improve mobile fit.
 
 ## [v1.1.7] - 2026-04-01
  - Simplified filter tabs to `Low/Medium/High` for improved mobile usability. (#42)
