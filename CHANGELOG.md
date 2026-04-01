@@ -4,7 +4,28 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
-- Made the tag add affordance persistently visible so the “+ add tag” indicator is easier to tap on mobile.
+- refactor: single icon theme toggle; tidy themes. (most recent)
+- fix: rename default theme to `default` for mobile fit. (most recent)
+
+## [v1.1.7] - 2026-04-01
+ - Simplified filter tabs to `Low/Medium/High` for improved mobile usability. (#42)
+ - Fixed theme preview colors and ensured the selected theme preview displays correctly. (#43)
+
+## [v1.1.6] - 2026-04-01
+
+- Collapse internal semantic token passthrough layer to simplify theming. (#41)
+
+## [v1.1.5] - 2026-03-31
+
+- Simplify README/docker-compose quick-start for local setup. (#38)
+- Deduplicate theme token values to reduce duplication. (#39)
+- Rely on CSS theme tokens to simplify theme application and fix token passthrough. (#40)
+
+## [v1.1.4] - 2026-03-23
+
+- Keep tag affordance visible so the “+ add tag” indicator is easier to tap on mobile. (#35)
+- Restore tertiary tag affordance. (#36)
+- Simplify Docker Compose quick-start in README. (#37)
 
 ## [v1.1.3] - 2026-03-12
 
