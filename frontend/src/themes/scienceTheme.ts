@@ -25,8 +25,6 @@ export const scienceTheme: ThemeDefinition = {
       warning: '#a1741a',
       dangerSoft: '#f2e6e3',
 
-      toggleTrack: '#b9d4ea',
-
       energyLowBg: '#e8f3ed',
       energyLowBorder: '#a8c8b8',
       energyLowText: '#2f5a44',
@@ -61,8 +59,6 @@ export const scienceTheme: ThemeDefinition = {
       danger: '#d07b57',
       warning: '#d8b46b',
       dangerSoft: '#2a2320',
-
-      toggleTrack: '#2f4e66',
 
       energyLowBg: '#1f2d27',
       energyLowBorder: '#3d5e50',

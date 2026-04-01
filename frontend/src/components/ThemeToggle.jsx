@@ -1,23 +1,16 @@
-import React from 'react'
+import { MoonIcon, SunIcon } from '@phosphor-icons/react'
 import { useTheme } from '../context/ThemeContext'
 
 export default function ThemeToggle() {
   const { mode, toggleMode } = useTheme()
-  const isDark = mode === 'dark'
 
   return (
     <button
-      type="button"
-      className="theme-toggle"
+      className="btn-icon theme-toggle"
       onClick={toggleMode}
-      role="switch"
-      aria-checked={isDark}
-      aria-label="Toggle dark mode"
+      aria-label="Toggle theme"
     >
-      <span className="theme-toggle-track" aria-hidden="true">
-        <span className="theme-toggle-thumb" />
-      </span>
-      <span className="theme-toggle-label">{isDark ? 'Dark' : 'Light'}</span>
+      {mode === 'dark' ? <SunIcon size={22} /> : <MoonIcon size={22} />}
     </button>
   )
 }
