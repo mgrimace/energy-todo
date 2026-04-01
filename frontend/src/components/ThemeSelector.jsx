@@ -12,9 +12,9 @@ function ThemePreview({ theme, mode }) {
       aria-hidden="true"
       style={{
         '--border-subtle': `1px solid ${palette.border}`,
-        '--surface-field': palette.surfaceAlt,
-        '--accent-bg': palette.accent,
-        '--text-primary': palette.text
+        '--color-field-bg': palette.surfaceAlt,
+        '--color-accent': palette.accent,
+        '--color-text': palette.text    
       }}
     >
       <span className="theme-preview-box">
@@ -98,6 +98,7 @@ export default function ThemeSelector() {
           }
         }}
       >
+        <ThemePreview theme={selectedTheme} mode={mode} />
         <span className="theme-selector-label">{selectedTheme.name}</span>
         <CaretDownIcon className="theme-selector-caret" weight="bold" aria-hidden="true" />
       </button>
