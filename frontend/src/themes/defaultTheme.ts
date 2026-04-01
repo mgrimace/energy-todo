@@ -2,7 +2,7 @@ import type { ThemeDefinition } from './types'
 
 export const defaultTheme: ThemeDefinition = {
   id: 'default',
-  name: 'Default Theme',
+  name: 'Default',
   palettes: {
     light: {
       bg: '#ffffff',
