@@ -1,43 +1,11 @@
-use actix_web::{web, HttpResponse, Responder};
+use actix_web::{web, HttpResponse};
+use crate::db;
 use crate::errors::AppError;
-use crate::models::{Energy, NewTodo, ReorderTodos, Todo, UpdateTodo};
+use crate::models::{NewTodo, ReorderTodos, UpdateTodo};
 use crate::state::AppState;
 use serde_json::json;
-use std::time::{SystemTime, UNIX_EPOCH};
-use tokio::sync::oneshot;
+use std::collections::HashSet;
 use tracing::error;
-
-fn now_unix_millis() -> u64 {
-    SystemTime::now()
-        .duration_since(UNIX_EPOCH)
-        .map(|duration| duration.as_millis() as u64)
-        .unwrap_or(0)
-}
-
-async fn persist_snapshot(state: &AppState, snapshot: Vec<Todo>) -> Result<Vec<Todo>, AppError> {
-    let (respond_to, response_rx) = oneshot::channel();
-
-    if let Err(e) = state
-        .persist_tx
-        .send(crate::state::PersistRequest { snapshot, respond_to })
-        .await
-    {
-        error!(error = %e, "failed to queue persistence request");
-        return Err(AppError::Persistence);
-    }
-
-    match response_rx.await {
-        Ok(Ok(saved_snapshot)) => Ok(saved_snapshot),
-        Ok(Err(e)) => {
-            error!(error = %e, "failed to save todos");
-            Err(AppError::Persistence)
-        }
-        Err(e) => {
-            error!(error = %e, "persistence worker dropped response");
-            Err(AppError::Persistence)
-        }
-    }
-}
 
 pub fn configure_api(cfg: &mut web::ServiceConfig) {
     cfg.service(
@@ -56,179 +24,59 @@ pub fn configure_api(cfg: &mut web::ServiceConfig) {
     );
 }
 
-async fn get_todos(state: web::Data<AppState>) -> impl Responder {
-    let todos = state.todos.read().await.clone();
-    HttpResponse::Ok().json(todos)
+async fn get_todos(state: web::Data<AppState>) -> Result<HttpResponse, AppError> {
+    let db = state.db.lock().await;
+    let todos = db::get_all_todos(&db).map_err(|e| { error!("{}", e); AppError::Database })?;
+    Ok(HttpResponse::Ok().json(todos))
 }
 
 async fn create_todo(state: web::Data<AppState>, payload: web::Json<NewTodo>) -> Result<HttpResponse, AppError> {
-    let _write_guard = state.write_lock.lock().await;
-
-    let (snapshot, todo) = {
-        let todos_lock = state.todos.read().await;
-
-        let next_id = todos_lock.iter().map(|t| t.id).max().unwrap_or(0).saturating_add(1);
-        let todo = Todo {
-            id: next_id,
-            title: payload.title.clone(),
-            energy: payload.energy.clone(),
-            tags: payload.tags.clone(),
-            completed: false,
-            completed_at: None,
-        };
-
-        let mut snapshot = todos_lock.clone();
-        let insert_index = match todo.energy {
-            Energy::High => snapshot.iter().filter(|todo| !todo.completed).count(),
-            _ => 0,
-        };
-        snapshot.insert(insert_index, todo.clone());
-        (snapshot, todo)
-    };
-
-    let snapshot = persist_snapshot(state.get_ref(), snapshot).await?;
-
-    let mut todos_lock = state.todos.write().await;
-    *todos_lock = snapshot;
-    drop(todos_lock);
-
-    // publish event
+    let db = state.db.lock().await;
+    let todo = db::create_todo(&db, &payload).map_err(|e| { error!("{}", e); AppError::Database })?;
+    drop(db);
     let _ = state.broadcaster.send(json!({"type":"create","todo":todo}).to_string());
     Ok(HttpResponse::Created().json(todo))
 }
 
 async fn patch_todo(path: web::Path<u64>, state: web::Data<AppState>, payload: web::Json<UpdateTodo>) -> Result<HttpResponse, AppError> {
-    let _write_guard = state.write_lock.lock().await;
-
-    let id = path.into_inner();
-    let (snapshot, updated) = {
-        let todos_lock = state.todos.read().await;
-
-        let mut snapshot = todos_lock.clone();
-        if let Some(index) = snapshot.iter().position(|t| t.id == id) {
-            let was_completed = snapshot[index].completed;
-            if let Some(title) = &payload.title { snapshot[index].title = title.clone(); }
-            if let Some(energy) = &payload.energy { snapshot[index].energy = energy.clone(); }
-            if let Some(tags) = &payload.tags { snapshot[index].tags = tags.clone(); }
-            if let Some(completed) = payload.completed {
-                snapshot[index].completed = completed;
-                snapshot[index].completed_at = if completed {
-                    Some(now_unix_millis())
-                } else {
-                    None
-                };
-            }
-
-            let mut updated = snapshot[index].clone();
-
-            if payload.completed.is_some() && updated.completed != was_completed {
-                let transitioned = snapshot.remove(index);
-                if transitioned.completed {
-                    let active_len = snapshot.iter().filter(|todo| !todo.completed).count();
-                    snapshot.insert(active_len, transitioned.clone());
-                } else {
-                    snapshot.insert(0, transitioned.clone());
-                }
-                updated = transitioned;
-            }
-
-            (snapshot, updated)
-        } else {
-            return Err(AppError::NotFound);
-        }
-    };
-
-    let snapshot = persist_snapshot(state.get_ref(), snapshot).await?;
-
-    let mut todos_lock = state.todos.write().await;
-    *todos_lock = snapshot;
-    drop(todos_lock);
-
-    // publish event
+    let db = state.db.lock().await;
+    let updated = db::update_todo(&db, path.into_inner(), &payload)
+        .map_err(|e| { error!("{}", e); AppError::Database })?
+        .ok_or(AppError::NotFound)?;
+    drop(db);
     let _ = state.broadcaster.send(json!({"type":"update","todo":updated}).to_string());
     Ok(HttpResponse::Ok().json(updated))
 }
 
 async fn reorder_todos(state: web::Data<AppState>, payload: web::Json<ReorderTodos>) -> Result<HttpResponse, AppError> {
-    let _write_guard = state.write_lock.lock().await;
+    let db = state.db.lock().await;
 
-    let snapshot = {
-        let todos_lock = state.todos.read().await;
-        let current = todos_lock.clone();
+    let current_ids = db::get_active_ids(&db).map_err(|e| { error!("{}", e); AppError::Database })?;
+    if payload.active_ids.len() != current_ids.len() {
+        return Err(AppError::BadRequest);
+    }
+    let current_set: HashSet<u64> = current_ids.into_iter().collect();
+    let payload_set: HashSet<u64> = payload.active_ids.iter().copied().collect();
+    if current_set != payload_set {
+        return Err(AppError::BadRequest);
+    }
 
-        let active: Vec<Todo> = current
-            .iter()
-            .filter(|todo| !todo.completed)
-            .cloned()
-            .collect();
-        let completed: Vec<Todo> = current
-            .iter()
-            .filter(|todo| todo.completed)
-            .cloned()
-            .collect();
+    db::reorder_active(&db, &payload.active_ids).map_err(|e| { error!("{}", e); AppError::Database })?;
+    let todos = db::get_all_todos(&db).map_err(|e| { error!("{}", e); AppError::Database })?;
+    drop(db);
 
-        if payload.active_ids.len() != active.len() {
-            return Err(AppError::BadRequest);
-        }
-
-        let active_id_set: std::collections::HashSet<u64> = active.iter().map(|todo| todo.id).collect();
-        let payload_id_set: std::collections::HashSet<u64> = payload.active_ids.iter().copied().collect();
-
-        if active_id_set != payload_id_set {
-            return Err(AppError::BadRequest);
-        }
-
-        let mut active_map = std::collections::HashMap::new();
-        for todo in active {
-            active_map.insert(todo.id, todo);
-        }
-
-        let mut reordered = Vec::with_capacity(current.len());
-        for id in &payload.active_ids {
-            if let Some(todo) = active_map.remove(id) {
-                reordered.push(todo);
-            } else {
-                return Err(AppError::BadRequest);
-            }
-        }
-
-        reordered.extend(completed);
-        reordered
-    };
-
-    let snapshot = persist_snapshot(state.get_ref(), snapshot).await?;
-
-    let mut todos_lock = state.todos.write().await;
-    *todos_lock = snapshot.clone();
-    drop(todos_lock);
-
-    let _ = state.broadcaster.send(json!({"type":"reorder","todos":snapshot.clone()}).to_string());
-    Ok(HttpResponse::Ok().json(snapshot))
+    let _ = state.broadcaster.send(json!({"type":"reorder","todos":todos}).to_string());
+    Ok(HttpResponse::Ok().json(todos))
 }
 
 async fn delete_todo(path: web::Path<u64>, state: web::Data<AppState>) -> Result<HttpResponse, AppError> {
-    let _write_guard = state.write_lock.lock().await;
-
+    let db = state.db.lock().await;
     let id = path.into_inner();
-    let snapshot = {
-        let todos_lock = state.todos.read().await;
-
-        let mut snapshot = todos_lock.clone();
-        let before = snapshot.len();
-        snapshot.retain(|t| t.id != id);
-        if snapshot.len() == before {
-            return Err(AppError::NotFound);
-        }
-        snapshot
-    };
-
-    let snapshot = persist_snapshot(state.get_ref(), snapshot).await?;
-
-    let mut todos_lock = state.todos.write().await;
-    *todos_lock = snapshot;
-    drop(todos_lock);
-
-    // publish event
+    let found = db::delete_todo(&db, id).map_err(|e| { error!("{}", e); AppError::Database })?;
+    drop(db);
+    if !found {
+        return Err(AppError::NotFound);
+    }
     let _ = state.broadcaster.send(json!({"type":"delete","id":id}).to_string());
     Ok(HttpResponse::NoContent().finish())
 }

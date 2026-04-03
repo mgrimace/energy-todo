@@ -10,8 +10,8 @@ pub enum AppError {
     BadRequest,
     #[error("payload too large")]
     PayloadTooLarge,
-    #[error("persistence failure")]
-    Persistence,
+    #[error("database error")]
+    Database,
 }
 
 impl ResponseError for AppError {
@@ -20,7 +20,7 @@ impl ResponseError for AppError {
             AppError::NotFound => StatusCode::NOT_FOUND,
             AppError::BadRequest => StatusCode::BAD_REQUEST,
             AppError::PayloadTooLarge => StatusCode::PAYLOAD_TOO_LARGE,
-            AppError::Persistence => StatusCode::INTERNAL_SERVER_ERROR,
+            AppError::Database => StatusCode::INTERNAL_SERVER_ERROR,
         }
     }
 

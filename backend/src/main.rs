@@ -1,63 +1,39 @@
+mod db;
+mod errors;
 mod models;
 mod routes;
-mod storage;
 mod state;
-mod errors;
 
 use actix_files::{Files, NamedFile};
 use actix_web::{dev::Service, error, http::header, web, App, HttpRequest, HttpResponse, HttpServer, Responder, ResponseError, Result};
 use std::fs;
 use std::path::Path;
 use std::sync::Arc;
-use models::Todo;
-use storage::load_todos;
-use state::{AppState, PersistRequest};
+use state::AppState;
 use tracing::info;
 use tracing_actix_web::TracingLogger;
-use tokio::sync::RwLock;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     tracing_subscriber::fmt::init();
 
-    // runtime data path inside container
-    let data_path = "data/todos.json".to_string();
-    ensure_seeded(&data_path, "seed/todos.seed.json").map_err(|e| {
-        std::io::Error::other(format!("failed to initialize todos data: {}", e))
+    let db_path = "data/todos.db";
+
+    if let Some(parent) = Path::new(db_path).parent() {
+        fs::create_dir_all(parent)?;
+    }
+    let conn = db::open_db(db_path).map_err(|e| {
+        std::io::Error::other(format!("failed to open database: {}", e))
     })?;
-    let todos = load_todos(&data_path).map_err(|e| {
-        std::io::Error::new(
-            std::io::ErrorKind::InvalidData,
-            format!("failed to load todos from {}: {}", data_path, e),
-        )
+    db::seed_if_empty(&conn).map_err(|e| {
+        std::io::Error::other(format!("failed to seed database: {}", e))
     })?;
-    let shared_state: Arc<RwLock<Vec<Todo>>> = Arc::new(RwLock::new(todos));
 
     let (broadcaster, _rx) = tokio::sync::broadcast::channel::<String>(100);
-    let (persist_tx, mut persist_rx) = tokio::sync::mpsc::channel::<PersistRequest>(64);
-    let persist_path = data_path.clone();
-
-    tokio::spawn(async move {
-        while let Some(request) = persist_rx.recv().await {
-            let snapshot = request.snapshot;
-            let path = persist_path.clone();
-            let result = tokio::task::spawn_blocking(move || {
-                storage::save_todos(&path, &snapshot)
-                    .map(|_| snapshot)
-            })
-            .await
-            .map_err(storage::StorageError::Join)
-            .and_then(|r| r);
-
-            let _ = request.respond_to.send(result);
-        }
-    });
 
     let app_state = AppState {
-        todos: shared_state.clone(),
+        db: Arc::new(tokio::sync::Mutex::new(conn)),
         broadcaster,
-        persist_tx,
-        write_lock: Arc::new(tokio::sync::Mutex::new(())),
     };
 
     let addr = ("0.0.0.0", 3000);
@@ -142,25 +118,4 @@ async fn main() -> std::io::Result<()> {
     .await
 }
 
-// Seed file used only for first-run initialization.
-fn ensure_seeded(data_path: &str, seed_path: &str) -> std::io::Result<()> {
-    let data_path = Path::new(data_path);
-    if data_path.exists() {
-        return Ok(());
-    }
 
-    let seed_path = Path::new(seed_path);
-    if !seed_path.exists() {
-        return Err(std::io::Error::new(
-            std::io::ErrorKind::NotFound,
-            format!("missing seed file at {}", seed_path.display()),
-        ));
-    }
-
-    if let Some(parent) = data_path.parent() {
-        fs::create_dir_all(parent)?;
-    }
-
-    fs::copy(seed_path, data_path)?;
-    Ok(())
-}
