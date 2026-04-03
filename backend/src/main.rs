@@ -85,7 +85,7 @@ async fn main() -> std::io::Result<()> {
                 async move {
                     let mut res = fut.await?;
 
-                    let is_static_asset = path.starts_with("/assets/") || path.ends_with(".js") || path.ends_with(".css") || path.ends_with(".png") || path.ends_with(".jpg") || path.ends_with(".jpeg") || path.ends_with(".svg") || path.ends_with(".ico") || path.ends_with(".webmanifest") || path.ends_with(".woff") || path.ends_with(".woff2");
+                    let is_static_asset = path.starts_with("/assets/");
                     if is_static_asset {
                         res.headers_mut().insert(
                             header::CACHE_CONTROL,

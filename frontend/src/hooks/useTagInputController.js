@@ -111,8 +111,6 @@ export default function useTagInputController(initialTags = []) {
     onPaste,
     replaceTags,
     clear,
-    getSnapshot,
-    removeTagAtIndex,
-    commitPendingInput
+    getSnapshot
   }
 }

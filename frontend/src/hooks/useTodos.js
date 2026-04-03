@@ -1,51 +1,31 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 
-/**
- * @typedef {{
- * id: number,
- * title: string,
- * energy: 'low' | 'high' | 'medium',
- * tags: string[],
- * completed: boolean,
- * completedAt?: number | null
- * }} Todo
- */
-
-const normalizeTodo = (todo) => ({
-  ...todo,
-  tags: Array.isArray(todo?.tags) ? todo.tags : [],
-  completedAt: typeof todo?.completedAt === 'number' ? todo.completedAt : null
-})
-
 export default function useTodos() {
-  /** @type {[Todo[], Function]} */
   const [todos, setTodos] = useState([])
   const [loading, setLoading] = useState(true)
 
-  const fetchTodos = async () => {
-    setLoading(true)
+  const loadTodos = async (silent = false) => {
+    if (!silent) setLoading(true)
     try {
       const res = await axios.get('/api/todos')
-      setTodos((Array.isArray(res.data) ? res.data : []).map(normalizeTodo))
+      setTodos(Array.isArray(res.data) ? res.data : [])
     } catch (e) {
       if (import.meta.env.DEV) {
         console.error(e)
       }
     } finally {
-      setLoading(false)
+      if (!silent) setLoading(false)
     }
   }
 
-  useEffect(() => { fetchTodos() }, [])
+  useEffect(() => { loadTodos() }, [])
 
   // subscribe to server-sent events for live updates
   useEffect(() => {
     const es = new EventSource('/api/events')
 
-    es.addEventListener('message', () => {
-      fetchTodos()
-    })
+    es.addEventListener('message', () => { loadTodos(true) })
 
     es.addEventListener('error', (e) => {
       if (import.meta.env.DEV) {
@@ -58,7 +38,7 @@ export default function useTodos() {
 
   const createTodo = async (payload) => {
     const res = await axios.post('/api/todos', payload)
-    return normalizeTodo(res.data)
+    return res.data
   }
 
   const updateTodo = async (id, payload) => {
@@ -68,9 +48,9 @@ export default function useTodos() {
 
   const reorderActive = async (activeIds) => {
     const res = await axios.post('/api/todos/reorder', { active_ids: activeIds })
-    const normalized = (Array.isArray(res.data) ? res.data : []).map(normalizeTodo)
-    setTodos(normalized)
-    return normalized
+    const reordered = Array.isArray(res.data) ? res.data : []
+    setTodos(reordered)
+    return reordered
   }
 
   const deleteTodo = async (id) => {
@@ -82,5 +62,5 @@ export default function useTodos() {
     await Promise.all(completedIds.map(id => axios.delete(`/api/todos/${id}`)))
   }
 
-  return { todos, loading, fetchTodos, createTodo, updateTodo, deleteTodo, clearCompleted, reorderActive }
+  return { todos, loading, createTodo, updateTodo, deleteTodo, clearCompleted, reorderActive }
 }

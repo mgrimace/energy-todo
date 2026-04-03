@@ -18,7 +18,6 @@ export default function TodoCard({ todo, onToggle, onDelete, onEditTitle, onEdit
   } = useTagInputController(tags)
   const tagEditorInputRef = useRef(null)
   const pendingTagKeyRef = useRef(null)
-  const tagKeyHandlerRef = useRef(onTagEditorKeyDown)
 
   useEffect(() => {
     if (!isEditing) setDraftTitle(todo.title)
@@ -102,10 +101,6 @@ export default function TodoCard({ todo, onToggle, onDelete, onEditTitle, onEdit
   }
 
   useEffect(() => {
-    tagKeyHandlerRef.current = onTagEditorKeyDown
-  }, [onTagEditorKeyDown])
-
-  useEffect(() => {
     if (!isEditingTags) {
       pendingTagKeyRef.current = null
       return
@@ -120,11 +115,11 @@ export default function TodoCard({ todo, onToggle, onDelete, onEditTitle, onEdit
           preventDefault: () => {},
           stopPropagation: () => {}
         }
-        tagKeyHandlerRef.current?.(syntheticEvent)
+        onTagEditorKeyDown(syntheticEvent)
         pendingTagKeyRef.current = null
       }
     }
-  }, [isEditingTags])
+  }, [isEditingTags, onTagEditorKeyDown])
 
   const onTagTriggerKeyDown = (event) => {
     suppressDragPropagation?.(event)

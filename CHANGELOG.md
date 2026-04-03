@@ -8,6 +8,12 @@ All notable changes to this project will be documented in this file.
 - Fix: `seed_if_empty` now migrates existing `todos.json` data on first boot instead of overwriting it with sample todos, ensuring a safe upgrade path for existing users.
 - Refactor: remove dead `storage.rs` file (superseded by `db.rs`).
 - Refactor: simplify `useTodos.js` — replace local state reconstruction helpers (`insertCreatedTodo`, `moveTodoByCompletionTransition`, `reorderActiveInState`) with `fetchTodos()` on every SSE event; server is the single source of truth for ordering.
+- Refactor: remove `normalizeTodo` from `useTodos.js` — backend guarantees typed data from SQLite.
+- Fix: SSE-triggered refetch no longer flashes the loading spinner; only the initial page load shows it.
+- Refactor: remove `fetchTodos` from `useTodos` public API — not used by any consumer.
+- Refactor: remove unused `removeTagAtIndex` and `commitPendingInput` from `useTagInputController` return object.
+- Refactor: simplify `is_static_asset` check in `main.rs` from 10 extension conditions to `path.starts_with("/assets/")`.
+- Refactor: remove `tagKeyHandlerRef` sync effect in `TodoCard.jsx`; call `onTagEditorKeyDown` directly.
 
 ## [v1.1.8] - 2026-04-01
 
