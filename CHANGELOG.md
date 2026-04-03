@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+- Feat: add dynamic status icon to filter bar — shows a contextual Phosphor icon (ListIcon, LeafIcon, CircleIcon, FlowerLotusIcon, CheckCircleIcon) reflecting the active filter, with energy-toned color for low/medium/high; add matching MagnifyingGlassIcon outside the search chip for visual symmetry.
+
 - Refactor: migrate backend storage from JSON to SQLite to remove sync complexity, improve robustness, and simplify data migrations.
 - Fix: `seed_if_empty` now migrates existing `todos.json` data on first boot instead of overwriting it with sample todos, ensuring a safe upgrade path for existing users.
 - Refactor: remove dead `storage.rs` file (superseded by `db.rs`).
