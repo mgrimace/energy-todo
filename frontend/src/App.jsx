@@ -2,7 +2,15 @@ import React, { useState } from 'react'
 import { DndContext, PointerSensor, useSensor, useSensors } from '@dnd-kit/core'
 import { SortableContext, arrayMove, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
-import { ChecksIcon } from '@phosphor-icons/react'
+import {
+  ChecksIcon,
+  ListIcon,
+  LeafIcon,
+  CircleIcon,
+  FlowerLotusIcon,
+  CheckCircleIcon,
+  MagnifyingGlassIcon
+} from '@phosphor-icons/react'
 import useTodos from './hooks/useTodos'
 import Header from './components/Header'
 import FilterTabs from './components/FilterTabs'
@@ -34,10 +42,19 @@ function SortableActiveTodo({ todo, onToggle, onDelete, onEdit, onEditTags, onTo
   )
 }
 
+const FILTER_ICON_MAP = {
+  all:       { Icon: ListIcon,         tone: 'base' },
+  quick:     { Icon: LeafIcon,          tone: 'low' },
+  priority:  { Icon: CircleIcon,        tone: 'medium' },
+  deep:      { Icon: FlowerLotusIcon,   tone: 'high' },
+  completed: { Icon: CheckCircleIcon,   tone: 'base' },
+}
+
 export default function App() {
   const { todos, loading, createTodo, updateTodo, deleteTodo, clearCompleted, reorderActive } = useTodos()
   const [filter, setFilter] = useState('all')
   const [search, setSearch] = useState('')
+  const { Icon: FilterIcon, tone: filterTone } = FILTER_ICON_MAP[filter] ?? FILTER_ICON_MAP.all
   const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 5 } }))
 
   const normalizedQuery = search.trim().toLowerCase()
@@ -108,12 +125,21 @@ export default function App() {
         />
 
         <div className="list-controls">
-          <FilterTabs filter={filter} setFilter={setFilter} />
+          <div className="filter-row">
+            <FilterIcon
+              className="filter-status-icon"
+              data-tone={filterTone}
+              aria-hidden="true"
+            />
+            <FilterTabs filter={filter} setFilter={setFilter} />
+          </div>
           <label className="search" htmlFor="task-search">
+            <MagnifyingGlassIcon
+              className="search-icon"
+              weight="regular"
+              aria-hidden="true"
+            />
             <span className="search-chip">
-              <svg viewBox="0 0 24 24" aria-hidden="true" className="search-icon">
-                <path d="M11 4a7 7 0 1 0 0 14a7 7 0 0 0 0-14Zm9 16-3.8-3.8" />
-              </svg>
               <input
                 id="task-search"
                 type="search"
