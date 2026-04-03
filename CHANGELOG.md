@@ -18,6 +18,7 @@ All notable changes to this project will be documented in this file.
 - Refactor: remove `tagKeyHandlerRef` sync effect in `TodoCard.jsx`; call `onTagEditorKeyDown` directly.
 - Fix: filter pill now expands to fill full available width; buttons distribute evenly for a continuous joined appearance.
 - Refactor: remove `--line-height-tight` token (unused); align filter pill chip font style with search chip.
+- Refactor: remove `tracing`, `tracing-subscriber`, and `tracing-actix-web` dependencies; replace `info!`/`error!` macro calls with `eprintln!`.
 
 ## [v1.1.8] - 2026-04-01
 

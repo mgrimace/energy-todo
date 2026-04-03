@@ -10,12 +10,9 @@ use std::fs;
 use std::path::Path;
 use std::sync::Arc;
 use state::AppState;
-use tracing::info;
-use tracing_actix_web::TracingLogger;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    tracing_subscriber::fmt::init();
 
     let db_path = "data/todos.db";
 
@@ -37,7 +34,7 @@ async fn main() -> std::io::Result<()> {
     };
 
     let addr = ("0.0.0.0", 3000);
-    info!(listen_host = addr.0, listen_port = addr.1, "starting energy todo backend");
+    eprintln!("starting energy todo backend on {}:{}", addr.0, addr.1);
 
     async fn spa_index(req: HttpRequest) -> Result<HttpResponse> {
         let accepts_html = req
@@ -103,7 +100,6 @@ async fn main() -> std::io::Result<()> {
                     Ok::<_, actix_web::Error>(res)
                 }
             })
-            .wrap(TracingLogger::default())
             // register API routes before static files
             .service(web::scope("/api").configure(routes::configure_api))
             // serve static files from /app/dist mounted at ./dist in image
@@ -117,5 +113,3 @@ async fn main() -> std::io::Result<()> {
     .run()
     .await
 }
-
-
