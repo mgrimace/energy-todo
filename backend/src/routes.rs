@@ -5,7 +5,6 @@ use crate::models::{NewTodo, ReorderTodos, UpdateTodo};
 use crate::state::AppState;
 use serde_json::json;
 use std::collections::HashSet;
-use tracing::error;
 
 pub fn configure_api(cfg: &mut web::ServiceConfig) {
     cfg.service(
@@ -26,13 +25,13 @@ pub fn configure_api(cfg: &mut web::ServiceConfig) {
 
 async fn get_todos(state: web::Data<AppState>) -> Result<HttpResponse, AppError> {
     let db = state.db.lock().await;
-    let todos = db::get_all_todos(&db).map_err(|e| { error!("{}", e); AppError::Database })?;
+    let todos = db::get_all_todos(&db).map_err(|e| { eprintln!("{}", e); AppError::Database })?;
     Ok(HttpResponse::Ok().json(todos))
 }
 
 async fn create_todo(state: web::Data<AppState>, payload: web::Json<NewTodo>) -> Result<HttpResponse, AppError> {
     let db = state.db.lock().await;
-    let todo = db::create_todo(&db, &payload).map_err(|e| { error!("{}", e); AppError::Database })?;
+    let todo = db::create_todo(&db, &payload).map_err(|e| { eprintln!("{}", e); AppError::Database })?;
     drop(db);
     let _ = state.broadcaster.send(json!({"type":"create","todo":todo}).to_string());
     Ok(HttpResponse::Created().json(todo))
@@ -41,7 +40,7 @@ async fn create_todo(state: web::Data<AppState>, payload: web::Json<NewTodo>) ->
 async fn patch_todo(path: web::Path<u64>, state: web::Data<AppState>, payload: web::Json<UpdateTodo>) -> Result<HttpResponse, AppError> {
     let db = state.db.lock().await;
     let updated = db::update_todo(&db, path.into_inner(), &payload)
-        .map_err(|e| { error!("{}", e); AppError::Database })?
+        .map_err(|e| { eprintln!("{}", e); AppError::Database })?
         .ok_or(AppError::NotFound)?;
     drop(db);
     let _ = state.broadcaster.send(json!({"type":"update","todo":updated}).to_string());
@@ -51,7 +50,7 @@ async fn patch_todo(path: web::Path<u64>, state: web::Data<AppState>, payload: w
 async fn reorder_todos(state: web::Data<AppState>, payload: web::Json<ReorderTodos>) -> Result<HttpResponse, AppError> {
     let db = state.db.lock().await;
 
-    let current_ids = db::get_active_ids(&db).map_err(|e| { error!("{}", e); AppError::Database })?;
+    let current_ids = db::get_active_ids(&db).map_err(|e| { eprintln!("{}", e); AppError::Database })?;
     if payload.active_ids.len() != current_ids.len() {
         return Err(AppError::BadRequest);
     }
@@ -61,8 +60,8 @@ async fn reorder_todos(state: web::Data<AppState>, payload: web::Json<ReorderTod
         return Err(AppError::BadRequest);
     }
 
-    db::reorder_active(&db, &payload.active_ids).map_err(|e| { error!("{}", e); AppError::Database })?;
-    let todos = db::get_all_todos(&db).map_err(|e| { error!("{}", e); AppError::Database })?;
+    db::reorder_active(&db, &payload.active_ids).map_err(|e| { eprintln!("{}", e); AppError::Database })?;
+    let todos = db::get_all_todos(&db).map_err(|e| { eprintln!("{}", e); AppError::Database })?;
     drop(db);
 
     let _ = state.broadcaster.send(json!({"type":"reorder","todos":todos}).to_string());
@@ -72,7 +71,7 @@ async fn reorder_todos(state: web::Data<AppState>, payload: web::Json<ReorderTod
 async fn delete_todo(path: web::Path<u64>, state: web::Data<AppState>) -> Result<HttpResponse, AppError> {
     let db = state.db.lock().await;
     let id = path.into_inner();
-    let found = db::delete_todo(&db, id).map_err(|e| { error!("{}", e); AppError::Database })?;
+    let found = db::delete_todo(&db, id).map_err(|e| { eprintln!("{}", e); AppError::Database })?;
     drop(db);
     if !found {
         return Err(AppError::NotFound);
