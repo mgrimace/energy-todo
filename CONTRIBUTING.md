@@ -19,12 +19,33 @@ Examples:
 
 ## Pull request workflow
 
-1. Create a branch from the latest `main`.
+1. Start from a clean, up-to-date `main`:
+   ```bash
+   git checkout main && git pull && git checkout -b <branch-name>
+   ```
 2. Make focused changes for one goal.
-3. Open a PR into `main`.
-4. Fill in the PR template fields.
-5. Run validation checks locally before merge.
-6. Merge PR when ready.
+3. Update `CHANGELOG.md` (`## [Unreleased]`) in the same commit as your changes.
+4. Run all validation checks (see below) and confirm they pass before opening a PR.
+5. Open a PR into `main`. Use this exact body format (fill in the bracketed sections):
+   ```bash
+   gh pr create --title "<commit message>" --base main --body "## Summary
+   - [one-line description of what this PR does]
+
+   ## Changes
+   - [list each file or behavior changed]
+
+   ## Validation
+   - [x] \`cargo check --manifest-path backend/Cargo.toml\`
+   - [x] \`cargo clippy --manifest-path backend/Cargo.toml -- -D warnings\`
+   - [x] \`npm run build --prefix frontend\`
+
+   ## Notes
+   - [x] No breaking changes"
+   ```
+6. Merge via PR only — never push directly to `main`:
+   ```bash
+   gh pr merge <number> --merge --delete-branch
+   ```
 
 ## Validation checklist
 
