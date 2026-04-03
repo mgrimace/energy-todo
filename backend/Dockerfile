@@ -42,13 +42,8 @@ RUN apt-get update \
 	&& groupadd --system app \
 	&& useradd --system --create-home --gid app --uid 10001 app
 WORKDIR /app
-# Copy the backend binary
 COPY --from=backend-builder /app/backend/target/release/energy_todo_backend ./energy_todo_backend
-# Copy the built frontend into /app/dist
 COPY --from=frontend-builder /app/frontend/dist ./dist
-# Copy read-only seed data used for first-run initialization
-COPY backend/seed /app/seed
-# create runtime data directory; actual todos.json should be mounted by compose/host
 RUN mkdir -p /app/data && chown -R app:app /app
 VOLUME ["/app/data"]
 EXPOSE 3000

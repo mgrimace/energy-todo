@@ -103,7 +103,7 @@ The frontend dev server runs on `http://localhost:5173` and the backend on `http
 
 - **Frontend:** React + Vite
 - **Backend:** Rust + Actix Web
-- **Database:** JSON file (local storage)
+- **Database:** SQLite
 - **Containerization:** Docker & Docker Compose
 
 The project is intentionally simple, and it is not designed for enterprise use.
