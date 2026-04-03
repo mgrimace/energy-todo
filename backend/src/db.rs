@@ -66,6 +66,34 @@ pub fn seed_if_empty(conn: &Connection) -> Result<()> {
         return Ok(());
     }
 
+    // Existing users upgrading from the JSON-based version: migrate their data
+    // instead of overwriting it with sample todos.
+    if let Ok(data) = std::fs::read_to_string("data/todos.json") {
+        let todos: Vec<serde_json::Value> = serde_json::from_str(&data).unwrap_or_default();
+        if !todos.is_empty() {
+            let mut active_pos = 0i64;
+            let mut completed_pos = 0i64;
+            for todo in &todos {
+                let id = todo["id"].as_u64().unwrap_or(0) as i64;
+                let title = todo["title"].as_str().unwrap_or("").to_string();
+                let energy = todo["energy"].as_str().unwrap_or("medium").to_string();
+                let tags = todo.get("tags")
+                    .map(|t| serde_json::to_string(t).unwrap_or_else(|_| "[]".to_string()))
+                    .unwrap_or_else(|| "[]".to_string());
+                let is_completed = todo["completed"].as_bool().unwrap_or(false);
+                let completed_at = todo.get("completedAt").and_then(|v| v.as_u64()).map(|v| v as i64);
+                let position = if is_completed { let p = completed_pos; completed_pos += 1; p }
+                               else           { let p = active_pos;    active_pos    += 1; p };
+                conn.execute(
+                    "INSERT INTO todos (id, title, energy, tags, completed, completed_at, position)
+                     VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7)",
+                    params![id, title, energy, tags, is_completed as i64, completed_at, position],
+                )?;
+            }
+            return Ok(());
+        }
+    }
+
     struct Seed {
         title: &'static str,
         energy: &'static str,
