@@ -14,6 +14,8 @@ All notable changes to this project will be documented in this file.
 - Refactor: remove unused `removeTagAtIndex` and `commitPendingInput` from `useTagInputController` return object.
 - Refactor: simplify `is_static_asset` check in `main.rs` from 10 extension conditions to `path.starts_with("/assets/")`.
 - Refactor: remove `tagKeyHandlerRef` sync effect in `TodoCard.jsx`; call `onTagEditorKeyDown` directly.
+- Fix: filter pill now expands to fill full available width; buttons distribute evenly for a continuous joined appearance.
+- Refactor: remove `--line-height-tight` token (unused); align filter pill chip font style with search chip.
 
 ## [v1.1.8] - 2026-04-01
 
