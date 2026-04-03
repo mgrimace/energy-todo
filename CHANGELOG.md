@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+- Refactor: migrate backend storage from JSON to SQLite to remove sync complexity, improve robustness, and simplify data migrations.
 
 ## [v1.1.8] - 2026-04-01
 
