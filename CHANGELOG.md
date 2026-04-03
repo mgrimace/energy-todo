@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+- Refactor: remove `tracing`, `tracing-subscriber`, and `tracing-actix-web` dependencies; replace `info!`/`error!` macro calls with `eprintln!`.
+
+## [v1.2.0] - 2026-04-03
+
 - Feat: add dynamic status icon to filter bar — shows a contextual Phosphor icon (ListIcon, LeafIcon, CircleIcon, FlowerLotusIcon, CheckCircleIcon) reflecting the active filter, with energy-toned color for low/medium/high; add matching MagnifyingGlassIcon outside the search chip for visual symmetry.
 
 - Refactor: migrate backend storage from JSON to SQLite to remove sync complexity, improve robustness, and simplify data migrations.
@@ -18,7 +22,6 @@ All notable changes to this project will be documented in this file.
 - Refactor: remove `tagKeyHandlerRef` sync effect in `TodoCard.jsx`; call `onTagEditorKeyDown` directly.
 - Fix: filter pill now expands to fill full available width; buttons distribute evenly for a continuous joined appearance.
 - Refactor: remove `--line-height-tight` token (unused); align filter pill chip font style with search chip.
-- Refactor: remove `tracing`, `tracing-subscriber`, and `tracing-actix-web` dependencies; replace `info!`/`error!` macro calls with `eprintln!`.
 
 ## [v1.1.8] - 2026-04-01
 
