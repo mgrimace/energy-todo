@@ -781,6 +781,7 @@ main {
   background: transparent;
   position: relative;
   transition: background-color var(--motion-fast);
+  touch-action: pan-y;
 }
 
 .card.is-draggable {
@@ -796,9 +797,14 @@ main {
   background: var(--surface-hover);
 }
 
+.card.is-complete {
+  background: var(--color-bg);
+  opacity: 1;
+}
+
 .card.is-complete:hover,
 .card.is-complete:focus-within {
-  background: transparent;
+  background: var(--color-bg);
 }
 
 .card.is-complete .title {
@@ -1093,31 +1099,22 @@ main {
 }
 
 /* ================= Actions ================ */
-.delete {
-  border: 0;
-  background: transparent;
-  color: var(--text-dim);
-  border-radius: var(--radius-sm);
-  padding: var(--spacing-xs) var(--spacing-sm);
-  cursor: pointer;
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-medium);
-  text-decoration: none;
+.drag-handle {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  transition: color var(--motion-standard), background-color var(--motion-standard);
+  width: var(--size-checkbox);
+  height: var(--size-checkbox);
+  padding: 0;
+  color: var(--text-dim);
+  cursor: grab;
+  background: transparent;
+  border: none;
+  flex: 0 0 auto;
 }
 
-.delete:hover,
-.delete:focus-visible {
-  color: var(--color-danger-text);
-  background: var(--color-danger-soft);
-  transition: color var(--motion-fast), background-color var(--motion-fast);
-}
-
-.delete:active {
-  transform: translateY(1px);
+.drag-handle:active {
+  cursor: grabbing;
 }
 
 /* ================= Energy Badge ================ */
@@ -1237,5 +1234,85 @@ button.energy-badge:focus-visible {
   .btn-primary {
     min-width: var(--size-task-row-action-column);
   }
+}
+
+/* ================= Swipe Gestures ================ */
+
+.todo-swipe-wrapper {
+  position: relative;
+  overflow: hidden;
+  /* Allow vertical scroll/drag; JS handles horizontal */
+  touch-action: pan-y;
+}
+
+.todo-swipe-bg {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  pointer-events: none;
+}
+
+/* Only reveal the relevant panel — hide both until a direction is committed */
+.todo-swipe-wrapper:not([data-swipe-dir]) .swipe-complete,
+.todo-swipe-wrapper:not([data-swipe-dir]) .swipe-delete,
+.todo-swipe-wrapper[data-swipe-dir='right'] .swipe-delete,
+.todo-swipe-wrapper[data-swipe-dir='left'] .swipe-complete {
+  visibility: hidden;
+}
+
+/* Completed items still support swipe (restore/delete) */
+.completed-list .todo-swipe-bg {
+  display: flex;
+}
+
+.swipe-complete {
+  flex: 1;
+  background: var(--swipe-accent-bg);
+  color: var(--swipe-accent-text);
+  display: flex;
+  align-items: center;
+  padding-left: var(--spacing-xl);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  opacity: calc(var(--swipe-progress, 0));
+  transform: scale(calc(0.92 + var(--swipe-progress, 0) * 0.08));
+  transition: opacity 120ms ease-out, transform 120ms ease-out;
+}
+
+.swipe-icon {
+  width: var(--size-checkbox);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: var(--spacing-lg);
+}
+
+.swipe-delete {
+  flex: 1;
+  background: var(--color-danger-text);
+  color: var(--color-bg);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: var(--spacing-xl);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  opacity: calc(var(--swipe-progress, 0));
+  transition: opacity 120ms ease-out;
+}
+
+/* Ensure the card renders above its swipe background and is opaque so the
+   background is only revealed when the card actually slides away */
+.todo-swipe-wrapper .card {
+  position: relative;
+  z-index: 1;
+}
+
+.todo-swipe-wrapper .card:not(.is-complete) {
+  background: var(--color-item-cards-bg);
+}
+
+.todo-swipe-wrapper .card.is-complete {
+  background: var(--color-bg);
 }
 

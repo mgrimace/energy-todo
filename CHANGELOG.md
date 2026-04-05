@@ -6,6 +6,20 @@ All notable changes to this project will be documented in this file.
 
 - Refactor: remove `tracing`, `tracing-subscriber`, and `tracing-actix-web` dependencies; replace `info!`/`error!` macro calls with `eprintln!`.
 
+## [Unreleased - feat/swipe-drag-overhaul]
+
+- Feat: replace whole-card drag with a dedicated grab handle (ArrowsOutLineVertical icon, right side of card); drag and swipe zones are now physically separated with no gesture conflict.
+- Feat: simplify swipe gesture — left-to-right completes/uncompletes, right-to-left deletes; remove diagonal detection, axis-bias logic, and pointercancel dispatch.
+- Feat: progressive swipe feedback — opacity and scale animate with swipe distance via `--swipe-progress` CSS custom property.
+- Feat: swipe-complete icon (`CheckIcon`/`SquareIcon`) wrapped in `.swipe-icon` and aligned to match the checkbox column.
+- Fix: completed cards now use `--color-bg` (fully opaque) so swipe-behind colors are revealed cleanly without bleed-through.
+- Fix: swipe panels use `visibility: hidden` instead of `display: none` to preserve 50/50 flex layout, preventing the active panel from expanding to full width.
+- Fix: `.todo-swipe-wrapper .card` background override split into `:not(.is-complete)` and `.is-complete` selectors so completed card styling is no longer clobbered.
+- Fix: swipe is blocked when a drag starts from the grab handle via `e.target.closest('.drag-handle')` check.
+- Fix: default theme dark palette `danger` color corrected from amber (`#b35900`) to red (`#e07070`) to match light palette intent.
+- Style: delete swipe background uses `--color-danger-text` (solid red) with `--color-bg` foreground for legibility.
+- Style: drag handle sized to `--size-checkbox` with `padding: 0` and `--text-dim` color to match checkbox hit area and visual weight.
+
 ## [v1.2.0] - 2026-04-03
 
 - Feat: add dynamic status icon to filter bar — shows a contextual Phosphor icon (ListIcon, LeafIcon, CircleIcon, FlowerLotusIcon, CheckCircleIcon) reflecting the active filter, with energy-toned color for low/medium/high; add matching MagnifyingGlassIcon outside the search chip for visual symmetry.
