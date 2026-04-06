@@ -1,11 +1,12 @@
 import React from 'react'
+import { CirclesFourIcon, LeafIcon, CircleIcon, FlowerLotusIcon, CheckCircleIcon } from '@phosphor-icons/react'
 
 const TAB_CONFIG = [
-  { key: 'all', label: 'All', tone: 'base' },
-  { key: 'quick', label: 'Low', tone: 'low' },
-	{ key: 'priority', label: 'Medium', tone: 'medium' },
-  { key: 'deep', label: 'High', tone: 'high' },
-  { key: 'completed', label: 'Completed', tone: 'base' }
+  { key: 'all',       label: 'All',       tone: 'base', Icon: CirclesFourIcon },
+  { key: 'quick',    label: 'Low',       tone: 'low',  Icon: LeafIcon },
+  { key: 'priority', label: 'Medium',    tone: 'medium', Icon: CircleIcon },
+  { key: 'deep',     label: 'High',      tone: 'high', Icon: FlowerLotusIcon },
+  { key: 'completed', label: 'Completed', tone: 'base', Icon: CheckCircleIcon },
 ]
 
 export default function FilterTabs({ filter, setFilter }) {
@@ -80,7 +81,10 @@ export default function FilterTabs({ filter, setFilter }) {
               onKeyDown={event => handleTabKeyDown(event, index, tab.key)}
               onClick={() => setFilter(tab.key)}
             >
-              <span className="filter-pill-chip">{tab.label}</span>
+              <span className="filter-pill-chip">
+                <tab.Icon className="filter-status-icon" weight="regular" aria-hidden="true" />
+                <span>{tab.label}</span>
+              </span>
             </button>
           )
         })}

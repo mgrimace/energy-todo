@@ -4,11 +4,6 @@ import { SortableContext, arrayMove, useSortable, verticalListSortingStrategy } 
 import { CSS } from '@dnd-kit/utilities'
 import {
   ChecksIcon,
-  ListIcon,
-  LeafIcon,
-  CircleIcon,
-  FlowerLotusIcon,
-  CheckCircleIcon,
   MagnifyingGlassIcon
 } from '@phosphor-icons/react'
 import useTodos from './hooks/useTodos'
@@ -42,19 +37,10 @@ function SortableActiveTodo({ todo, onToggle, onDelete, onEdit, onEditTags, onTo
   )
 }
 
-const FILTER_ICON_MAP = {
-  all:       { Icon: ListIcon,         tone: 'base' },
-  quick:     { Icon: LeafIcon,          tone: 'low' },
-  priority:  { Icon: CircleIcon,        tone: 'medium' },
-  deep:      { Icon: FlowerLotusIcon,   tone: 'high' },
-  completed: { Icon: CheckCircleIcon,   tone: 'base' },
-}
-
 export default function App() {
   const { todos, loading, createTodo, updateTodo, deleteTodo, clearCompleted, reorderActive } = useTodos()
   const [filter, setFilter] = useState('all')
   const [search, setSearch] = useState('')
-  const { Icon: FilterIcon, tone: filterTone } = FILTER_ICON_MAP[filter] ?? FILTER_ICON_MAP.all
   const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 5 } }))
 
   const normalizedQuery = search.trim().toLowerCase()
@@ -126,20 +112,15 @@ export default function App() {
 
         <div className="list-controls">
           <div className="filter-row">
-            <FilterIcon
-              className="filter-status-icon"
-              data-tone={filterTone}
-              aria-hidden="true"
-            />
             <FilterTabs filter={filter} setFilter={setFilter} />
           </div>
           <label className="search" htmlFor="task-search">
-            <MagnifyingGlassIcon
-              className="search-icon"
-              weight="regular"
-              aria-hidden="true"
-            />
             <span className="search-chip">
+              <MagnifyingGlassIcon
+                className="search-icon"
+                weight="regular"
+                aria-hidden="true"
+              />
               <input
                 id="task-search"
                 type="search"
