@@ -14,9 +14,6 @@ All notable changes to this project will be documented in this file.
 - Style: remove segmented-control border merging from filter pills; pills are independent with `gap` spacing.
 - Style: inactive pills at `opacity: 0.7`; hover restores full opacity.
 - Style: `.search-chip` uses `--color-field-bg` background to distinguish it visually from filter pills.
-
-## [Unreleased - feat/swipe-drag-overhaul]
-
 - Feat: replace whole-card drag with a dedicated grab handle (ArrowsOutLineVertical icon, right side of card); drag and swipe zones are now physically separated with no gesture conflict.
 - Feat: simplify swipe gesture — left-to-right completes/uncompletes, right-to-left deletes; remove diagonal detection, axis-bias logic, and pointercancel dispatch.
 - Feat: progressive swipe feedback — opacity and scale animate with swipe distance via `--swipe-progress` CSS custom property.
