@@ -17,8 +17,10 @@ All notable changes to this project will be documented in this file.
 - Fix: `.todo-swipe-wrapper .card` background override split into `:not(.is-complete)` and `.is-complete` selectors so completed card styling is no longer clobbered.
 - Fix: swipe is blocked when a drag starts from the grab handle via `e.target.closest('.drag-handle')` check.
 - Fix: default theme dark palette `danger` color corrected from amber (`#b35900`) to red (`#e07070`) to match light palette intent.
+- Fix: grab handle cursor now shows `grab` consistently on hover — `pointer-events: none` on the SVG child prevents the icon from intercepting cursor events from the parent button; `touch-action: none` ensures dnd-kit claims pointer events immediately.
 - Style: delete swipe background uses `--color-danger-text` (solid red) with `--color-bg` foreground for legibility.
 - Style: drag handle sized to `--size-checkbox` with `padding: 0` and `--text-dim` color to match checkbox hit area and visual weight.
+- Refactor: extract `SWIPE_THRESHOLD` as a module-level constant in `TodoCard.jsx` (was duplicated inline); remove `data-completed` attribute (unused); remove dead `.card.is-draggable` cursor rules; remove dead `--opacity-tag-affordance-rest` token; remove dead `.completed-divider::before/::after` block; remove redundant `touch-action: pan-y` from `.card` (inherited from wrapper).
 
 ## [v1.2.0] - 2026-04-03
 

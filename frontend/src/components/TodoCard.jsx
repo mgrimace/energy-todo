@@ -3,6 +3,8 @@ import EnergyBadge from './EnergyBadge'
 import useTagInputController from '../hooks/useTagInputController'
 import { CheckIcon, SquareIcon, ArrowsOutLineVerticalIcon } from '@phosphor-icons/react'
 
+const SWIPE_THRESHOLD = 80
+
 export default function TodoCard({ todo, onToggle, onDelete, onEditTitle, onEditTags, onToggleEnergy, dragHandleProps }) {
   const tags = Array.isArray(todo.tags) ? todo.tags : []
   const [isEditing, setIsEditing] = useState(false)
@@ -128,7 +130,7 @@ export default function TodoCard({ todo, onToggle, onDelete, onEditTitle, onEdit
   }, [isEditingTags, onTagEditorKeyDown])
 
   const onTagTriggerKeyDown = (event) => {
-    suppressDragPropagation?.(event)
+    suppressDragPropagation(event)
     if (isEditingTags) return
     if (event.key === 'Backspace' || event.key === 'Delete') {
       event.preventDefault()
@@ -157,7 +159,6 @@ export default function TodoCard({ todo, onToggle, onDelete, onEditTitle, onEdit
     event.stopPropagation()
   }
 
-  // Capture-phase pointerdown to start swipe tracking
   useEffect(() => {
     const wrapper = wrapperRef.current
     if (!wrapper) return
@@ -200,7 +201,6 @@ export default function TodoCard({ todo, onToggle, onDelete, onEditTitle, onEdit
       wrapperRef.current?.setPointerCapture(s.pointerId)
     }
 
-    // Velocity tracking
     const now = performance.now()
     const dt = now - s.lastTime
     if (dt > 0) {
@@ -211,7 +211,7 @@ export default function TodoCard({ todo, onToggle, onDelete, onEditTitle, onEdit
 
     s.dx = dx
 
-    const progress = Math.min(Math.abs(dx) / 80, 1)
+    const progress = Math.min(Math.abs(dx) / SWIPE_THRESHOLD, 1)
     wrapperRef.current?.style.setProperty('--swipe-progress', progress)
 
     if (wrapperRef.current) {
@@ -221,25 +221,18 @@ export default function TodoCard({ todo, onToggle, onDelete, onEditTitle, onEdit
     const card = cardRef.current
     if (!card) return
 
-    const THRESHOLD = 80
+    const MAGNET_ZONE = 24
     const distance = Math.abs(dx)
 
     let dxAdjusted = dx
 
-    if (distance > THRESHOLD) {
-      const extra = distance - THRESHOLD
-
-      dxAdjusted =
-        Math.sign(dx) *
-        (THRESHOLD + extra * 0.35)
+    if (distance > SWIPE_THRESHOLD) {
+      const extra = distance - SWIPE_THRESHOLD
+      dxAdjusted = Math.sign(dx) * (SWIPE_THRESHOLD + extra * 0.35)
     }
 
-    const MAGNET_ZONE = 24
-
-    if (distance > THRESHOLD - MAGNET_ZONE && distance < THRESHOLD) {
-      const t =
-        (distance - (THRESHOLD - MAGNET_ZONE)) / MAGNET_ZONE
-
+    if (distance > SWIPE_THRESHOLD - MAGNET_ZONE && distance < SWIPE_THRESHOLD) {
+      const t = (distance - (SWIPE_THRESHOLD - MAGNET_ZONE)) / MAGNET_ZONE
       dxAdjusted += Math.sign(dx) * t * 6
     }
 
@@ -259,14 +252,13 @@ export default function TodoCard({ todo, onToggle, onDelete, onEditTitle, onEdit
     if (wrapperRef.current) wrapperRef.current.removeAttribute('data-swipe-dir')
     const dx = s.dx
     const velocity = s.velocity ?? 0
-    const THRESHOLD = 80
     const VELOCITY_THRESHOLD = 0.5
     const card = cardRef.current
     wrapperRef.current?.style.removeProperty('--swipe-progress')
     swipe.current = null
 
-    const shouldComplete = dx > THRESHOLD || (velocity > VELOCITY_THRESHOLD && dx > 0)
-    const shouldDelete = dx < -THRESHOLD || (velocity < -VELOCITY_THRESHOLD && dx < 0)
+    const shouldComplete = dx > SWIPE_THRESHOLD || (velocity > VELOCITY_THRESHOLD && dx > 0)
+    const shouldDelete = dx < -SWIPE_THRESHOLD || (velocity < -VELOCITY_THRESHOLD && dx < 0)
 
     if (shouldComplete) {
       if (card) {
@@ -326,7 +318,6 @@ export default function TodoCard({ todo, onToggle, onDelete, onEditTitle, onEdit
       </div>
       <article
         className={`card energy-${todo.energy} ${todo.completed ? 'is-complete' : ''}`}
-        data-completed={todo.completed ? 'true' : 'false'}
         ref={cardRef}
       >
       <div className="card-left">
@@ -400,7 +391,7 @@ export default function TodoCard({ todo, onToggle, onDelete, onEditTitle, onEdit
                     value={editingTagInput}
                     onChange={onTagEditorChange}
                     onKeyDown={(event) => {
-                      suppressDragPropagation?.(event)
+                      suppressDragPropagation(event)
                       const handled = onTagEditorKeyDown(event)
                       if (handled) return
                       if (event.key === 'Escape') {

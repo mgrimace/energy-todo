@@ -66,7 +66,6 @@
   --transition-theme: background-color 150ms ease, color 150ms ease;
   --transition-surface: background-color 150ms ease, border-color 150ms ease, box-shadow 150ms ease;
 
-  --opacity-tag-affordance-rest: 0;
   --opacity-tag-affordance-active: 1;
 
   /* ========== ELEVATION ========== */
@@ -781,15 +780,6 @@ main {
   background: transparent;
   position: relative;
   transition: background-color var(--motion-fast);
-  touch-action: pan-y;
-}
-
-.card.is-draggable {
-  cursor: grab;
-}
-
-.sortable-item.is-dragging .card.is-draggable {
-  cursor: grabbing;
 }
 
 .card:hover,
@@ -1039,11 +1029,6 @@ main {
   position: relative;
 }
 
-.completed-divider::before,
-.completed-divider::after {
-  display: none;
-}
-
 .completed-divider-rule {
   flex: 1;
   height: var(--border-hairline);
@@ -1111,6 +1096,16 @@ main {
   background: transparent;
   border: none;
   flex: 0 0 auto;
+  touch-action: none;
+}
+
+.drag-handle:hover {
+  color: var(--color-text-muted);
+  cursor: grab;
+}
+
+.drag-handle svg {
+  pointer-events: none;
 }
 
 .drag-handle:active {
@@ -1241,7 +1236,6 @@ button.energy-badge:focus-visible {
 .todo-swipe-wrapper {
   position: relative;
   overflow: hidden;
-  /* Allow vertical scroll/drag; JS handles horizontal */
   touch-action: pan-y;
 }
 
@@ -1255,7 +1249,6 @@ button.energy-badge:focus-visible {
   transition: opacity 120ms ease-out;
 }
 
-/* Only reveal the relevant panel — hide both until a direction is committed */
 .todo-swipe-wrapper:not([data-swipe-dir]) .swipe-complete,
 .todo-swipe-wrapper:not([data-swipe-dir]) .swipe-delete,
 .todo-swipe-wrapper[data-swipe-dir='right'] .swipe-delete,
@@ -1263,7 +1256,6 @@ button.energy-badge:focus-visible {
   visibility: hidden;
 }
 
-/* Completed items still support swipe (restore/delete) */
 .completed-list .todo-swipe-bg {
   display: flex;
 }
@@ -1336,8 +1328,6 @@ button.energy-badge:focus-visible {
   pointer-events: none;
 }
 
-/* Ensure the card renders above its swipe background and is opaque so the
-   background is only revealed when the card actually slides away */
 .todo-swipe-wrapper .card {
   position: relative;
   z-index: 1;
