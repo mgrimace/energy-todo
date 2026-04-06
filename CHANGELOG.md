@@ -4,9 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [v1.4.1] - 2026-04-06
+
 - Fix: filter pills no longer overflow horizontally on narrow mobile screens; chip padding and track gap tightened on small viewports, restored at 640px+.
 - Fix: rename "Completed" filter label to "Done" to reduce pill width on mobile.
-
 - Docs: refresh `docs/screenshot-dark.png` and `docs/screenshot-light.png` to reflect v1.4.0 UI changes.
 
 ## [v1.4.0] - 2026-04-06
