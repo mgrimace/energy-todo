@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+- Docs: refresh `docs/screenshot-dark.png` and `docs/screenshot-light.png` to reflect v1.4.0 UI changes.
+
 ## [v1.4.0] - 2026-04-06
 
 - Refactor: remove `tracing`, `tracing-subscriber`, and `tracing-actix-web` dependencies; replace `info!`/`error!` macro calls with `eprintln!`.
