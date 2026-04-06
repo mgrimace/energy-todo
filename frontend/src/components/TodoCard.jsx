@@ -269,11 +269,15 @@ export default function TodoCard({ todo, onToggle, onDelete, onEditTitle, onEdit
     const shouldDelete = dx < -THRESHOLD || (velocity < -VELOCITY_THRESHOLD && dx < 0)
 
     if (shouldComplete) {
-      if (card) { card.style.transition = 'transform 0.3s ease'; card.style.transform = 'translateX(110%)' }
+      if (card) {
+        card.style.transition = 'transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1), opacity 180ms ease-out'
+        card.style.transform = 'translateX(110%)'
+        card.style.opacity = '0'
+      }
       setTimeout(() => {
         onToggle()
-        if (card) { card.style.transition = ''; card.style.transform = '' }
-      }, 300)
+        if (card) { card.style.transition = ''; card.style.transform = ''; card.style.opacity = '' }
+      }, 140)
     } else if (shouldDelete) {
       if (card) { card.style.transition = 'transform 0.3s ease'; card.style.transform = 'translateX(-110%)' }
       setTimeout(() => {
