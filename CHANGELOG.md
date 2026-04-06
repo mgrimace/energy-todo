@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 - Refactor: remove `tracing`, `tracing-subscriber`, and `tracing-actix-web` dependencies; replace `info!`/`error!` macro calls with `eprintln!`.
+- Refactor: move filter icons inside pill chips; each pill renders icon + label as a single inline unit with energy-toned active color.
+- Refactor: replace external filter status icon with `CirclesFourIcon` for "All"; remove `FILTER_ICON_MAP` from `App.jsx`.
+- Refactor: move search icon inside `.search-chip`; search field now has a left-aligned muted icon as part of the input field.
+- Style: filter pills now feel like lightweight toggles — no border, transparent background at rest, `--color-surface-muted` fill when active.
+- Style: remove segmented-control border merging from filter pills; pills are independent with `gap` spacing.
+- Style: inactive pills at `opacity: 0.7`; hover restores full opacity.
+- Style: `.search-chip` uses `--color-field-bg` background to distinguish it visually from filter pills.
 
 ## [Unreleased - feat/swipe-drag-overhaul]
 
