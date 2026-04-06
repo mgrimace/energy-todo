@@ -6,7 +6,7 @@ const TAB_CONFIG = [
   { key: 'quick',    label: 'Low',       tone: 'low',  Icon: LeafIcon },
   { key: 'priority', label: 'Medium',    tone: 'medium', Icon: CircleIcon },
   { key: 'deep',     label: 'High',      tone: 'high', Icon: FlowerLotusIcon },
-  { key: 'completed', label: 'Completed', tone: 'base', Icon: CheckCircleIcon },
+  { key: 'completed', label: 'Done', tone: 'base', Icon: CheckCircleIcon },
 ]
 
 export default function FilterTabs({ filter, setFilter }) {
