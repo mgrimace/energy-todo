@@ -28,6 +28,7 @@ I'm Mike, a healthcare provider, researcher, and educator who’s learning to co
 - **Tagging** — Easily create additional tags
 - **Filter & search** — Filter by energy to match your battery, or search by words or tags
 - **Inline editing** — Easily edit a task right from the list. Reorder, add tags, and toggle energy costs. 
+- **Swipes** - Swipe right to complete, left to delete.
 - **Themes with light & dark modes** — A minimal default theme, with Nord, Everforest, Gruvbox, Catppuccin, and more
 - **Keyboard accessibility** — Navigate and manage tasks without a mouse
 - **Self-hosted** — Run it yourself, your data is yours
