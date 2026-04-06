@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [v1.4.0] - 2026-04-06
+
 - Refactor: remove `tracing`, `tracing-subscriber`, and `tracing-actix-web` dependencies; replace `info!`/`error!` macro calls with `eprintln!`.
 - Refactor: move filter icons inside pill chips; each pill renders icon + label as a single inline unit with energy-toned active color.
 - Refactor: replace external filter status icon with `CirclesFourIcon` for "All"; remove `FILTER_ICON_MAP` from `App.jsx`.

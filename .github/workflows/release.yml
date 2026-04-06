@@ -20,25 +20,7 @@ jobs:
       # Fetch repository content for Docker build context
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
 
-      # Promote [Unreleased] → [vX.Y.Z] in CHANGELOG and push back to main
-      - name: Update CHANGELOG
-        shell: bash
-        run: |
-          set -euo pipefail
-          TAG="${GITHUB_REF_NAME}"
-          DATE="$(date -u '+%Y-%m-%d')"
-          # Replace the first occurrence of "## [Unreleased]" with the versioned heading,
-          # then prepend a fresh empty [Unreleased] section above it.
-          sed -i "s|^## \[Unreleased\]$|## [Unreleased]\n\n## [${TAG}] - ${DATE}|" CHANGELOG.md
-          git config user.name  "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add CHANGELOG.md
-          git commit -m "docs: promote [Unreleased] to ${TAG} in CHANGELOG"
-          git push origin HEAD:main
 
       # Enable arm64 emulation so we can build multi-arch on GitHub-hosted runners
       - name: Set up QEMU
