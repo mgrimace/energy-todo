@@ -562,7 +562,7 @@ main {
 .filter-pill-track {
   display: flex;
   align-items: stretch;
-  gap: var(--spacing-xs);
+  gap: var(--spacing-2xs);
   width: 100%;
   overflow-x: auto;
   border-radius: inherit;
@@ -597,7 +597,7 @@ main {
   gap: var(--spacing-xs);
   height: var(--size-chip-height);
   width: 100%;
-  padding: 0 var(--spacing-md);
+  padding: 0 var(--spacing-sm);
   border-radius: var(--radius-pill);
   border: none;
   background: transparent;
@@ -1180,6 +1180,14 @@ button.energy-badge:focus-visible {
   .filter-pill {
     flex: 1 1 auto;
     width: auto;
+  }
+
+  .filter-pill-track {
+    gap: var(--spacing-xs);
+  }
+
+  .filter-pill-chip {
+    padding: 0 var(--spacing-md);
   }
 
   .search {
