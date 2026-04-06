@@ -170,6 +170,9 @@ export default function TodoCard({ todo, onToggle, onDelete, onEditTitle, onEdit
         active: false,
         pointerId: e.pointerId,
         dx: 0,
+        lastX: e.clientX,
+        lastTime: performance.now(),
+        velocity: 0,
       }
     }
     wrapper.addEventListener('pointerdown', handleDown, { capture: true })
@@ -197,6 +200,15 @@ export default function TodoCard({ todo, onToggle, onDelete, onEditTitle, onEdit
       wrapperRef.current?.setPointerCapture(s.pointerId)
     }
 
+    // Velocity tracking
+    const now = performance.now()
+    const dt = now - s.lastTime
+    if (dt > 0) {
+      s.velocity = (e.clientX - s.lastX) / dt
+    }
+    s.lastX = e.clientX
+    s.lastTime = now
+
     s.dx = dx
 
     const progress = Math.min(Math.abs(dx) / 80, 1)
@@ -208,12 +220,30 @@ export default function TodoCard({ todo, onToggle, onDelete, onEditTitle, onEdit
 
     const card = cardRef.current
     if (!card) return
-    const limit = 120
-    const dxLimited = Math.abs(dx) < limit
-      ? dx
-      : Math.sign(dx) * (limit + (Math.abs(dx) - limit) * 0.3)
 
-    card.style.transform = `translateX(${dxLimited}px)`
+    const THRESHOLD = 80
+    const distance = Math.abs(dx)
+
+    let dxAdjusted = dx
+
+    if (distance > THRESHOLD) {
+      const extra = distance - THRESHOLD
+
+      dxAdjusted =
+        Math.sign(dx) *
+        (THRESHOLD + extra * 0.35)
+    }
+
+    const MAGNET_ZONE = 24
+
+    if (distance > THRESHOLD - MAGNET_ZONE && distance < THRESHOLD) {
+      const t =
+        (distance - (THRESHOLD - MAGNET_ZONE)) / MAGNET_ZONE
+
+      dxAdjusted += Math.sign(dx) * t * 6
+    }
+
+    card.style.transform = `translateX(${dxAdjusted}px)`
   }
 
   function handleSwipeUp() {
@@ -228,18 +258,23 @@ export default function TodoCard({ todo, onToggle, onDelete, onEditTitle, onEdit
 
     if (wrapperRef.current) wrapperRef.current.removeAttribute('data-swipe-dir')
     const dx = s.dx
+    const velocity = s.velocity ?? 0
     const THRESHOLD = 80
+    const VELOCITY_THRESHOLD = 0.5
     const card = cardRef.current
     wrapperRef.current?.style.removeProperty('--swipe-progress')
     swipe.current = null
 
-    if (dx > THRESHOLD) {
+    const shouldComplete = dx > THRESHOLD || (velocity > VELOCITY_THRESHOLD && dx > 0)
+    const shouldDelete = dx < -THRESHOLD || (velocity < -VELOCITY_THRESHOLD && dx < 0)
+
+    if (shouldComplete) {
       if (card) { card.style.transition = 'transform 0.3s ease'; card.style.transform = 'translateX(110%)' }
       setTimeout(() => {
         onToggle()
         if (card) { card.style.transition = ''; card.style.transform = '' }
       }, 300)
-    } else if (dx < -THRESHOLD) {
+    } else if (shouldDelete) {
       if (card) { card.style.transition = 'transform 0.3s ease'; card.style.transform = 'translateX(-110%)' }
       setTimeout(() => {
         onDelete()

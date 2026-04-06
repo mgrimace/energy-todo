@@ -1250,6 +1250,9 @@ button.energy-badge:focus-visible {
   inset: 0;
   display: flex;
   pointer-events: none;
+  z-index: 0;
+  opacity: calc(var(--swipe-progress, 0));
+  transition: opacity 120ms ease-out;
 }
 
 /* Only reveal the relevant panel — hide both until a direction is committed */
@@ -1266,6 +1269,7 @@ button.energy-badge:focus-visible {
 }
 
 .swipe-complete {
+  position: relative;
   flex: 1;
   background: var(--swipe-accent-bg);
   color: var(--swipe-accent-text);
@@ -1274,9 +1278,22 @@ button.energy-badge:focus-visible {
   padding-left: var(--spacing-xl);
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-semibold);
-  opacity: calc(var(--swipe-progress, 0));
   transform: scale(calc(0.92 + var(--swipe-progress, 0) * 0.08));
-  transition: opacity 120ms ease-out, transform 120ms ease-out;
+  transition: transform 120ms ease-out;
+}
+
+.swipe-complete::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(0,0,0,0.05) 40%,
+    transparent 100%
+  );
+  opacity: calc(var(--swipe-progress, 0));
+  pointer-events: none;
 }
 
 .swipe-icon {
@@ -1285,9 +1302,13 @@ button.energy-badge:focus-visible {
   align-items: center;
   justify-content: center;
   margin-right: var(--spacing-lg);
+  opacity: clamp(0, (var(--swipe-progress, 0) - 0.6) * 3, 1);
+  transform: scale(clamp(0.9, var(--swipe-progress, 0), 1));
+  transition: opacity 120ms ease-out, transform 120ms ease-out;
 }
 
 .swipe-delete {
+  position: relative;
   flex: 1;
   background: var(--color-danger-text);
   color: var(--color-bg);
@@ -1297,8 +1318,22 @@ button.energy-badge:focus-visible {
   padding-right: var(--spacing-xl);
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-semibold);
-  opacity: calc(var(--swipe-progress, 0));
+  opacity: clamp(0, (var(--swipe-progress, 0) - 0.6) * 3, 1);
   transition: opacity 120ms ease-out;
+}
+
+.swipe-delete::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(0,0,0,0.05) 40%,
+    transparent 100%
+  );
+  opacity: calc(var(--swipe-progress, 0));
+  pointer-events: none;
 }
 
 /* Ensure the card renders above its swipe background and is opaque so the
