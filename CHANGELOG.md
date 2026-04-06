@@ -8,20 +8,12 @@ All notable changes to this project will be documented in this file.
 
 ## [v1.2.0] - 2026-04-03
 
-- Feat: add dynamic status icon to filter bar — shows a contextual Phosphor icon (ListIcon, LeafIcon, CircleIcon, FlowerLotusIcon, CheckCircleIcon) reflecting the active filter, with energy-toned color for low/medium/high; add matching MagnifyingGlassIcon outside the search chip for visual symmetry.
-
-- Refactor: migrate backend storage from JSON to SQLite to remove sync complexity, improve robustness, and simplify data migrations.
-- Fix: `seed_if_empty` now migrates existing `todos.json` data on first boot instead of overwriting it with sample todos, ensuring a safe upgrade path for existing users.
-- Refactor: remove dead `storage.rs` file (superseded by `db.rs`).
-- Refactor: simplify `useTodos.js` — replace local state reconstruction helpers (`insertCreatedTodo`, `moveTodoByCompletionTransition`, `reorderActiveInState`) with `fetchTodos()` on every SSE event; server is the single source of truth for ordering.
-- Refactor: remove `normalizeTodo` from `useTodos.js` — backend guarantees typed data from SQLite.
-- Fix: SSE-triggered refetch no longer flashes the loading spinner; only the initial page load shows it.
-- Refactor: remove `fetchTodos` from `useTodos` public API — not used by any consumer.
-- Refactor: remove unused `removeTagAtIndex` and `commitPendingInput` from `useTagInputController` return object.
-- Refactor: simplify `is_static_asset` check in `main.rs` from 10 extension conditions to `path.starts_with("/assets/")`.
-- Refactor: remove `tagKeyHandlerRef` sync effect in `TodoCard.jsx`; call `onTagEditorKeyDown` directly.
-- Fix: filter pill now expands to fill full available width; buttons distribute evenly for a continuous joined appearance.
-- Refactor: remove `--line-height-tight` token (unused); align filter pill chip font style with search chip.
+- Feat: add dynamic status icon to filter bar reflecting the active filter with energy-toned color; add matching search icon for visual symmetry.
+- Refactor: migrate backend storage from JSON to SQLite; `seed_if_empty` now migrates existing `todos.json` data on first boot.
+- Refactor: simplify `useTodos.js` — fetch from server on every SSE event; server is the single source of truth for ordering.
+- Refactor: remove tracing dependencies; replace with `eprintln!`.
+- Fix: SSE-triggered refetch no longer flashes the loading spinner.
+- Fix: filter pill expands to fill full available width with evenly distributed buttons.
 
 ## [v1.1.8] - 2026-04-01
 
