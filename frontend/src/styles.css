@@ -66,7 +66,6 @@
   --transition-theme: background-color 150ms ease, color 150ms ease;
   --transition-surface: background-color 150ms ease, border-color 150ms ease, box-shadow 150ms ease;
 
-  --opacity-tag-affordance-rest: 0;
   --opacity-tag-affordance-active: 1;
 
   /* ========== ELEVATION ========== */
@@ -783,22 +782,19 @@ main {
   transition: background-color var(--motion-fast);
 }
 
-.card.is-draggable {
-  cursor: grab;
-}
-
-.sortable-item.is-dragging .card.is-draggable {
-  cursor: grabbing;
-}
-
 .card:hover,
 .card:focus-within {
   background: var(--surface-hover);
 }
 
+.card.is-complete {
+  background: var(--color-bg);
+  opacity: 1;
+}
+
 .card.is-complete:hover,
 .card.is-complete:focus-within {
-  background: transparent;
+  background: var(--color-bg);
 }
 
 .card.is-complete .title {
@@ -1033,11 +1029,6 @@ main {
   position: relative;
 }
 
-.completed-divider::before,
-.completed-divider::after {
-  display: none;
-}
-
 .completed-divider-rule {
   flex: 1;
   height: var(--border-hairline);
@@ -1093,31 +1084,32 @@ main {
 }
 
 /* ================= Actions ================ */
-.delete {
-  border: 0;
-  background: transparent;
-  color: var(--text-dim);
-  border-radius: var(--radius-sm);
-  padding: var(--spacing-xs) var(--spacing-sm);
-  cursor: pointer;
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-medium);
-  text-decoration: none;
+.drag-handle {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  transition: color var(--motion-standard), background-color var(--motion-standard);
+  width: var(--size-checkbox);
+  height: var(--size-checkbox);
+  padding: 0;
+  color: var(--text-dim);
+  cursor: grab;
+  background: transparent;
+  border: none;
+  flex: 0 0 auto;
+  touch-action: none;
 }
 
-.delete:hover,
-.delete:focus-visible {
-  color: var(--color-danger-text);
-  background: var(--color-danger-soft);
-  transition: color var(--motion-fast), background-color var(--motion-fast);
+.drag-handle:hover {
+  color: var(--color-text-muted);
+  cursor: grab;
 }
 
-.delete:active {
-  transform: translateY(1px);
+.drag-handle svg {
+  pointer-events: none;
+}
+
+.drag-handle:active {
+  cursor: grabbing;
 }
 
 /* ================= Energy Badge ================ */
@@ -1237,5 +1229,115 @@ button.energy-badge:focus-visible {
   .btn-primary {
     min-width: var(--size-task-row-action-column);
   }
+}
+
+/* ================= Swipe Gestures ================ */
+
+.todo-swipe-wrapper {
+  position: relative;
+  overflow: hidden;
+  touch-action: pan-y;
+}
+
+.todo-swipe-bg {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  pointer-events: none;
+  z-index: 0;
+  opacity: calc(var(--swipe-progress, 0));
+  transition: opacity 120ms ease-out;
+}
+
+.todo-swipe-wrapper:not([data-swipe-dir]) .swipe-complete,
+.todo-swipe-wrapper:not([data-swipe-dir]) .swipe-delete,
+.todo-swipe-wrapper[data-swipe-dir='right'] .swipe-delete,
+.todo-swipe-wrapper[data-swipe-dir='left'] .swipe-complete {
+  visibility: hidden;
+}
+
+.completed-list .todo-swipe-bg {
+  display: flex;
+}
+
+.swipe-complete {
+  position: relative;
+  flex: 1;
+  background: var(--swipe-accent-bg);
+  color: var(--swipe-accent-text);
+  display: flex;
+  align-items: center;
+  padding-left: var(--spacing-xl);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  transform: scale(calc(0.92 + var(--swipe-progress, 0) * 0.08));
+  transition: transform 120ms ease-out;
+}
+
+.swipe-complete::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(0,0,0,0.05) 40%,
+    transparent 100%
+  );
+  opacity: calc(var(--swipe-progress, 0));
+  pointer-events: none;
+}
+
+.swipe-icon {
+  width: var(--size-checkbox);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: var(--spacing-lg);
+  opacity: clamp(0, (var(--swipe-progress, 0) - 0.6) * 3, 1);
+  transform: scale(clamp(0.9, var(--swipe-progress, 0), 1));
+  transition: opacity 120ms ease-out, transform 120ms ease-out;
+}
+
+.swipe-delete {
+  position: relative;
+  flex: 1;
+  background: var(--color-danger-text);
+  color: var(--color-bg);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: var(--spacing-xl);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  opacity: clamp(0, (var(--swipe-progress, 0) - 0.6) * 3, 1);
+  transition: opacity 120ms ease-out;
+}
+
+.swipe-delete::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(0,0,0,0.05) 40%,
+    transparent 100%
+  );
+  opacity: calc(var(--swipe-progress, 0));
+  pointer-events: none;
+}
+
+.todo-swipe-wrapper .card {
+  position: relative;
+  z-index: 1;
+}
+
+.todo-swipe-wrapper .card:not(.is-complete) {
+  background: var(--color-item-cards-bg);
+}
+
+.todo-swipe-wrapper .card.is-complete {
+  background: var(--color-bg);
 }
 

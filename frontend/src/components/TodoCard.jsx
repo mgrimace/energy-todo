@@ -1,12 +1,20 @@
 import React, { useEffect, useRef, useState } from 'react'
 import EnergyBadge from './EnergyBadge'
 import useTagInputController from '../hooks/useTagInputController'
+import { CheckIcon, SquareIcon, ArrowsOutLineVerticalIcon } from '@phosphor-icons/react'
+
+const SWIPE_THRESHOLD = 80
 
 export default function TodoCard({ todo, onToggle, onDelete, onEditTitle, onEditTags, onToggleEnergy, dragHandleProps }) {
   const tags = Array.isArray(todo.tags) ? todo.tags : []
   const [isEditing, setIsEditing] = useState(false)
   const [draftTitle, setDraftTitle] = useState(todo.title)
   const [isEditingTags, setIsEditingTags] = useState(false)
+
+  // Swipe gesture refs
+  const wrapperRef = useRef(null)
+  const cardRef = useRef(null)
+  const swipe = useRef(null)
   const {
     tags: editingTags,
     inputValue: editingTagInput,
@@ -122,7 +130,7 @@ export default function TodoCard({ todo, onToggle, onDelete, onEditTitle, onEdit
   }, [isEditingTags, onTagEditorKeyDown])
 
   const onTagTriggerKeyDown = (event) => {
-    suppressDragPropagation?.(event)
+    suppressDragPropagation(event)
     if (isEditingTags) return
     if (event.key === 'Backspace' || event.key === 'Delete') {
       event.preventDefault()
@@ -147,20 +155,171 @@ export default function TodoCard({ todo, onToggle, onDelete, onEditTitle, onEdit
     }
   }
 
-  const editingLocksDrag = isEditing || isEditingTags
-  const dragProps = dragHandleProps && !editingLocksDrag ? { ...dragHandleProps } : {}
-  const suppressDragPropagation = dragHandleProps && !editingLocksDrag
-    ? (event) => {
-        event.stopPropagation()
+  const suppressDragPropagation = (event) => {
+    event.stopPropagation()
+  }
+
+  useEffect(() => {
+    const wrapper = wrapperRef.current
+    if (!wrapper) return
+    const handleDown = (e) => {
+      if (isEditing || isEditingTags) return
+      if (e.pointerType === 'mouse' && e.button !== 0) return
+      if (e.target.closest?.('.drag-handle')) return
+      swipe.current = {
+        startX: e.clientX,
+        active: false,
+        pointerId: e.pointerId,
+        dx: 0,
+        lastX: e.clientX,
+        lastTime: performance.now(),
+        velocity: 0,
       }
-    : undefined
+    }
+    wrapper.addEventListener('pointerdown', handleDown, { capture: true })
+    return () => wrapper.removeEventListener('pointerdown', handleDown, { capture: true })
+  }, [isEditing, isEditingTags])
+
+  function resetCard() {
+    const card = cardRef.current
+    if (!card) return
+    card.style.transition = 'transform 0.2s ease'
+    card.style.transform = 'translateX(0)'
+    card.addEventListener('transitionend', () => { card.style.transition = '' }, { once: true })
+  }
+
+  function handleSwipeMove(e) {
+    const s = swipe.current
+    if (!s) return
+
+    const dx = e.clientX - s.startX
+
+    if (Math.abs(dx) < 8) return
+
+    if (!s.active) {
+      s.active = true
+      wrapperRef.current?.setPointerCapture(s.pointerId)
+    }
+
+    const now = performance.now()
+    const dt = now - s.lastTime
+    if (dt > 0) {
+      s.velocity = (e.clientX - s.lastX) / dt
+    }
+    s.lastX = e.clientX
+    s.lastTime = now
+
+    s.dx = dx
+
+    const progress = Math.min(Math.abs(dx) / SWIPE_THRESHOLD, 1)
+    wrapperRef.current?.style.setProperty('--swipe-progress', progress)
+
+    if (wrapperRef.current) {
+      wrapperRef.current.dataset.swipeDir = dx >= 0 ? 'right' : 'left'
+    }
+
+    const card = cardRef.current
+    if (!card) return
+
+    const MAGNET_ZONE = 24
+    const distance = Math.abs(dx)
+
+    let dxAdjusted = dx
+
+    if (distance > SWIPE_THRESHOLD) {
+      const extra = distance - SWIPE_THRESHOLD
+      dxAdjusted = Math.sign(dx) * (SWIPE_THRESHOLD + extra * 0.35)
+    }
+
+    if (distance > SWIPE_THRESHOLD - MAGNET_ZONE && distance < SWIPE_THRESHOLD) {
+      const t = (distance - (SWIPE_THRESHOLD - MAGNET_ZONE)) / MAGNET_ZONE
+      dxAdjusted += Math.sign(dx) * t * 6
+    }
+
+    card.style.transform = `translateX(${dxAdjusted}px)`
+  }
+
+  function handleSwipeUp() {
+    const s = swipe.current
+    if (!s) return
+
+    try {
+      wrapperRef.current?.releasePointerCapture(s.pointerId)
+    } catch {}
+
+    if (!s.active) { swipe.current = null; return }
+
+    if (wrapperRef.current) wrapperRef.current.removeAttribute('data-swipe-dir')
+    const dx = s.dx
+    const velocity = s.velocity ?? 0
+    const VELOCITY_THRESHOLD = 0.5
+    const card = cardRef.current
+    wrapperRef.current?.style.removeProperty('--swipe-progress')
+    swipe.current = null
+
+    const shouldComplete = dx > SWIPE_THRESHOLD || (velocity > VELOCITY_THRESHOLD && dx > 0)
+    const shouldDelete = dx < -SWIPE_THRESHOLD || (velocity < -VELOCITY_THRESHOLD && dx < 0)
+
+    if (shouldComplete) {
+      if (card) {
+        card.style.transition = 'transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1), opacity 180ms ease-out'
+        card.style.transform = 'translateX(110%)'
+        card.style.opacity = '0'
+      }
+      setTimeout(() => {
+        onToggle()
+        if (card) { card.style.transition = ''; card.style.transform = ''; card.style.opacity = '' }
+      }, 140)
+    } else if (shouldDelete) {
+      if (card) { card.style.transition = 'transform 0.3s ease'; card.style.transform = 'translateX(-110%)' }
+      setTimeout(() => {
+        onDelete()
+        if (card) { card.style.transition = ''; card.style.transform = '' }
+      }, 300)
+    } else {
+      resetCard()
+    }
+  }
+
+  function handleSwipeCancel() {
+    const s = swipe.current
+
+    if (s?.pointerId) {
+      try {
+        wrapperRef.current?.releasePointerCapture(s.pointerId)
+      } catch {}
+    }
+
+    if (s?.active) resetCard()
+    if (wrapperRef.current) wrapperRef.current.removeAttribute('data-swipe-dir')
+    wrapperRef.current?.style.removeProperty('--swipe-progress')
+    swipe.current = null
+  }
 
   return (
-    <article
-      className={`card energy-${todo.energy} ${todo.completed ? 'is-complete' : ''} ${dragHandleProps && !editingLocksDrag ? 'is-draggable' : ''}`}
-      data-completed={todo.completed ? 'true' : 'false'}
-      {...dragProps}
+    <div
+      className="todo-swipe-wrapper"
+      style={{
+        '--swipe-accent-bg': `var(--energy-${todo.energy}-bg)`,
+        '--swipe-accent-text': `var(--energy-${todo.energy}-text)`,
+      }}
+      ref={wrapperRef}
+      onPointerMove={handleSwipeMove}
+      onPointerUp={handleSwipeUp}
+      onPointerCancel={handleSwipeCancel}
     >
+      <div className="todo-swipe-bg" aria-hidden="true">
+        <div className="swipe-complete">
+          <span className="swipe-icon">
+            {todo.completed ? <SquareIcon size={16} /> : <CheckIcon size={16} />}
+          </span>
+        </div>
+        <div className="swipe-delete">Delete</div>
+      </div>
+      <article
+        className={`card energy-${todo.energy} ${todo.completed ? 'is-complete' : ''}`}
+        ref={cardRef}
+      >
       <div className="card-left">
         <button
           type="button"
@@ -232,7 +391,7 @@ export default function TodoCard({ todo, onToggle, onDelete, onEditTitle, onEdit
                     value={editingTagInput}
                     onChange={onTagEditorChange}
                     onKeyDown={(event) => {
-                      suppressDragPropagation?.(event)
+                      suppressDragPropagation(event)
                       const handled = onTagEditorKeyDown(event)
                       if (handled) return
                       if (event.key === 'Escape') {
@@ -264,16 +423,18 @@ export default function TodoCard({ todo, onToggle, onDelete, onEditTitle, onEdit
           </div>
         </div>
       </div>
-      <button
-        type="button"
-        className="delete"
-        onClick={onDelete}
-        aria-label="Delete todo"
-        onPointerDown={suppressDragPropagation}
-        onKeyDownCapture={suppressDragPropagation}
-      >
-        Delete
-      </button>
+      {dragHandleProps && (
+        <button
+          type="button"
+          className="drag-handle"
+          aria-label="Drag to reorder"
+          {...dragHandleProps}
+          onPointerDown={(e) => { e.stopPropagation(); dragHandleProps.onPointerDown?.(e) }}
+        >
+          <ArrowsOutLineVerticalIcon size={16} />
+        </button>
+      )}
     </article>
+    </div>
   )
 }
