@@ -47,6 +47,19 @@ export default function useTodos() {
   }
 
   const reorderActive = async (activeIds) => {
+    setTodos(prev => {
+      const idOrder = new Map(activeIds.map((id, i) => [String(id), i]))
+      const active = prev
+        .filter(t => !t.completed)
+        .sort((a, b) => {
+          const ai = idOrder.get(String(a.id)) ?? Infinity
+          const bi = idOrder.get(String(b.id)) ?? Infinity
+          return ai - bi
+        })
+      const completed = prev.filter(t => t.completed)
+      return [...active, ...completed]
+    })
+
     const res = await axios.post('/api/todos/reorder', { active_ids: activeIds })
     const reordered = Array.isArray(res.data) ? res.data : []
     setTodos(reordered)

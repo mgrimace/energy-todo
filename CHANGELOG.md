@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [v1.4.2] - 2026-04-08
+
+- Fix: dragging an item downward no longer renders it beneath sibling cards; `.sortable-item` now sets `z-index: 0` at rest and `z-index: 10` while dragging, resolving the stacking-context collision caused by `will-change: transform`.
+- Fix: drop animation no longer bounces on downward reorder; custom `cubic-bezier` override removed so dnd-kit's direction-aware transition is used directly.
+- Fix: `will-change: transform` and `transform: translateZ(0)` moved from `.card` to `.sortable-item`, aligning GPU promotion with the element dnd-kit actually transforms.
+- Fix: swipe animation timings unified to `200ms cubic-bezier(0.2, 0.8, 0.2, 1)` via shared `SWIPE_EASING` constant; delete swipe was previously 300ms (visible lag), complete swipe was 220ms.
+- Refactor: `handleSwipeCancel` simplified — redundant pointer-capture release guard consolidated under the existing `s.active` check.
+- Refactor: dead `suppressDragPropagation` calls removed from card body elements; no longer needed since drag activates only from the handle.
+- Chore: add `@dnd-kit/modifiers`; apply `restrictToVerticalAxis` to `DndContext` to eliminate horizontal drift during drag.
+- Style: add `--motion-swipe` token to `:root`; add `position: relative` to `.sortable-item`.
+
 ## [v1.4.1] - 2026-04-06
 
 - Fix: filter pills no longer overflow horizontally on narrow mobile screens; chip padding and track gap tightened on small viewports, restored at 640px+.
