@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [v1.4.3] - 2026-04-08
+
 - Fix: replace inline transform-based drag with `DragOverlay` so the dragged card floats above the list and never stretches or shrinks items of different heights.
 - Fix: original sortable item is hidden (`opacity: 0`) while dragging to prevent duplicate visuals; layout space is preserved so the list does not reflow.
 - Fix: drag handle is always rendered in both the real card and the overlay card; overlay handle is inert (`aria-hidden`, no pointer events) so layout is identical and text never reflows into the handle column.
