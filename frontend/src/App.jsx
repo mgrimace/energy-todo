@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { DndContext, PointerSensor, useSensor, useSensors } from '@dnd-kit/core'
+import { DndContext, DragOverlay, PointerSensor, useSensor, useSensors } from '@dnd-kit/core'
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers'
 import { SortableContext, arrayMove, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
@@ -21,10 +21,11 @@ function SortableActiveTodo({ todo, onToggle, onDelete, onEdit, onEditTags, onTo
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
+    opacity: isDragging ? 0 : undefined,
   }
 
   return (
-    <div ref={setNodeRef} style={style} className={`sortable-item ${isDragging ? 'is-dragging' : ''}`}>
+    <div ref={setNodeRef} style={style} className="sortable-item">
       <TodoCard
         todo={todo}
         onToggle={onToggle}
@@ -42,6 +43,7 @@ export default function App() {
   const { todos, loading, createTodo, updateTodo, deleteTodo, clearCompleted, reorderActive } = useTodos()
   const [filter, setFilter] = useState('all')
   const [search, setSearch] = useState('')
+  const [activeId, setActiveId] = useState(null)
   const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 6 } }))
 
   const normalizedQuery = search.trim().toLowerCase()
@@ -72,7 +74,11 @@ export default function App() {
 
   const completedTodos = visible.filter(todo => todo.completed)
 
+  const onDragStart = ({ active }) => setActiveId(active.id)
+  const onDragCancel = () => setActiveId(null)
+
   const onActiveDragEnd = ({ active, over }) => {
+    setActiveId(null)
     if (!over || active.id === over.id) return
 
     const visibleSourceIndex = activeTodos.findIndex(todo => String(todo.id) === String(active.id))
@@ -139,7 +145,7 @@ export default function App() {
           <div className="list">
             {activeTodos.length === 0 && completedTodos.length === 0 ? <p className="muted">No matching todos</p> : null}
 
-            <DndContext sensors={sensors} modifiers={[restrictToVerticalAxis]} onDragEnd={onActiveDragEnd}>
+            <DndContext sensors={sensors} modifiers={[restrictToVerticalAxis]} onDragStart={onDragStart} onDragEnd={onActiveDragEnd} onDragCancel={onDragCancel}>
               <div className="stacked-list active-stack">
                 <SortableContext
                   items={activeTodos.map(todo => String(todo.id))}
@@ -158,6 +164,18 @@ export default function App() {
                   ))}
                 </SortableContext>
               </div>
+              <DragOverlay>
+                {activeId ? (
+                  <TodoCard
+                    todo={todos.find(t => String(t.id) === String(activeId))}
+                    onToggle={() => {}}
+                    onDelete={() => {}}
+                    onEditTitle={() => {}}
+                    onEditTags={() => {}}
+                    onToggleEnergy={() => {}}
+                  />
+                ) : null}
+              </DragOverlay>
             </DndContext>
 
             {completedTodos.length > 0 ? (

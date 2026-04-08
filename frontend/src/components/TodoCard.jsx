@@ -6,7 +6,7 @@ import { CheckIcon, SquareIcon, ArrowsOutLineVerticalIcon } from '@phosphor-icon
 const SWIPE_THRESHOLD = 80
 const SWIPE_EASING = 'cubic-bezier(0.2, 0.8, 0.2, 1)'
 
-export default function TodoCard({ todo, onToggle, onDelete, onEditTitle, onEditTags, onToggleEnergy, dragHandleProps }) {
+export default function TodoCard({ todo, onToggle, onDelete, onEditTitle, onEditTags, onToggleEnergy, dragHandleProps, isDraggingOverlay }) {
   const tags = Array.isArray(todo.tags) ? todo.tags : []
   const [isEditing, setIsEditing] = useState(false)
   const [draftTitle, setDraftTitle] = useState(todo.title)
@@ -405,17 +405,20 @@ export default function TodoCard({ todo, onToggle, onDelete, onEditTitle, onEdit
           </div>
         </div>
       </div>
-      {dragHandleProps && (
-        <button
-          type="button"
-          className="drag-handle"
-          aria-label="Drag to reorder"
-          {...dragHandleProps}
-          onPointerDown={(e) => { e.stopPropagation(); dragHandleProps.onPointerDown?.(e) }}
-        >
-          <ArrowsOutLineVerticalIcon size={16} />
-        </button>
-      )}
+      <button
+        type="button"
+        className="drag-handle"
+        aria-label="Drag to reorder"
+        aria-hidden={isDraggingOverlay ? true : undefined}
+        tabIndex={isDraggingOverlay ? -1 : undefined}
+        {...(dragHandleProps && !isDraggingOverlay ? dragHandleProps : {})}
+        onPointerDown={dragHandleProps && !isDraggingOverlay
+          ? (e) => { e.stopPropagation(); dragHandleProps.onPointerDown?.(e) }
+          : undefined
+        }
+      >
+        <ArrowsOutLineVerticalIcon size={16} />
+      </button>
     </article>
     </div>
   )

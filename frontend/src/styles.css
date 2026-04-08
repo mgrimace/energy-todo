@@ -746,14 +746,9 @@ main {
 }
 
 .sortable-item.is-dragging {
-  z-index: 10;
+  opacity: 0;
 }
 
-.sortable-item.is-dragging .card {
-  box-shadow: none;
-  background: var(--color-surface-muted);
-  opacity: 1;
-}
 
 .card {
   --task-accent: var(--color-border);
@@ -811,6 +806,12 @@ main {
   column-gap: var(--spacing-lg);
   min-width: 0;
   flex: 1;
+}
+
+.card .drag-handle {
+  width: var(--size-icon-sm);
+  min-width: var(--size-icon-sm);
+  flex-shrink: 0;
 }
 
 .checkbox {
