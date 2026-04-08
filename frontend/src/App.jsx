@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { DndContext, PointerSensor, useSensor, useSensors } from '@dnd-kit/core'
+import { restrictToVerticalAxis } from '@dnd-kit/modifiers'
 import { SortableContext, arrayMove, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import {
@@ -19,7 +20,7 @@ function SortableActiveTodo({ todo, onToggle, onDelete, onEdit, onEditTags, onTo
 
   const style = {
     transform: CSS.Transform.toString(transform),
-    transition
+    transition,
   }
 
   return (
@@ -41,7 +42,7 @@ export default function App() {
   const { todos, loading, createTodo, updateTodo, deleteTodo, clearCompleted, reorderActive } = useTodos()
   const [filter, setFilter] = useState('all')
   const [search, setSearch] = useState('')
-  const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 5 } }))
+  const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 6 } }))
 
   const normalizedQuery = search.trim().toLowerCase()
 
@@ -138,7 +139,7 @@ export default function App() {
           <div className="list">
             {activeTodos.length === 0 && completedTodos.length === 0 ? <p className="muted">No matching todos</p> : null}
 
-            <DndContext sensors={sensors} onDragEnd={onActiveDragEnd}>
+            <DndContext sensors={sensors} modifiers={[restrictToVerticalAxis]} onDragEnd={onActiveDragEnd}>
               <div className="stacked-list active-stack">
                 <SortableContext
                   items={activeTodos.map(todo => String(todo.id))}

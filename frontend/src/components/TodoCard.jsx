@@ -4,6 +4,7 @@ import useTagInputController from '../hooks/useTagInputController'
 import { CheckIcon, SquareIcon, ArrowsOutLineVerticalIcon } from '@phosphor-icons/react'
 
 const SWIPE_THRESHOLD = 80
+const SWIPE_EASING = 'cubic-bezier(0.2, 0.8, 0.2, 1)'
 
 export default function TodoCard({ todo, onToggle, onDelete, onEditTitle, onEditTags, onToggleEnergy, dragHandleProps }) {
   const tags = Array.isArray(todo.tags) ? todo.tags : []
@@ -130,7 +131,6 @@ export default function TodoCard({ todo, onToggle, onDelete, onEditTitle, onEdit
   }, [isEditingTags, onTagEditorKeyDown])
 
   const onTagTriggerKeyDown = (event) => {
-    suppressDragPropagation(event)
     if (isEditingTags) return
     if (event.key === 'Backspace' || event.key === 'Delete') {
       event.preventDefault()
@@ -153,10 +153,6 @@ export default function TodoCard({ todo, onToggle, onDelete, onEditTitle, onEdit
         console.error('failed to toggle todo energy', error)
       }
     }
-  }
-
-  const suppressDragPropagation = (event) => {
-    event.stopPropagation()
   }
 
   useEffect(() => {
@@ -183,7 +179,7 @@ export default function TodoCard({ todo, onToggle, onDelete, onEditTitle, onEdit
   function resetCard() {
     const card = cardRef.current
     if (!card) return
-    card.style.transition = 'transform 0.2s ease'
+    card.style.transition = `transform 200ms ${SWIPE_EASING}`
     card.style.transform = 'translateX(0)'
     card.addEventListener('transitionend', () => { card.style.transition = '' }, { once: true })
   }
@@ -262,20 +258,20 @@ export default function TodoCard({ todo, onToggle, onDelete, onEditTitle, onEdit
 
     if (shouldComplete) {
       if (card) {
-        card.style.transition = 'transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1), opacity 180ms ease-out'
+        card.style.transition = `transform 200ms ${SWIPE_EASING}, opacity 180ms ease-out`
         card.style.transform = 'translateX(110%)'
         card.style.opacity = '0'
       }
       setTimeout(() => {
         onToggle()
         if (card) { card.style.transition = ''; card.style.transform = ''; card.style.opacity = '' }
-      }, 140)
+      }, 160)
     } else if (shouldDelete) {
-      if (card) { card.style.transition = 'transform 0.3s ease'; card.style.transform = 'translateX(-110%)' }
+      if (card) { card.style.transition = `transform 200ms ${SWIPE_EASING}`; card.style.transform = 'translateX(-110%)' }
       setTimeout(() => {
         onDelete()
         if (card) { card.style.transition = ''; card.style.transform = '' }
-      }, 300)
+      }, 200)
     } else {
       resetCard()
     }
@@ -283,14 +279,10 @@ export default function TodoCard({ todo, onToggle, onDelete, onEditTitle, onEdit
 
   function handleSwipeCancel() {
     const s = swipe.current
-
-    if (s?.pointerId) {
-      try {
-        wrapperRef.current?.releasePointerCapture(s.pointerId)
-      } catch {}
+    if (s?.active) {
+      try { wrapperRef.current?.releasePointerCapture(s.pointerId) } catch {}
+      resetCard()
     }
-
-    if (s?.active) resetCard()
     if (wrapperRef.current) wrapperRef.current.removeAttribute('data-swipe-dir')
     wrapperRef.current?.style.removeProperty('--swipe-progress')
     swipe.current = null
@@ -326,8 +318,6 @@ export default function TodoCard({ todo, onToggle, onDelete, onEditTitle, onEdit
           className="checkbox"
           onClick={onToggle}
           aria-pressed={todo.completed}
-          onPointerDown={suppressDragPropagation}
-          onKeyDownCapture={suppressDragPropagation}
         >
           {todo.completed ? '✓' : ''}
         </button>
@@ -358,8 +348,6 @@ export default function TodoCard({ todo, onToggle, onDelete, onEditTitle, onEdit
               type="button"
               className="title-button"
               onClick={startEditing}
-              onPointerDown={suppressDragPropagation}
-              onKeyDownCapture={suppressDragPropagation}
               aria-label="Edit task title"
             >
               <span className="title">{todo.title}</span>
@@ -369,15 +357,12 @@ export default function TodoCard({ todo, onToggle, onDelete, onEditTitle, onEdit
             <EnergyBadge
               energy={todo.energy}
               onClick={toggleEnergy}
-              onPointerDown={suppressDragPropagation}
-              onKeyDownCapture={suppressDragPropagation}
             />
             <div className={`card-tags ${isEditingTags ? 'is-editing' : ''}`} aria-label="Task tags">
               {isEditingTags ? (
                 <div
                   className="tag-inline-editor"
                   onBlur={handleTagEditorBlur}
-                  onPointerDown={suppressDragPropagation}
                   role="group"
                   aria-label="Edit task tags"
                 >
@@ -391,7 +376,6 @@ export default function TodoCard({ todo, onToggle, onDelete, onEditTitle, onEdit
                     value={editingTagInput}
                     onChange={onTagEditorChange}
                     onKeyDown={(event) => {
-                      suppressDragPropagation(event)
                       const handled = onTagEditorKeyDown(event)
                       if (handled) return
                       if (event.key === 'Escape') {
@@ -400,7 +384,6 @@ export default function TodoCard({ todo, onToggle, onDelete, onEditTitle, onEdit
                       }
                     }}
                     onPaste={onTagEditorPaste}
-                    onPointerDown={suppressDragPropagation}
                     autoFocus
                   />
                 </div>
@@ -410,7 +393,6 @@ export default function TodoCard({ todo, onToggle, onDelete, onEditTitle, onEdit
                   className="tag-inline-trigger"
                   onClick={() => startEditingTags()}
                   onKeyDown={onTagTriggerKeyDown}
-                  onPointerDown={suppressDragPropagation}
                   aria-label="Edit task tags"
                 >
                   {tags.length > 0 ? tags.map(tag => (
