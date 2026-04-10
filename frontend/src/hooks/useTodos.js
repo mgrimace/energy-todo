@@ -75,5 +75,5 @@ export default function useTodos() {
     await Promise.all(completedIds.map(id => axios.delete(`/api/todos/${id}`)))
   }
 
-  return { todos, loading, createTodo, updateTodo, deleteTodo, clearCompleted, reorderActive }
+  return { todos, loading, createTodo, updateTodo, deleteTodo, clearCompleted, reorderActive, refetch: () => loadTodos(true) }
 }

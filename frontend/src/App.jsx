@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { DndContext, DragOverlay, PointerSensor, useSensor, useSensors } from '@dnd-kit/core'
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers'
 import { SortableContext, arrayMove, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable'
@@ -40,7 +40,26 @@ function SortableActiveTodo({ todo, onToggle, onDelete, onEdit, onEditTags, onTo
 }
 
 export default function App() {
-  const { todos, loading, createTodo, updateTodo, deleteTodo, clearCompleted, reorderActive } = useTodos()
+  const { todos, loading, createTodo, updateTodo, deleteTodo, clearCompleted, reorderActive, refetch } = useTodos()
+  const lastRefetchRef = useRef(0)
+  const safeRefetch = () => {
+    const now = Date.now()
+    if (now - lastRefetchRef.current < 1000) return
+    lastRefetchRef.current = now
+    refetch()
+  }
+
+  useEffect(() => {
+    const onFocus = () => safeRefetch()
+    const onVisibility = () => { if (document.visibilityState === 'visible') safeRefetch() }
+    window.addEventListener('focus', onFocus)
+    document.addEventListener('visibilitychange', onVisibility)
+    return () => {
+      window.removeEventListener('focus', onFocus)
+      document.removeEventListener('visibilitychange', onVisibility)
+    }
+  }, [refetch])
+
   const [filter, setFilter] = useState('all')
   const [search, setSearch] = useState('')
   const [activeId, setActiveId] = useState(null)
