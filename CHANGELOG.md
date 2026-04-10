@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [v1.4.4] - 2026-04-10
+
 - Fix: todos re-fetch silently when the app regains focus or becomes visible, preventing stale state across devices.
 - Fix: `focus` and `visibilitychange` listeners are debounced (1 s guard) to prevent duplicate back-to-back fetches.
 - Fix: service worker uses `NetworkFirst` with a 3 s timeout for `/api/todos` so cached data is only served when the network is unavailable.
