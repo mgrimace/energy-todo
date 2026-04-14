@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+- Feat: add Kanagawa theme (Lotus light / Dragon dark).
+- Feat: add Kanagawa Wave theme (Lotus light / Wave dark).
+- Feat: add Dracula theme.
+
 ## [v1.4.4] - 2026-04-10
 
 - Fix: todos re-fetch silently when the app regains focus or becomes visible, preventing stale state across devices.
