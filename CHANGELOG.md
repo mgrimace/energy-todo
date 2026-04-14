@@ -4,9 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [v1.4.6] - 2026-04-14
+
 - Feat: theme selector preview now shows three energy palette dots (low / medium / high) instead of a single accent dot, giving an accurate preview of each theme's energy color scheme.
 - Feat: theme selector list is now sorted alphabetically.
-
 - Fix: add `pageshow` listener so the app refetches immediately when returning to a Firefox pinned tab, where `focus` and `visibilitychange` are not reliably fired.
 
 ## [v1.4.5] - 2026-04-14
