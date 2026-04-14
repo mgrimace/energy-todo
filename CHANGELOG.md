@@ -8,6 +8,12 @@ All notable changes to this project will be documented in this file.
 - Feat: add Kanagawa Wave theme (Lotus light / Wave dark).
 - Feat: add Dracula theme.
 
+## [v1.4.4] - 2026-04-10
+
+- Fix: todos re-fetch silently when the app regains focus or becomes visible, preventing stale state across devices.
+- Fix: `focus` and `visibilitychange` listeners are debounced (1 s guard) to prevent duplicate back-to-back fetches.
+- Fix: service worker uses `NetworkFirst` with a 3 s timeout for `/api/todos` so cached data is only served when the network is unavailable.
+
 ## [v1.4.3] - 2026-04-08
 
 - Fix: replace inline transform-based drag with `DragOverlay` so the dragged card floats above the list and never stretches or shrinks items of different heights.

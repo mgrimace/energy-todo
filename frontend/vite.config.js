@@ -7,6 +7,18 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
+      workbox: {
+        runtimeCaching: [
+          {
+            urlPattern: /\/api\/todos/,
+            handler: 'NetworkFirst',
+            options: {
+              cacheName: 'api-todos',
+              networkTimeoutSeconds: 3
+            }
+          }
+        ]
+      },
       includeAssets: ['favicon.svg', 'robots.txt'],
       manifest: {
         name: 'Energy Todo',
