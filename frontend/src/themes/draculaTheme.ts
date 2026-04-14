@@ -1,0 +1,62 @@
+import type { ThemeDefinition } from './types'
+
+export const draculaTheme: ThemeDefinition = {
+  id: 'dracula',
+  name: 'Dracula',
+  palettes: {
+    light: {
+      bg: '#DEDCCF',
+      surface: '#EFEDDC',
+      surfaceAlt: '#ECE9DF',
+      hover: '#ECE9DF',
+      text: '#1F1F1F',
+      textMuted: '#6C664B',
+      accent: '#036A96',
+      accentStrong: '#644AC9',
+      accentOn: '#EFEDDC',
+      focus: '#815CD6',
+      border: '#CECCC0',
+      borderStrong: '#BCBAB3',
+      success: '#14710A',
+      danger: '#CB3A2A',
+      warning: '#A34D14',
+      dangerSoft: '#ECE9DF',
+      energyLowBg: '#ECE9DF',
+      energyLowBorder: '#14710A',
+      energyLowText: '#1F1F1F',
+      energyMediumBg: '#ECE9DF',
+      energyMediumBorder: '#036A96',
+      energyMediumText: '#1F1F1F',
+      energyHighBg: '#ECE9DF',
+      energyHighBorder: '#644AC9',
+      energyHighText: '#1F1F1F'
+    },
+    dark: {
+      bg: '#191A21',
+      surface: '#21222C',
+      surfaceAlt: '#343746',
+      hover: '#424450',
+      text: '#F8F8F2',
+      textMuted: '#6272A4',
+      accent: '#8BE9FD',
+      accentStrong: '#BD93F9',
+      accentOn: '#191A21',
+      focus: '#815CD6',
+      border: '#343746',
+      borderStrong: '#424450',
+      success: '#50FA7B',
+      danger: '#FF5555',
+      warning: '#FFB86C',
+      dangerSoft: '#343746',
+      energyLowBg: '#343746',
+      energyLowBorder: '#50FA7B',
+      energyLowText: '#F8F8F2',
+      energyMediumBg: '#343746',
+      energyMediumBorder: '#8BE9FD',
+      energyMediumText: '#F8F8F2',
+      energyHighBg: '#343746',
+      energyHighBorder: '#BD93F9',
+      energyHighText: '#F8F8F2'
+    }
+  }
+}
