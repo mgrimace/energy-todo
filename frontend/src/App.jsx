@@ -50,13 +50,15 @@ export default function App() {
   }
 
   useEffect(() => {
-    const onFocus = () => safeRefetch()
-    const onVisibility = () => { if (document.visibilityState === 'visible') safeRefetch() }
-    window.addEventListener('focus', onFocus)
+    const handleRefetch = () => safeRefetch()
+    const onVisibility = () => { if (document.visibilityState === 'visible') handleRefetch() }
+    window.addEventListener('focus', handleRefetch)
     document.addEventListener('visibilitychange', onVisibility)
+    window.addEventListener('pageshow', handleRefetch)
     return () => {
-      window.removeEventListener('focus', onFocus)
+      window.removeEventListener('focus', handleRefetch)
       document.removeEventListener('visibilitychange', onVisibility)
+      window.removeEventListener('pageshow', handleRefetch)
     }
   }, [refetch])
 

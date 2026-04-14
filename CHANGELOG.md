@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+- Fix: add `pageshow` listener so the app refetches immediately when returning to a Firefox pinned tab, where `focus` and `visibilitychange` are not reliably fired.
+
 ## [v1.4.5] - 2026-04-14
 
 - Feat: add Kanagawa theme (Lotus light / Dragon dark).
