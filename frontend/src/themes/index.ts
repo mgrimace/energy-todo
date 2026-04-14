@@ -11,4 +11,4 @@ import { draculaTheme } from './draculaTheme'
 
 export { defaultTheme, everforestTheme, nordTheme, catppuccinTheme, scienceTheme, gruvboxTheme, solarizedTheme, kanagawaTheme, kanagawaWaveTheme, draculaTheme }
 
-export const themes = [defaultTheme, everforestTheme, nordTheme, catppuccinTheme, scienceTheme, gruvboxTheme, solarizedTheme, kanagawaTheme, kanagawaWaveTheme, draculaTheme]
+export const themes = [defaultTheme, catppuccinTheme, draculaTheme, everforestTheme, gruvboxTheme, kanagawaTheme, kanagawaWaveTheme, nordTheme, scienceTheme, solarizedTheme]

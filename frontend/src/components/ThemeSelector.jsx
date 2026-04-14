@@ -13,12 +13,21 @@ function ThemePreview({ theme, mode }) {
       style={{
         '--border-subtle': `1px solid ${palette.border}`,
         '--color-field-bg': palette.surfaceAlt,
-        '--color-accent': palette.accent,
-        '--color-text': palette.text    
+        '--color-border': palette.border,
+        '--energy-low-bg': palette.energyLowBg,
+        '--energy-low-border': palette.energyLowBorder,
+        '--energy-medium-bg': palette.energyMediumBg,
+        '--energy-medium-border': palette.energyMediumBorder,
+        '--energy-high-bg': palette.energyHighBg,
+        '--energy-high-border': palette.energyHighBorder,
       }}
     >
       <span className="theme-preview-box">
-        <span className="theme-preview-dot" />
+        <div className="theme-preview-dots">
+          <span className="theme-preview-dot low" />
+          <span className="theme-preview-dot medium" />
+          <span className="theme-preview-dot high" />
+        </div>
       </span>
     </span>
   )
