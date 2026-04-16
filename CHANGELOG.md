@@ -8,6 +8,9 @@ All notable changes to this project will be documented in this file.
 - Feat: theme selector list is now sorted alphabetically.
 
 - Fix: add `pageshow` listener so the app refetches immediately when returning to a Firefox pinned tab, where `focus` and `visibilitychange` are not reliably fired.
+- Fix: SSE connection now reconnects silently when the app resumes after more than 10 seconds in the background, preventing missed live updates across devices after backgrounding a PWA or switching tabs.
+- Fix: data refetch on resume is now gated on 10 s inactivity (not every focus event), eliminating redundant fetches on quick tab switches; hard reload triggers if inactive for over 60 s as a last-resort cache-bust.
+- Refactor: resume timer and SSE reconnect logic consolidated into `useTodos`; `App.jsx` is now responsible only for rendering with no lifecycle side-effects.
 
 ## [v1.4.5] - 2026-04-14
 

@@ -1,11 +1,13 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import axios from 'axios'
 
 export default function useTodos() {
   const [todos, setTodos] = useState([])
   const [loading, setLoading] = useState(true)
+  const eventSourceRef = useRef(null)
+  const lastActiveRef = useRef(Date.now())
 
-  const loadTodos = async (silent = false) => {
+  const loadTodos = useCallback(async (silent = false) => {
     if (!silent) setLoading(true)
     try {
       const res = await axios.get('/api/todos')
@@ -17,13 +19,13 @@ export default function useTodos() {
     } finally {
       if (!silent) setLoading(false)
     }
-  }
+  }, [])
 
-  useEffect(() => { loadTodos() }, [])
+  useEffect(() => { loadTodos() }, [loadTodos])
 
-  // subscribe to server-sent events for live updates
-  useEffect(() => {
+  const initEventSource = useCallback(() => {
     const es = new EventSource('/api/events')
+    eventSourceRef.current = es
 
     es.addEventListener('message', () => { loadTodos(true) })
 
@@ -33,8 +35,46 @@ export default function useTodos() {
       }
     })
 
+    return es
+  }, [loadTodos])
+
+  // subscribe to server-sent events for live updates
+  useEffect(() => {
+    const es = initEventSource()
     return () => es.close()
-  }, [])
+  }, [initEventSource])
+
+  // reconnect SSE and refetch data when app resumes after inactivity
+  useEffect(() => {
+    function handleResume() {
+      const now = Date.now()
+      const elapsed = now - lastActiveRef.current
+      lastActiveRef.current = now
+
+      if (elapsed > 60000) {
+        window.location.reload()
+        return
+      }
+
+      if (elapsed > 10000) {
+        loadTodos(true)
+        if (eventSourceRef.current) {
+          eventSourceRef.current.close()
+        }
+        initEventSource()
+      }
+    }
+
+    const onVisibility = () => { if (document.visibilityState === 'visible') handleResume() }
+    window.addEventListener('focus', handleResume)
+    document.addEventListener('visibilitychange', onVisibility)
+    window.addEventListener('pageshow', handleResume)
+    return () => {
+      window.removeEventListener('focus', handleResume)
+      document.removeEventListener('visibilitychange', onVisibility)
+      window.removeEventListener('pageshow', handleResume)
+    }
+  }, [loadTodos, initEventSource])
 
   const createTodo = async (payload) => {
     const res = await axios.post('/api/todos', payload)
