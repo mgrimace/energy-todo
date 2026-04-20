@@ -142,10 +142,15 @@ export default function TodoCard({ todo, onToggle, onDelete, onEditTitle, onEdit
     }
   }
 
-  const toggleEnergy = async () => {
+  const toggleEnergy = async (event) => {
     const energyOrder = ['low', 'medium', 'high']
     const currentIndex = Math.max(energyOrder.indexOf(todo.energy), 0)
-    const nextEnergy = energyOrder[(currentIndex + 1) % energyOrder.length]
+    const rect = event.currentTarget.getBoundingClientRect()
+    const isLeft = event.clientX < rect.left + rect.width / 2
+    const nextIndex = isLeft
+      ? (currentIndex - 1 + energyOrder.length) % energyOrder.length
+      : (currentIndex + 1) % energyOrder.length
+    const nextEnergy = energyOrder[nextIndex]
     try {
       await onToggleEnergy(nextEnergy)
     } catch (error) {
@@ -356,6 +361,7 @@ export default function TodoCard({ todo, onToggle, onDelete, onEditTitle, onEdit
           <div className="meta">
             <EnergyBadge
               energy={todo.energy}
+              variant="list"
               onClick={toggleEnergy}
             />
             <div className={`card-tags ${isEditingTags ? 'is-editing' : ''}`} aria-label="Task tags">
