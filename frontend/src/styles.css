@@ -38,15 +38,10 @@
   --max-content-width: 880px;
   --size-control-height: 42px;
   --size-control-padding-inline: var(--spacing-md);
-  --size-select-arrow: 10px;
   --size-chip-height: 28px;
   --size-checkbox: 24px;
   --size-icon-sm: 16px;
   --size-energy-badge-height: 26px;
-  --size-task-select-min: 148px;
-  --size-task-row-energy-column: 170px;
-  --size-task-row-action-column: 110px;
-  --size-task-button-min: 96px;
   --size-button-compact-height: 40px;
   --size-tag-input-min: 150px;
   --size-inline-input-min: 24px;
@@ -104,36 +99,6 @@ body {
   padding: 0 var(--size-control-padding-inline);
   line-height: 1.2;
   box-sizing: border-box;
-}
-
-select {
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  align-self: stretch;
-  background-image: none;
-  padding-right: calc(var(--size-control-padding-inline) * 2 + var(--size-select-arrow));
-}
-
-.select-field {
-  position: relative;
-  display: flex;
-  align-items: stretch;
-}
-
-.select-field select {
-  width: 100%;
-}
-
-.select-caret {
-  position: absolute;
-  right: var(--size-control-padding-inline);
-  top: 50%;
-  width: var(--size-select-arrow);
-  height: var(--size-select-arrow);
-  transform: translateY(-50%);
-  color: var(--text-dim);
-  pointer-events: none;
 }
 
 :where(button, input, select, textarea):focus-visible {
@@ -269,7 +234,7 @@ main {
   width: auto;
   min-width: var(--size-theme-preview-box);
   height: var(--size-theme-preview-box);
-  padding-inline: 4px;
+  padding-inline: var(--spacing-xs);
   border-radius: var(--radius-sm);
   border: var(--border-subtle);
   background: var(--color-field-bg);
@@ -281,7 +246,7 @@ main {
 .theme-preview-dots {
   display: flex;
   align-items: center;
-  gap: 2px;
+  gap: var(--spacing-2xs);
 }
 
 .theme-preview-dot {
@@ -365,7 +330,7 @@ main {
 /* ================= Task Input ================ */
 .task-input {
   display: grid;
-  gap: var(--spacing-md);
+  gap: var(--spacing-sm);
   border-radius: var(--radius-lg);
   padding: var(--spacing-lg) var(--spacing-xl);
   border: var(--border-subtle);
@@ -373,61 +338,65 @@ main {
   transition: var(--transition-surface);
 }
 
-.task-row {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto auto;
-  gap: var(--spacing-sm);
+
+.task-input[data-energy='low']    { --task-energy-accent: var(--energy-low-border);    --task-energy-bg: var(--energy-low-bg);    --task-energy-text: var(--energy-low-text); }
+.task-input[data-energy='medium'] { --task-energy-accent: var(--energy-medium-border); --task-energy-bg: var(--energy-medium-bg); --task-energy-text: var(--energy-medium-text); }
+.task-input[data-energy='high']   { --task-energy-accent: var(--energy-high-border);   --task-energy-bg: var(--energy-high-bg);   --task-energy-text: var(--energy-high-text); }
+
+.task-input:focus-within {
+  border-color: var(--task-energy-accent, var(--color-accent));
+}
+
+.task-input .task-save-btn:not(:disabled) {
+  background: var(--task-energy-bg, var(--color-accent));
+  color: var(--task-energy-text, var(--color-accent-on));
+  border-color: var(--task-energy-accent, transparent);
+}
+
+.task-input .task-save-btn:not(:disabled):hover {
+  filter: brightness(0.93);
+  background: var(--task-energy-bg, var(--color-accent));
+}
+
+.task-meta-row {
+  display: flex;
   align-items: center;
+  gap: var(--spacing-sm);
 }
 
-.task-row select {
-  -webkit-appearance: none;
-  appearance: none;
-
-  height: var(--size-control-height);
-  min-height: var(--size-control-height);
-  box-sizing: border-box;
+.task-meta-tags {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--spacing-xs);
 }
 
-@media (max-width: 719px) {
-  .task-row {
-    grid-template-columns: minmax(0, 1fr) auto;
-    grid-template-areas:
-      'title title'
-      'energy save';
-    align-items: stretch;
-  }
-
-  .task-row #task-title {
-    grid-area: title;
-    width: 100%;
-  }
-
-  .task-row .task-energy-field {
-    grid-area: energy;
-    min-width: 0;
-    width: 100%;
-  }
-
-  .task-row .btn-primary {
-    grid-area: save;
-    height: 100%;
-    align-self: stretch;
-  }
+.task-title-row {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
 }
 
-.task-row .task-energy-field {
-  min-width: var(--size-task-select-min);
+.task-save-btn {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  height: var(--size-button-compact-height);
+  min-width: unset;
+  padding-inline: var(--spacing-lg);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
 }
 
-.task-row .btn-primary {
-  min-width: var(--size-task-button-min);
-  padding-inline: var(--size-control-padding-inline);
-  font-weight: var(--font-weight-medium);
+.task-input .energy-badge {
+  opacity: 0.85;
 }
 
-.task-input input,
-.task-input select {
+#task-title {
   width: 100%;
   border-radius: var(--radius-sm);
   border: var(--border-subtle);
@@ -437,26 +406,23 @@ main {
   transition: background-color var(--motion-standard), border-color var(--motion-standard), color var(--motion-standard), box-shadow var(--motion-focus);
 }
 
-.task-input input::placeholder {
+#task-title::placeholder {
   color: var(--color-text-muted);
 }
 
-.task-row #task-title:hover:not(:focus):not(:focus-visible):not(:disabled) {
+#task-title:hover:not(:focus):not(:focus-visible):not(:disabled) {
   border-color: var(--color-border-strong);
 }
 
-.task-tags {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: var(--spacing-xs);
-  min-height: var(--size-chip-height);
-  padding: var(--spacing-xs) var(--spacing-md) 0;
+.task-input #task-title:focus,
+.task-input #task-title:focus-visible {
+  border-color: var(--task-energy-accent, var(--color-accent-strong));
+  box-shadow: none;
 }
 
-.task-tags input {
-  min-width: var(--size-tag-input-min);
+.task-meta-tags input {
   flex: 1;
+  min-width: var(--size-tag-input-min);
   height: var(--size-inline-input-min);
   min-height: var(--size-inline-input-min);
   border: 0;
@@ -466,26 +432,20 @@ main {
   font-size: var(--font-size-xs);
 }
 
-.task-energy-select {
-  color: var(--color-text-muted);
+.task-meta-tags input::placeholder {
+  color: var(--text-dim);
+  opacity: 1;
 }
 
-.task-energy-select.energy-low:hover {
-  background: var(--energy-low-bg);
-  border-color: var(--energy-low-border);
-  color: var(--energy-low-text);
+.task-meta-tags input:focus,
+.task-meta-tags input:focus-visible {
+  box-shadow: none;
+  border-bottom: var(--border-hairline) solid var(--task-energy-accent);
+  color: var(--task-energy-text);
 }
 
-.task-energy-select.energy-medium:hover {
-  background: var(--energy-medium-bg);
-  border-color: var(--energy-medium-border);
-  color: var(--energy-medium-text);
-}
-
-.task-energy-select.energy-high:hover {
-  background: var(--energy-high-bg);
-  border-color: var(--energy-high-border);
-  color: var(--energy-high-text);
+.task-meta-tags .tag-pill {
+  min-height: var(--size-inline-input-min);
 }
 
 /* ================= Buttons ================ */
@@ -737,7 +697,6 @@ main {
 
 .search:focus-within .search-chip {
   border-color: var(--color-accent-strong);
-  box-shadow: 0 0 0 var(--border-hairline) var(--color-focus-ring);
 }
 
 /* ================= Todo List ================ */
@@ -882,6 +841,7 @@ main {
 
 .title-input {
   width: 100%;
+  height: auto;
   min-height: var(--size-title-input-min);
   border-radius: var(--radius-sm);
   border: var(--border-subtle);
@@ -892,6 +852,17 @@ main {
   font-weight: var(--font-weight-bold);
   line-height: var(--line-height-base);
   transition: background-color var(--motion-standard), border-color var(--motion-standard), color var(--motion-standard), box-shadow var(--motion-focus);
+}
+
+.card .title-input:focus,
+.card .title-input:focus-visible {
+  border-color: var(--task-accent);
+  box-shadow: none;
+}
+
+.card .card-tags.is-editing:focus-within {
+  box-shadow: none;
+  outline: none;
 }
 
 .card-body .title {
@@ -940,8 +911,8 @@ main {
 }
 
 .tag-inline-trigger:focus-visible {
-  border-color: var(--color-accent-strong);
-  box-shadow: 0 0 0 var(--border-hairline) var(--color-focus-ring);
+  border-color: var(--task-accent);
+  box-shadow: none;
 }
 
 .tag-inline-input {
@@ -971,15 +942,12 @@ main {
   width: 100%;
 }
 
-.card-tags.is-editing:focus-within {
-  box-shadow: 0 0 0 var(--border-hairline) var(--color-focus-ring);
-}
-
 .card-tags.is-editing .tag-inline-input:focus,
 .card-tags.is-editing .tag-inline-input:focus-visible {
   outline: none;
   box-shadow: none;
-  border-color: transparent;
+  border-bottom: var(--border-hairline) solid var(--task-accent);
+  border-radius: 0;
 }
 
 .tag-add-affordance {
@@ -1007,10 +975,6 @@ main {
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-medium);
   transition: opacity var(--motion-standard), background-color var(--motion-standard);
-}
-
-.task-tags .tag-pill {
-  min-height: var(--size-inline-input-min);
 }
 
 .card-tags .tag-pill {
@@ -1132,7 +1096,7 @@ main {
   box-shadow: inset 0 0 0 var(--border-hairline) var(--energy-medium-border);
   font-size: var(--font-size-badge);
   font-weight: var(--font-weight-semibold);
-  transition: background-color var(--motion-standard), color var(--motion-standard), box-shadow var(--motion-standard);
+  transition: transform 120ms ease, background-color 150ms ease, color 150ms ease, box-shadow 150ms ease;
 }
 
 .energy-badge.energy-low {
@@ -1163,8 +1127,12 @@ button.energy-badge {
   cursor: pointer;
 }
 
+button.energy-badge:active {
+  transform: scale(0.96);
+}
+
 button.energy-badge:focus-visible {
-  box-shadow: inset 0 0 0 var(--border-hairline) var(--energy-medium-border), 0 0 0 var(--border-hairline) var(--color-focus-ring);
+  box-shadow: inset 0 0 0 var(--border-hairline) var(--task-accent, var(--task-energy-accent)), 0 0 0 var(--border-hairline) var(--task-accent, var(--task-energy-accent));
 }
 
 /* ================= Helpers ================ */
@@ -1234,14 +1202,6 @@ button.energy-badge:focus-visible {
 
   .task-input {
     padding: var(--spacing-lg) var(--spacing-xl);
-  }
-
-  .task-row {
-    grid-template-columns: minmax(0, 1fr) var(--size-task-row-energy-column) var(--size-task-row-action-column);
-  }
-
-  .btn-primary {
-    min-width: var(--size-task-row-action-column);
   }
 }
 

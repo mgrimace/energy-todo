@@ -1,6 +1,9 @@
 import React, { useState } from 'react'
-import { CaretDownIcon } from '@phosphor-icons/react'
+import { PlusIcon } from '@phosphor-icons/react'
+import EnergyBadge from './EnergyBadge'
 import useTagInputController from '../hooks/useTagInputController'
+
+const ENERGY_ORDER = ['low', 'medium', 'high']
 
 export default function TaskInput({ onAdd, disabled }) {
   const [title, setTitle] = useState('')
@@ -28,9 +31,20 @@ export default function TaskInput({ onAdd, disabled }) {
     clearTags()
   }
 
+  const cycleEnergy = (event) => {
+    event.preventDefault()
+    const rect = event.currentTarget.getBoundingClientRect()
+    const isLeft = event.clientX < rect.left + rect.width / 2
+    const currentIndex = ENERGY_ORDER.indexOf(energy)
+    const nextIndex = isLeft
+      ? (currentIndex - 1 + ENERGY_ORDER.length) % ENERGY_ORDER.length
+      : (currentIndex + 1) % ENERGY_ORDER.length
+    setEnergy(ENERGY_ORDER[nextIndex])
+  }
+
   return (
-    <form className="task-input" onSubmit={submit}>
-      <div className="task-row">
+    <form className="task-input" data-energy={energy} onSubmit={submit}>
+      <div className="task-title-row">
         <label className="sr-only" htmlFor="task-title">New task</label>
         <input
           id="task-title"
@@ -40,43 +54,38 @@ export default function TaskInput({ onAdd, disabled }) {
           placeholder="New task"
           disabled={disabled}
         />
-
-        <label className="sr-only" htmlFor="task-energy">Task energy</label>
-        <div className="select-field task-energy-field">
-          <select
-            id="task-energy"
-            className={`task-energy-select energy-${energy}`}
-            value={energy}
-            onChange={event => setEnergy(event.target.value)}
-            disabled={disabled}
-          >
-            <option value="low">Low Energy</option>
-            <option value="medium">Medium Energy</option>
-            <option value="high">High Energy</option>
-          </select>
-          <CaretDownIcon className="select-caret" aria-hidden="true" />
-        </div>
-
-        <button type="submit" className="btn btn-primary" disabled={disabled || !title.trim()}>
-          Save
+        <button
+          type="submit"
+          className="btn btn-primary task-save-btn"
+          disabled={disabled || !title.trim()}
+        >
+          <PlusIcon size={14} aria-hidden="true" />
+          Add
         </button>
       </div>
 
-      <div className="task-tags">
-        {tags.map(tag => (
-          <span key={tag} className="tag-pill">{tag}</span>
-        ))}
-        <label className="sr-only" htmlFor="task-tag-input">Task tags</label>
-        <input
-          id="task-tag-input"
-          type="text"
-          value={tagInput}
-          onChange={onTagInputChange}
-          onKeyDown={onTagKeyDown}
-          onPaste={onTagPaste}
-          placeholder="Add tag (comma to create)"
-          disabled={disabled}
+      <div className="task-meta-row">
+        <EnergyBadge
+          energy={energy}
+          tooltip="Change energy cost"
+          onClick={disabled ? undefined : cycleEnergy}
         />
+        <div className="task-meta-tags">
+          {tags.map(tag => (
+            <span key={tag} className="tag-pill">{tag}</span>
+          ))}
+          <label className="sr-only" htmlFor="task-tag-input">Task tags</label>
+          <input
+            id="task-tag-input"
+            type="text"
+            value={tagInput}
+            onChange={onTagInputChange}
+            onKeyDown={onTagKeyDown}
+            onPaste={onTagPaste}
+            placeholder="Add tag (comma to create)"
+            disabled={disabled}
+          />
+        </div>
       </div>
     </form>
   )
