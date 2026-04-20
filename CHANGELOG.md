@@ -4,19 +4,14 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
-- Feat: replace energy `<select>` in task input with a cycling `EnergyBadge` pill; left-half click cycles backward, right-half cycles forward, matching the todo card interaction.
-- Feat: task input card border, Add button, and title field focus border all adopt the currently selected energy colour.
-- Feat: Add button uses energy-coloured background/text when enabled and falls back to muted surface when disabled; no opacity tricks.
-- Feat: Add button renders a `PlusIcon` + "Add" label inline using flexbox.
-- Feat: task input layout restructured into a title row (input + Add button) and a meta row (energy badge + tag entry).
-- Feat: energy badge in task input shows Low / Medium / High labels with tooltip "Change energy cost"; energy badge in todo cards shows Quick win / Well balanced / Deep focus labels with per-state tooltips via `variant="list"` prop.
-- Feat: todo card inline title edit and tag entry field focus borders adopt the card's energy accent colour (hairline, no ring).
-- Feat: tag entry field in both task input and todo cards shows a hairline energy-coloured bottom border on focus.
-- Fix: inline title edit field height is now `auto` so it hugs the text rather than expanding to the full control height.
-- Fix: search chip focus no longer renders a double border at the rounded ends — box-shadow ring removed, border-color change retained.
-- Fix: tag input placeholder no longer receives the browser's default ~54% opacity fade; `::placeholder` rule added with `opacity: 1`.
-- Refactor: removed dead CSS — `select`, `.select-field`, `.select-caret` blocks, `.task-meta-row .btn-primary` leftover, and unused tokens (`--size-select-arrow`, `--size-task-select-min`, `--size-task-row-energy-column`, `--size-task-row-action-column`, `--size-task-button-min`).
-- Refactor: hardcoded `4px` and `2px` values in theme preview replaced with `--spacing-xs` and `--spacing-2xs`; `1px` border-bottom values replaced with `var(--border-hairline)`.
+## [v1.4.8] - 2026-04-20
+
+- Feat: replace energy `<select>` in task input with a cycling EnergyBadge pill; directional click (left = back, right = forward) matches the todo card interaction.
+- Feat: task input card border, Add button, and all focus states adopt the currently selected energy colour.
+- Feat: task input restructured into a title row (input + Add button) and a meta row (energy badge + tag entry).
+- Feat: energy badge labels split by context — Low / Medium / High in the input, Quick win / Well balanced / Deep focus on todo cards.
+- Fix: inline title edit height no longer expands to full control height; search chip focus ring no longer doubles at the corners; tag input placeholder respects the design system opacity.
+- Refactor: removed dead select CSS and unused dimension tokens; hardcoded px values replaced with spacing tokens.
 
 ## [v1.4.7] - 2026-04-16
 
