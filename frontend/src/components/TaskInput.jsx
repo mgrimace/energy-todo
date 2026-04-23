@@ -60,7 +60,6 @@ export default function TaskInput({ onAdd, disabled }) {
           disabled={disabled || !title.trim()}
         >
           <PlusIcon size={14} aria-hidden="true" />
-          Add
         </button>
       </div>
 
