@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+- Fix: task input card gains a subtle energy-tinted background and softened border on focus, using existing energy tokens via `color-mix`.
+- Fix: task input Add button simplified to icon-only (`+`).
+
 ## [v1.4.8] - 2026-04-20
 
 - Feat: replace energy `<select>` in task input with a cycling EnergyBadge pill; directional click (left = back, right = forward) matches the todo card interaction.
