@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [v1.4.9] - 2026-04-22
+
 - Fix: task input card gains a subtle energy-tinted background and softened border on focus, using existing energy tokens via `color-mix`.
 - Fix: task input Add button simplified to icon-only (`+`).
 
