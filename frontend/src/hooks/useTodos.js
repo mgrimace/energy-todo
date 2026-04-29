@@ -51,11 +51,6 @@ export default function useTodos() {
       const elapsed = now - lastActiveRef.current
       lastActiveRef.current = now
 
-      if (elapsed > 60000) {
-        window.location.reload()
-        return
-      }
-
       if (elapsed > 10000) {
         loadTodos(true)
         if (eventSourceRef.current) {

@@ -35,6 +35,10 @@ export function applyTheme(theme: ThemeDefinition, mode: ThemeMode) {
   root.setAttribute('data-theme', mode)
   root.setAttribute('data-theme-id', theme.id)
 
+  document.querySelectorAll<HTMLMetaElement>('meta[name="theme-color"]').forEach(el => {
+    el.content = palette.bg
+  })
+
   for (const [token, value] of Object.entries(palette)) {
     const cssVars = tokenToCssVarMap[token]
     if (!cssVars) continue
