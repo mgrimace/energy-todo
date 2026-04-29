@@ -21,6 +21,7 @@
   --font-size-sm: 0.84rem;
   --font-size-base: 0.96rem;
   --font-size-md: 1rem;
+  --font-size-input: 1rem;
   --font-size-lg: 1.2rem;
   --font-size-badge: 0.74rem;
   --font-weight-medium: 500;
@@ -96,6 +97,10 @@ body {
 :where(button, input, select, textarea) {
   outline: none;
   font: inherit;
+}
+
+:where(input, textarea, select) {
+  font-size: var(--font-size-input);
 }
 
 :where(input:not([type='checkbox']):not([type='radio']), select, .btn) {
@@ -407,7 +412,6 @@ main {
   border: var(--border-subtle);
   background-color: var(--color-field-bg);
   color: var(--color-text);
-  font-size: var(--font-size-base);
   transition: background-color var(--motion-standard), border-color var(--motion-standard), color var(--motion-standard), box-shadow var(--motion-focus);
 }
 
@@ -434,11 +438,11 @@ main {
   background: transparent;
   color: var(--text-dim);
   padding: 0;
-  font-size: var(--font-size-xs);
 }
 
 .task-meta-tags input::placeholder {
   color: var(--text-dim);
+  font-size: var(--font-size-sm);
   opacity: 1;
 }
 
@@ -682,7 +686,6 @@ main {
   border: 0;
   background: transparent;
   color: var(--color-text);
-  font-size: var(--font-size-xs);
   line-height: var(--size-chip-height);
   padding: 0;
   outline: none;
@@ -697,7 +700,8 @@ main {
 }
 
 .search input::placeholder {
-  color: var(--color-text-muted);
+  color: var(--text-dim);
+  font-size: var(--font-size-sm);
 }
 
 .search:focus-within .search-chip {
@@ -932,7 +936,10 @@ main {
   background: transparent;
   color: var(--text-dim);
   padding: 0 var(--spacing-sm);
-  font-size: var(--font-size-xs);
+}
+
+.tag-inline-input::placeholder {
+  font-size: var(--font-size-sm);
 }
 
 .card-tags.is-editing {
@@ -1319,4 +1326,6 @@ button.energy-badge:focus-visible {
 .todo-swipe-wrapper .card.is-complete {
   background: var(--color-bg);
 }
+
+
 

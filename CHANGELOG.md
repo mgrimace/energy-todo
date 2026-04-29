@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+- Fix: prevent iOS Safari auto-zoom on input focus; `--font-size-input: 1rem` token added as a design-system floor applied globally via `:where(input, textarea, select)`; per-input sub-16px `font-size` overrides removed; placeholder text uses `--font-size-sm` to preserve visual hierarchy without affecting typed-content size.
+- Fix: viewport meta gains `viewport-fit=cover` for correct safe-area inset support on notched iPhones; search placeholder shortened to "Search" and dimmed to match tag input style.
+
 ## [v1.5.0] - 2026-04-29
 
 - Fix: eliminate white flash on PWA launch and tab resume; `theme-color` metas split by `prefers-color-scheme`, inline `<style>` sets `html, body { background }` before JS loads, and `applyTheme` updates both metas live to follow the active in-app theme.
