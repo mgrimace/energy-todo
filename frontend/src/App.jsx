@@ -134,7 +134,7 @@ export default function App() {
                 type="search"
                 value={search}
                 onChange={event => setSearch(event.target.value)}
-                placeholder="Search tasks or tags"
+                placeholder="Search"
               />
             </span>
           </label>
