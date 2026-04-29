@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+- Fix: eliminate white flash on PWA launch and tab resume; inline `<style>` in `index.html` sets `html, body { background }` before JS loads, matched to system `prefers-color-scheme`.
+- Fix: `theme-color` meta tags now use `media="(prefers-color-scheme: dark|light)"` and are updated live by `applyTheme` to match the active in-app theme, overriding OS preference when the user has made an explicit in-app selection.
+- Fix: PWA manifest `background_color` and `theme_color` corrected from `#ffffff` / `#6b21a8` to `#161a1d` to prevent a white splash screen on launch.
+- Fix: `html` element now inherits `background: var(--color-bg)` in `styles.css` alongside `body`, closing the gap that allowed a white sliver during paint.
+- Fix: removed `window.location.reload()` from the 60 s inactivity path in `useTodos`; the app now silently refetches and reconnects SSE instead of forcing a full page reload.
+
+## [v1.4.9] - 2026-04-22
+
 - Fix: task input card gains a subtle energy-tinted background and softened border on focus, using existing energy tokens via `color-mix`.
 - Fix: task input Add button simplified to icon-only (`+`).
 
