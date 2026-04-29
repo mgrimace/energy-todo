@@ -63,13 +63,20 @@ Run these before merging:
 - Add entries for user-facing features, fixes, regressions, and notable behavior changes.
 - Skip trivial internal refactors unless they impact users or operators.
 - If a release is withdrawn, mark it clearly (for example, `(withdrawn)`) and document the replacement release.
+- **Keep entries succinct.** One line per change. Lead with `Feat:`, `Fix:`, or `Refactor:`. Describe the user-visible outcome, not implementation details. Use the existing entries as the style reference.
 
 ## Release checklist
 
 1. Confirm `main` is up to date and tests/build checks pass.
-2. Move release-ready entries from `## [Unreleased]` into a new version section (for example, `## [v1.0.4] - 2026-03-08`).
-3. Commit release prep docs changes (for example, `docs: prepare v1.0.4 changelog`).
-4. Create and push an annotated version tag: `git tag -a vX.Y.Z -m "Release vX.Y.Z"` then `git push origin vX.Y.Z`.
+2. Move release-ready entries from `## [Unreleased]` into a new version section (for example, `## [v1.0.4] - 2026-03-08`). Consolidate verbose PR-level notes into succinct user-facing lines.
+3. Commit the changelog update directly on `main` (for example, `docs: prepare v1.0.4 changelog`) and push:
+   ```bash
+   git add CHANGELOG.md && git commit -m "docs: prepare vX.Y.Z changelog" && git push origin main
+   ```
+4. Create and push an annotated version tag:
+   ```bash
+   git tag -a vX.Y.Z -m "Release vX.Y.Z" && git push origin vX.Y.Z
+   ```
 5. Verify the GitHub release workflow publishes images and creates the release.
 
 ## Commit message style
