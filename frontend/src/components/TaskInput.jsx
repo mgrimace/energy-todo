@@ -69,9 +69,9 @@ export default function TaskInput({ onAdd, disabled }) {
           tooltip="Change energy cost"
           onClick={disabled ? undefined : cycleEnergy}
         />
-        <div className="task-meta-tags">
+        <div className="cmd-tags">
           {tags.map(tag => (
-            <span key={tag} className="tag-pill">{tag}</span>
+            <span key={tag} className="cmd-tag-token">#{tag}</span>
           ))}
           <label className="sr-only" htmlFor="task-tag-input">Task tags</label>
           <input
@@ -81,7 +81,7 @@ export default function TaskInput({ onAdd, disabled }) {
             onChange={onTagInputChange}
             onKeyDown={onTagKeyDown}
             onPaste={onTagPaste}
-            placeholder="Add tag (comma to create)"
+            placeholder="tags (comma or enter to add)"
             disabled={disabled}
           />
         </div>
