@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+- Fix: task input card now keeps its normal background and border while still preserving energy state on the save button.
 - Refactor: improve tag UI display and styling in task input and todo cards.
 
 ## [v1.5.1] - 2026-04-29

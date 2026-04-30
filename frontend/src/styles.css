@@ -353,8 +353,8 @@ main {
 .task-input[data-energy='high']   { --task-energy-accent: var(--energy-high-border);   --task-energy-bg: var(--energy-high-bg);   --task-energy-text: var(--energy-high-text); }
 
 .task-input:focus-within {
-  border-color: color-mix(in srgb, var(--task-energy-accent, var(--color-accent)) 25%, var(--color-border));
-  background: color-mix(in srgb, var(--task-energy-bg, var(--color-accent)) 25%, var(--color-entry-card-bg));
+  border-color: var(--color-border);
+  background: var(--color-entry-card-bg);
 }
 
 .task-input .task-save-btn:not(:disabled) {
