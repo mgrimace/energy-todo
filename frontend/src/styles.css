@@ -374,13 +374,14 @@ main {
   gap: var(--spacing-sm);
 }
 
-.task-meta-tags {
+.cmd-tags {
   flex: 1;
   min-width: 0;
   display: flex;
   align-items: center;
   flex-wrap: wrap;
   gap: var(--spacing-xs);
+  --cmd-tag-color: var(--task-energy-text, var(--color-text-muted));
 }
 
 .task-title-row {
@@ -429,32 +430,45 @@ main {
   box-shadow: none;
 }
 
-.task-meta-tags input {
+.cmd-tags input {
   flex: 1;
-  min-width: var(--size-tag-input-min);
+  min-width: 80px;
   height: var(--size-inline-input-min);
   min-height: var(--size-inline-input-min);
   border: 0;
   background: transparent;
   color: var(--text-dim);
   padding: 0;
+  font-size: var(--font-size-input);
 }
 
-.task-meta-tags input::placeholder {
+.cmd-tags input::placeholder {
   color: var(--text-dim);
   font-size: var(--font-size-sm);
   opacity: 1;
 }
 
-.task-meta-tags input:focus,
-.task-meta-tags input:focus-visible {
+.cmd-tags input:focus,
+.cmd-tags input:focus-visible {
   box-shadow: none;
-  border-bottom: var(--border-hairline) solid var(--task-energy-accent);
-  color: var(--task-energy-text);
+  border-bottom: 1px solid color-mix(in srgb, var(--task-energy-accent, var(--color-border)) 50%, transparent);
+  color: var(--task-energy-text, var(--color-text));
 }
 
-.task-meta-tags .tag-pill {
-  min-height: var(--size-inline-input-min);
+.card-tags {
+  --cmd-tag-color: var(--color-text-muted);
+}
+
+.card.energy-low .cmd-tag-token {
+  color: var(--energy-low-text);
+}
+
+.card.energy-medium .cmd-tag-token {
+  color: var(--energy-medium-text);
+}
+
+.card.energy-high .cmd-tag-token {
+  color: var(--energy-high-text);
 }
 
 /* ================= Buttons ================ */
@@ -971,25 +985,24 @@ main {
   transition: opacity var(--motion-fast);
 }
 
-.tag-inline-trigger .tag-pill + .tag-add-affordance {
+.tag-inline-trigger .cmd-tag-token + .tag-add-affordance {
   margin-left: var(--spacing-xs);
 }
 
-.tag-pill {
+.cmd-tag-token {
   display: inline-flex;
   align-items: center;
   min-height: var(--size-tag-pill-min);
-  padding: var(--spacing-2xs) var(--spacing-sm);
+  padding: 0;
   border-radius: var(--radius-pill);
-  border: var(--border-hairline) solid var(--color-border);
   background: transparent;
-  color: var(--color-text-muted);
-  font-size: var(--font-size-xs);
+  color: var(--cmd-tag-color, var(--color-text-muted));
+  font-size: var(--font-size-sm);
   font-weight: var(--font-weight-medium);
-  transition: opacity var(--motion-standard), background-color var(--motion-standard);
+  transition: opacity var(--motion-standard), color var(--motion-standard);
 }
 
-.card-tags .tag-pill {
+.card-tags .cmd-tag-token {
   opacity: 1;
 }
 

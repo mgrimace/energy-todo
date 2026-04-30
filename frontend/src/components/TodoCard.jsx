@@ -373,7 +373,7 @@ export default function TodoCard({ todo, onToggle, onDelete, onEditTitle, onEdit
                   aria-label="Edit task tags"
                 >
                   {editingTags.map((tag, index) => (
-                    <span key={`${tag}-${index}`} className="tag-pill">{tag}</span>
+                    <span key={`${tag}-${index}`} className="cmd-tag-token">#{tag}</span>
                   ))}
                   <input
                     type="text"
@@ -402,7 +402,7 @@ export default function TodoCard({ todo, onToggle, onDelete, onEditTitle, onEdit
                   aria-label="Edit task tags"
                 >
                   {tags.length > 0 ? tags.map(tag => (
-                    <span key={tag} className="tag-pill">{tag}</span>
+                    <span key={tag} className="cmd-tag-token">#{tag}</span>
                   )) : null}
                   <span className="tag-add-affordance" aria-hidden="true">+</span>
                 </button>

@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+- Refactor: improve tag UI display and styling in task input and todo cards.
+
 ## [v1.5.1] - 2026-04-29
 
 - Fix: prevent iOS Safari auto-zoom on input focus; `--font-size-input: 1rem` design-system token applied globally via `:where(input, textarea, select)`; placeholder text uses `--font-size-sm` to preserve visual hierarchy without affecting typed-content size.
