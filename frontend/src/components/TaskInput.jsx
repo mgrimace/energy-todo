@@ -106,25 +106,27 @@ export default function TaskInput({ onAdd, disabled }) {
           placeholder="new task"
           disabled={disabled}
         />
-        {confirmedTags.map(tag => (
+        <div className="task-actions">
+          {confirmedTags.map(tag => (
+            <button
+              key={tag}
+              type="button"
+              className="cmd-tag-token task-inline-tag"
+              onClick={() => editTag(tag)}
+              aria-label={`Remove tag ${tag} and edit`}
+            >
+              #{tag}
+            </button>
+          ))}
           <button
-            key={tag}
-            type="button"
-            className="cmd-tag-token task-inline-tag"
-            onClick={() => editTag(tag)}
-            aria-label={`Remove tag ${tag} and edit`}
+            type="submit"
+            className="task-save-btn"
+            disabled={disabled || !title.trim()}
+            aria-label="Add task"
           >
-            #{tag}
+            +
           </button>
-        ))}
-        <button
-          type="submit"
-          className="task-save-btn"
-          disabled={disabled || !title.trim()}
-          aria-label="Add task"
-        >
-          +
-        </button>
+        </div>
       </div>
     </form>
   )

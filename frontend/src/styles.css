@@ -65,6 +65,14 @@
 
   --opacity-tag-affordance-active: 1;
 
+  /* ========== OPACITY SYSTEM ========== */
+  --opacity-dim: 0.3;
+  --opacity-muted: 0.35;
+  --opacity-faded: 0.4;
+  --opacity-secondary: 0.6;
+  --opacity-active: 0.7;
+  --opacity-subtle: 0.5;
+
   /* ========== Z-INDEX SCALE ========== */
   --z-dropdown: 20;
 
@@ -103,7 +111,7 @@ body {
 :where(input:not([type='checkbox']):not([type='radio']), select, .btn) {
   height: var(--control-height);
   padding: 0 var(--size-control-padding-inline);
-  line-height: 1.2;
+  line-height: 1.2; /* intentional one-off */
   box-sizing: border-box;
 }
 
@@ -132,7 +140,6 @@ main {
   flex-wrap: wrap;
   gap: var(--spacing-sm);
   padding: var(--spacing-sm) 0 var(--spacing-md);
-  /* border-bottom removed */
   margin-bottom: var(--spacing-lg);
 }
 
@@ -142,7 +149,7 @@ main {
   gap: var(--spacing-sm);
   margin: 0;
   font-size: var(--font-size-lg);
-  letter-spacing: 0.01em;
+  letter-spacing: 0.01em; /* intentional one-off */
   color: var(--color-text);
 }
 
@@ -197,7 +204,6 @@ main {
   background: var(--color-surface-muted);
 }
 
-/* Theme selector: plain lowercase text, no pill/border at rest */
 .theme-selector {
   position: relative;
 }
@@ -207,7 +213,7 @@ main {
   border: 0;
   border-radius: var(--radius-sm);
   background: transparent;
-  color: var(--color-text-muted); /* --color-text-muted */
+  color: var(--color-text-muted);
   padding: var(--spacing-xs) var(--spacing-xs);
   display: inline-flex;
   align-items: center;
@@ -220,7 +226,7 @@ main {
 
 .theme-selector-trigger:hover,
 .theme-selector-trigger:focus-visible {
-  background: var(--color-surface-muted); /* subtle bg tint on hover */
+  background: var(--color-surface-muted);
   color: var(--color-text);
 }
 
@@ -324,7 +330,7 @@ main {
 
 .theme-selector-option:hover,
 .theme-selector-option:focus-visible {
-  background: var(--surface-hover); /* --surface-hover */
+  background: var(--surface-hover);
 }
 
 .theme-selector-option.is-active {
@@ -344,7 +350,6 @@ main {
 }
 
 /* ================= Task Input ================ */
-/* Flat, flush with page background — no card, no border, no bg */
 .task-input {
   display: flex;
   align-items: baseline;
@@ -371,7 +376,6 @@ main {
   height: var(--font-size-input);
 }
 
-/* Energy selector: plain mono lowercase text, energy text token, no icon */
 .task-energy-selector {
   flex-shrink: 0;
   border: 0;
@@ -397,7 +401,7 @@ main {
   flex: 1 1 200px;
   min-width: 120px;
   gap: var(--spacing-sm);
-  border-bottom: 1px solid var(--color-border); /* --color-border */
+  border-bottom: 1px solid var(--color-border);
   transition: border-color var(--motion-standard);
 }
 
@@ -419,12 +423,19 @@ main {
 }
 
 #task-title::placeholder {
-  color: var(--color-text-muted); /* --color-text-muted */
+  color: var(--color-text-muted);
 }
 
 .task-input #task-title:focus,
 .task-input #task-title:focus-visible {
   box-shadow: none;
+}
+
+.task-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  flex-shrink: 0;
 }
 
 /* + button: shares underline with input, plain text character */
@@ -451,64 +462,19 @@ main {
 
 .task-save-btn:disabled {
   color: var(--color-text-muted);
-  opacity: 0.35;
+  opacity: var(--opacity-muted);
   cursor: not-allowed;
 }
 
-/* Confirmed inline tag tokens in the title row */
 .task-input .task-inline-tag {
   border: 0;
   cursor: pointer;
-  color: var(--task-energy-text, var(--color-text-muted)); /* --task-energy-text */
+  color: var(--task-energy-text, var(--color-text-muted));
   flex-shrink: 0;
 }
 
 .task-input .task-inline-tag:hover {
   opacity: 0.7;
-}
-
-/* Tags row — left untouched per instructions */
-.task-meta-row {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-sm);
-  flex: 1 1 100%;
-  order: 10;
-}
-
-.cmd-tags {
-  flex: 1;
-  min-width: 0;
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: var(--spacing-xs);
-  --cmd-tag-color: var(--task-energy-text, var(--color-text-muted));
-}
-
-.cmd-tags input {
-  flex: 1;
-  min-width: 80px;
-  height: var(--size-inline-input-min);
-  min-height: var(--size-inline-input-min);
-  border: 0;
-  background: transparent;
-  color: var(--text-dim);
-  padding: 0;
-  font-size: var(--font-size-input);
-}
-
-.cmd-tags input::placeholder {
-  color: var(--text-dim);
-  font-size: var(--font-size-sm);
-  opacity: 1;
-}
-
-.cmd-tags input:focus,
-.cmd-tags input:focus-visible {
-  box-shadow: none;
-  border-bottom: 1px solid color-mix(in srgb, var(--task-energy-accent, var(--color-border)) 50%, transparent);
-  color: var(--task-energy-text, var(--color-text));
 }
 
 .card-tags {
@@ -518,36 +484,6 @@ main {
 .card.energy-low .cmd-tag-token  { color: var(--energy-low-text); }
 .card.energy-medium .cmd-tag-token { color: var(--energy-medium-text); }
 .card.energy-high .cmd-tag-token  { color: var(--energy-high-text); }
-
-/* ================= Buttons ================ */
-.btn {
-  border: var(--border-hairline) solid transparent;
-  border-radius: var(--radius-sm);
-  padding-inline: var(--spacing-lg);
-  font-weight: var(--font-weight-semibold);
-  cursor: pointer;
-  transition: background-color var(--motion-standard), border-color var(--motion-standard), color var(--motion-standard);
-}
-
-.btn-primary {
-  background: var(--color-accent);
-  color: var(--color-accent-on);
-}
-
-.btn-primary:hover {
-  background: var(--color-accent-strong);
-}
-
-.btn-primary:active {
-  transform: translateY(1px);
-}
-
-.btn-primary:disabled {
-  background: var(--color-surface-muted);
-  color: var(--color-text-muted);
-  border-color: var(--color-border);
-  cursor: not-allowed;
-}
 
 /* ================= Filter & Search Controls ================ */
 .list-controls {
@@ -571,7 +507,7 @@ main {
   width: 100%;
 }
 
-/* Icons hidden — text-only tabs */
+/* intentional: filter-status-icon hidden per flat design — remove rule if icon restored */
 .filter-status-icon {
   display: none;
 }
@@ -634,7 +570,7 @@ main {
   padding: 0 var(--spacing-sm);
   border-radius: 0;
   border: 0;
-  border-bottom: 1.5px solid transparent;
+  border-bottom: 1.5px solid transparent; /* intentional one-off */
   background: transparent;
   color: var(--color-text-muted);
   font-size: var(--font-size-xs);
@@ -657,7 +593,6 @@ main {
   opacity: 1;
 }
 
-/* Search: no box, single bottom border */
 .search {
   display: flex;
   align-items: center;
@@ -678,7 +613,7 @@ main {
   width: 100%;
   border-radius: 0;
   border: 0;
-  border-bottom: 1px solid var(--color-border); /* --color-border */
+  border-bottom: 1px solid var(--color-border);
   background: transparent;
   padding: 0;
   font-size: var(--font-size-xs);
@@ -694,8 +629,8 @@ main {
   flex: 0 0 auto;
   width: var(--size-icon-ui-sm);
   height: var(--size-icon-ui-sm);
-  color: var(--color-text-muted); /* --color-text-muted */
-  opacity: 0.4;
+  color: var(--color-text-muted);
+  opacity: var(--opacity-faded);
   transition: opacity var(--motion-standard);
 }
 
@@ -734,7 +669,7 @@ main {
 /* ================= Todo List ================ */
 .stacked-list {
   border: var(--border-subtle);
-  border-radius: 0; /* flat, no radius */
+  border-radius: 0;
   background: var(--color-item-cards-bg);
   display: flex;
   flex-direction: column;
@@ -773,7 +708,7 @@ main {
 
 .card:hover,
 .card:focus-within {
-  background: var(--surface-hover); /* --surface-hover */
+  background: var(--surface-hover);
 }
 
 .card.is-complete {
@@ -787,13 +722,12 @@ main {
 }
 
 .card.is-complete .title {
-  opacity: 0.4;
+  opacity: var(--opacity-faded);
   text-decoration: line-through;
   text-decoration-thickness: 1px;
   text-decoration-color: var(--color-text-muted);
 }
 
-/* Energy vars — checkbox + meta use these */
 .card.energy-low    { --task-accent: var(--energy-low-border);    --task-accent-bg: var(--energy-low-bg);    --task-energy-text: var(--energy-low-text); }
 .card.energy-medium { --task-accent: var(--energy-medium-border); --task-accent-bg: var(--energy-medium-bg); --task-energy-text: var(--energy-medium-text); }
 .card.energy-high   { --task-accent: var(--energy-high-border);   --task-accent-bg: var(--energy-high-bg);   --task-energy-text: var(--energy-high-text); }
@@ -823,15 +757,14 @@ main {
   pointer-events: auto;
 }
 
-/* Checkbox: bare 14x14 square, no radius, energy-tinted at rest */
 .checkbox {
   width: var(--size-checkbox);
   height: var(--size-checkbox);
   border-radius: 0;
-  border: 1.5px solid var(--task-accent, var(--color-border));
+  border: 1.5px solid var(--task-accent, var(--color-border)); /* intentional one-off */
   background: var(--task-accent-bg, var(--color-surface-muted));
   color: var(--task-energy-text, var(--color-text-muted));
-  font-size: 9px;
+  font-size: 9px; /* intentional one-off */
   font-weight: var(--font-weight-bold);
   display: inline-flex;
   align-items: center;
@@ -853,7 +786,6 @@ main {
   transform: translateY(1px);
 }
 
-/* Completed: energy bg fill, energy text checkmark */
 .card.is-complete .checkbox {
   border-color: var(--task-accent, var(--color-border));
   background: var(--task-accent-bg, var(--color-surface-muted));
@@ -879,9 +811,6 @@ main {
   cursor: text;
 }
 
-.title-button:hover {
-}
-
 .title-input {
   width: 100%;
   height: auto;
@@ -904,11 +833,6 @@ main {
   box-shadow: none;
 }
 
-.card .card-tags.is-editing:focus-within {
-  box-shadow: none;
-  outline: none;
-}
-
 .card-body .title {
   font-size: var(--font-size-md);
   font-weight: var(--font-weight-bold);
@@ -917,7 +841,6 @@ main {
   color: var(--color-text);
 }
 
-/* Meta row: energy label + tags, same line height */
 .meta {
   margin-top: var(--spacing-xs);
   display: flex;
@@ -935,62 +858,6 @@ main {
   align-items: center;
 }
 
-.tag-inline-trigger {
-  display: inline-flex;
-  flex-wrap: wrap;
-  gap: var(--spacing-xs);
-  min-height: var(--size-inline-input-min);
-  border: var(--border-hairline) solid transparent;
-  border-radius: 0;
-  background: transparent;
-  padding: 0;
-  color: inherit;
-  cursor: text;
-  transition: border-color var(--motion-standard);
-}
-
-.tag-inline-trigger:focus-visible {
-  border-color: var(--task-accent);
-  box-shadow: none;
-}
-
-.tag-inline-input {
-  flex: 0 1 auto;
-  min-width: var(--size-inline-input-min);
-  max-width: 100%;
-  width: auto;
-  height: var(--size-inline-input-min);
-  min-height: var(--size-inline-input-min);
-  border: 0;
-  background: transparent;
-  color: var(--text-dim);
-  padding: 0 var(--spacing-sm);
-}
-
-.tag-inline-input::placeholder {
-  font-size: var(--font-size-sm);
-}
-
-.card-tags.is-editing {
-  border-radius: 0;
-}
-
-.tag-inline-editor {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--spacing-xs);
-  align-items: center;
-  width: 100%;
-}
-
-.card-tags.is-editing .tag-inline-input:focus,
-.card-tags.is-editing .tag-inline-input:focus-visible {
-  outline: none;
-  box-shadow: none;
-  border-bottom: 1px solid var(--task-accent, var(--color-border));
-  border-radius: 0;
-}
-
 .cmd-tag-token {
   display: inline-flex;
   align-items: center;
@@ -1005,11 +872,11 @@ main {
 }
 
 .card:not(.is-complete) .cmd-tag-token {
-  opacity: 0.6;
+  opacity: var(--opacity-secondary);
 }
 
 .completed-list .cmd-tag-token {
-  opacity: 0.4;
+  opacity: var(--opacity-faded);
 }
 
 button.cmd-tag-token {
@@ -1018,7 +885,6 @@ button.cmd-tag-token {
 }
 
 /* ================= Energy Badge (meta row) ================ */
-/* Flat: uppercase mono, energy text token only — no pill, no bg, no border */
 .energy-badge {
   display: inline-flex;
   align-items: center;
@@ -1033,11 +899,6 @@ button.cmd-tag-token {
   font-weight: var(--font-weight-medium);
   text-transform: lowercase;
   letter-spacing: 0;
-}
-
-/* No icon shown */
-.energy-badge svg {
-  display: none;
 }
 
 .energy-badge.energy-low    { color: var(--energy-low-border); }
@@ -1077,17 +938,13 @@ button.energy-badge:focus-visible {
   align-items: center;
   gap: var(--spacing-sm);
   margin: var(--spacing-lg) 0 var(--spacing-lg);
-  color: var(--color-text-muted); /* --color-text-muted */
-  font-size: 11px;
+  color: var(--color-text-muted);
+  font-size: 11px; /* intentional one-off */
   font-weight: var(--font-weight-medium);
-  letter-spacing: 0.08em;
+  letter-spacing: 0.08em; /* intentional one-off */
+  opacity: var(--opacity-subtle);
   position: relative;
   justify-content: flex-start;
-}
-
-/* Centered rules removed */
-.completed-divider-rule {
-  display: none;
 }
 
 .completed-clear-btn {
@@ -1100,14 +957,14 @@ button.energy-badge:focus-visible {
   transform: translateY(-50%);
   border: 0;
   background: transparent;
-  color: var(--color-text-muted); /* --color-text-muted */
-  padding: 0 4px;
-  border-radius: 2px;
+  color: var(--color-text-muted);
+  padding: 0 var(--spacing-xs);
+  border-radius: 2px; /* intentional one-off */
   cursor: pointer;
-  font-size: 11px;
+  font-size: 11px; /* intentional one-off */
   font-weight: var(--font-weight-medium);
-  letter-spacing: 0.08em;
-  opacity: 0.5;
+  letter-spacing: 0.08em; /* intentional one-off */
+  opacity: var(--opacity-subtle);
   transition: opacity var(--motion-standard);
 }
 
@@ -1118,7 +975,7 @@ button.energy-badge:focus-visible {
   background: color-mix(in srgb, var(--color-danger-text) 8%, transparent);
 }
 
-/* Icon hidden per spec */
+/* intentional: ChecksIcon hidden per flat design — remove rule if icon restored */
 .completed-clear-btn svg {
   display: none;
 }
@@ -1150,8 +1007,8 @@ button.energy-badge:focus-visible {
   width: var(--size-checkbox);
   height: var(--size-checkbox);
   padding: 0;
-  color: var(--color-text-muted); /* --color-text-muted */
-  opacity: 0.3;
+  color: var(--color-text-muted);
+  opacity: var(--opacity-dim);
   cursor: grab;
   background: transparent;
   border: none;
@@ -1161,7 +1018,7 @@ button.energy-badge:focus-visible {
 }
 
 .drag-handle:hover {
-  opacity: 0.7;
+  opacity: var(--opacity-active);
   cursor: grab;
 }
 
@@ -1205,10 +1062,10 @@ button.energy-badge:focus-visible {
     flex-wrap: wrap;
   }
 
-  .task-input-caret { order: -1; flex-shrink: 0; align-self: center; }
-  #task-title       { order: 2; flex: 1 1 0; }
-  .task-save-btn    { order: 3; }
-  .task-meta-row    { order: 10; flex: 1 1 100%; }
+  .task-input-caret     { order: -1; flex-shrink: 0; align-self: center; }
+  .task-energy-selector { order: 0; }
+  #task-title           { order: 1; flex: 1 1 100%; }
+  .task-actions         { order: 2; margin-left: auto; }
 }
 
 @media (min-width: 640px) {
@@ -1312,7 +1169,7 @@ button.energy-badge:focus-visible {
 .swipe-delete {
   position: relative;
   flex: 1;
-  background: var(--color-danger-text); /* --color-danger-text token */
+  background: var(--color-danger-text);
   color: var(--color-bg);
   display: flex;
   align-items: center;
