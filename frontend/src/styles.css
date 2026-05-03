@@ -1151,8 +1151,6 @@ button.energy-badge:focus-visible {
   padding-left: var(--spacing-xl);
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-semibold);
-  transform: scale(calc(0.92 + var(--swipe-progress, 0) * 0.08));
-  transition: transform 120ms ease-out;
 }
 
 .swipe-icon {
@@ -1162,8 +1160,7 @@ button.energy-badge:focus-visible {
   justify-content: center;
   margin-right: var(--spacing-lg);
   opacity: clamp(0, (var(--swipe-progress, 0) - 0.6) * 3, 1);
-  transform: scale(clamp(0.9, var(--swipe-progress, 0), 1));
-  transition: opacity 120ms ease-out, transform 120ms ease-out;
+  transition: opacity 120ms ease-out;
 }
 
 .swipe-delete {
