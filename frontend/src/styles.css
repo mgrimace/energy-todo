@@ -460,6 +460,15 @@ main {
   color: var(--task-energy-accent, var(--color-accent));
 }
 
+.task-save-btn:not(:disabled):hover {
+  background: color-mix(in srgb, var(--task-energy-bg, var(--color-surface-muted)) 60%, transparent);
+  border-radius: 2px;
+  padding-inline: var(--spacing-xs);
+  padding-bottom: 0;
+  margin-inline: calc(-1 * var(--spacing-xs));
+  margin-bottom: var(--spacing-xs);
+}
+
 .task-save-btn:disabled {
   color: var(--color-text-muted);
   opacity: var(--opacity-muted);
