@@ -10,7 +10,7 @@ export default function ThemeToggle() {
       onClick={toggleMode}
       aria-label="Toggle theme"
     >
-      {mode === 'dark' ? <SunIcon size={22} /> : <MoonIcon size={22} />}
+      {mode === 'dark' ? <SunIcon size={16} /> : <MoonIcon size={16} />}
     </button>
   )
 }
