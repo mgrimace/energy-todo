@@ -15,11 +15,11 @@ function ThemePreview({ theme, mode }) {
         '--color-field-bg': palette.surfaceAlt,
         '--color-border': palette.border,
         '--energy-low-bg': palette.energyLowBg,
-        '--energy-low-border': palette.energyLowBorder,
+        '--energy-low-accent': palette.energyLowAccent,
         '--energy-medium-bg': palette.energyMediumBg,
-        '--energy-medium-border': palette.energyMediumBorder,
+        '--energy-medium-accent': palette.energyMediumAccent,
         '--energy-high-bg': palette.energyHighBg,
-        '--energy-high-border': palette.energyHighBorder,
+        '--energy-high-accent': palette.energyHighAccent,
       }}
     >
       <span className="theme-preview-box">
