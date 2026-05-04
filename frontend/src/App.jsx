@@ -132,6 +132,7 @@ export default function App() {
               <input
                 id="task-search"
                 type="search"
+                aria-label="Search tasks"
                 value={search}
                 onChange={event => setSearch(event.target.value)}
                 placeholder="Search"

@@ -18,13 +18,13 @@ export const defaultTheme: ThemeDefinition = {
       borderStrong: '#b6bec3',
       danger: '#E67C7C',
       energyLowBg: '#e0eeea',
-      energyLowAccent: '#1c7d49',
+      energyLowAccent: '#539c75',
       energyLowText: '#1a4433',
       energyMediumBg: '#e0e7f1',
-      energyMediumAccent: '#235d9f',
+      energyMediumAccent: '#5884b5',
       energyMediumText: '#2f4760',
       energyHighBg: '#ede8f5',
-      energyHighAccent: '#7633c2',
+      energyHighAccent: '#9664d0',
       energyHighText: '#3d2060'
     },
     dark: {
@@ -41,13 +41,13 @@ export const defaultTheme: ThemeDefinition = {
       borderStrong: '#343f46',
       danger: '#c45858',
       energyLowBg: '#162520',
-      energyLowAccent: '#29a362',
+      energyLowAccent: '#268353',
       energyLowText: '#7ad4a5',
       energyMediumBg: '#1c2431',
-      energyMediumAccent: '#4d8fdb',
+      energyMediumAccent: '#4174ae',
       energyMediumText: '#b5cbe0',
       energyHighBg: '#211a34',
-      energyHighAccent: '#9d6dd5',
+      energyHighAccent: '#7d5aa9',
       energyHighText: '#ccc2df'
     }
   }

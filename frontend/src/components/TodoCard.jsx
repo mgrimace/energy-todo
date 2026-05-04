@@ -261,6 +261,7 @@ export default function TodoCard({ todo, onToggle, onDelete, onEditTitle, onEdit
       <article
         className={`card energy-${todo.energy} ${todo.completed ? 'is-complete' : ''}`}
         ref={cardRef}
+        aria-label={todo.completed ? `Completed: ${todo.title}` : todo.title}
       >
       <div className="card-left">
         <button
@@ -268,6 +269,7 @@ export default function TodoCard({ todo, onToggle, onDelete, onEditTitle, onEdit
           className="checkbox"
           onClick={onToggle}
           aria-pressed={todo.completed}
+          aria-label={todo.completed ? 'Mark as incomplete' : 'Mark as complete'}
         >
           {todo.completed ? '✓' : ''}
         </button>
@@ -329,6 +331,7 @@ export default function TodoCard({ todo, onToggle, onDelete, onEditTitle, onEdit
         type="button"
         className="drag-handle"
         aria-label="Drag to reorder"
+        aria-roledescription="sortable"
         aria-hidden={isDraggingOverlay ? true : undefined}
         tabIndex={isDraggingOverlay ? -1 : undefined}
         {...(dragHandleProps && !isDraggingOverlay ? dragHandleProps : {})}
