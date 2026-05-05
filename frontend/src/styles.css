@@ -67,6 +67,7 @@
   --opacity-dim: 0.3;
   --opacity-muted: 0.35;
   --opacity-faded: 0.65;
+  --opacity-meta: 0.65;   /* secondary metadata within a card row (tags, energy badge) */
   --opacity-active: 0.7;
 
   /* ========== Z-INDEX SCALE ========== */
@@ -959,7 +960,7 @@ main {
 }
 
 .card:not(.is-complete) .cmd-tag-token {
-  opacity: var(--opacity-faded);
+  opacity: var(--opacity-meta);
 }
 
 .completed-list .cmd-tag-token {
