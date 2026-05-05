@@ -441,7 +441,7 @@ main {
   border-radius: 0;
   background: transparent;
   color: var(--color-text);
-  padding: 0 0 var(--spacing-xs);
+  padding: var(--spacing-xs) 0;
   height: auto;
   line-height: 1.4;
 }
@@ -486,7 +486,7 @@ main {
   justify-content: center;
   height: auto;
   min-width: unset;
-  padding: 0 0 var(--spacing-xs);
+  padding: var(--spacing-xs) 0;
   border: 0;
   background: transparent;
   color: var(--color-text-muted);
@@ -596,6 +596,7 @@ main {
 
 .filter-pill-button {
   --filter-active-border: var(--color-border); /* neutral for All/Done */
+  --filter-hover-bg: var(--color-surface-muted);
   flex: 1 1 0;
   min-height: 44px;
   padding: 0 var(--spacing-xs);
@@ -612,9 +613,9 @@ main {
 }
 
 /* Energy-state underline colors */
-.filter-pill-button[data-filter-tone='low']    { --filter-active-border: var(--energy-low-accent); }
-.filter-pill-button[data-filter-tone='medium'] { --filter-active-border: var(--energy-medium-accent); }
-.filter-pill-button[data-filter-tone='high']   { --filter-active-border: var(--energy-high-accent); }
+.filter-pill-button[data-filter-tone='low']    { --filter-active-border: var(--energy-low-accent);    --filter-hover-bg: var(--energy-low-bg); }
+.filter-pill-button[data-filter-tone='medium'] { --filter-active-border: var(--energy-medium-accent); --filter-hover-bg: var(--energy-medium-bg); }
+.filter-pill-button[data-filter-tone='high']   { --filter-active-border: var(--energy-high-accent);   --filter-hover-bg: var(--energy-high-bg); }
 
 .filter-pill-chip {
   display: inline-flex;
@@ -625,12 +626,12 @@ main {
   padding: 0 var(--spacing-sm);
   border-radius: 0;
   border: 0;
-  border-bottom: 2px solid transparent; /* intentional one-off */
+  border-bottom: var(--border-hairline) solid transparent;
   background: transparent;
   color: var(--color-text-muted);
   font-size: var(--font-size-xs);
   white-space: nowrap;
-  transition: color var(--motion-standard);
+  transition: color var(--motion-standard), background-color var(--motion-standard);
 }
 
 .filter-pill-button.is-active .filter-pill-chip {
@@ -647,6 +648,8 @@ main {
 .filter-pill-button:hover .filter-pill-chip,
 .filter-pill-button:focus-visible .filter-pill-chip {
   opacity: 1;
+  background: var(--filter-hover-bg);
+  color: var(--color-text);
 }
 
 .search {
@@ -716,10 +719,6 @@ main {
 .search input::placeholder {
   color: var(--text-dim);
   font-size: var(--font-size-sm);
-}
-
-.search:focus-within .search-chip {
-  border-bottom-color: var(--color-border-strong);
 }
 
 /* ================= Todo List ================ */
@@ -823,7 +822,7 @@ main {
   height: var(--size-checkbox);
   border-radius: 0;
   border: 1.5px solid color-mix(in srgb, var(--task-accent, var(--color-border)) 20%, var(--color-border)); /* intentional one-off */
-  background: color-mix(in srgb, var(--task-accent-bg, var(--color-surface-muted)) 20%, var(--color-item-cards-bg));
+  background: color-mix(in srgb, var(--task-accent-bg, var(--color-surface-muted)) 20%, var(--color-bg));
   color: var(--task-energy-text, var(--color-text-muted));
   font-size: 9px; /* intentional one-off */
   font-weight: var(--font-weight-bold);
@@ -847,7 +846,7 @@ main {
 .checkbox:hover,
 .card:hover .checkbox,
 .checkbox:focus-visible {
-  background: color-mix(in srgb, var(--task-accent-bg, var(--color-surface-muted)) 35%, var(--color-item-cards-bg));
+  background: color-mix(in srgb, var(--task-accent-bg, var(--color-surface-muted)) 35%, var(--color-bg));
   transition: border-color var(--motion-fast), background-color var(--motion-fast);
 }
 
@@ -1188,6 +1187,13 @@ button.energy-badge:focus-visible {
   .task-energy-selector { order: 0; }
   #task-title           { order: 1; flex: 1 1 100%; }
   .task-actions         { order: 2; margin-left: auto; }
+
+  .search {
+    width: 100%;
+    min-width: 0;
+    flex: 1 1 100%;
+    padding-inline: var(--spacing-xl);
+  }
 }
 
 @media (min-width: 640px) {
@@ -1220,6 +1226,8 @@ button.energy-badge:focus-visible {
     flex: 0 1 clamp(var(--size-search-min), 32vw, var(--size-search-max));
     width: auto;
     order: 2;
+    margin-left: var(--spacing-md);
+    margin-right: var(--spacing-md);
   }
 }
 
@@ -1303,7 +1311,7 @@ button.energy-badge:focus-visible {
     in srgb,
     var(--task-accent-bg, var(--color-surface-muted))
     calc(20% + var(--swipe-progress, 0) * 50%),
-    var(--color-item-cards-bg)
+    var(--color-bg)
   );
 }
 
