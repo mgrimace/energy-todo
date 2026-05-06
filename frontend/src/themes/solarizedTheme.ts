@@ -6,9 +6,9 @@ export const solarizedTheme: ThemeDefinition = {
   palettes: {
     light: {
       bg: '#fdf6e3',
-      surface: '#eee8d5',
-      surfaceAlt: '#fdf6e3',
-      hover: '#eee8d5',
+      surface: '#f6efdc',
+      surfaceAlt: '#eee8d5',
+      hover: '#dfdac7',
       text: '#657b83',
       textMuted: '#586e75',
       accent: '#268bd2',
@@ -29,11 +29,11 @@ export const solarizedTheme: ThemeDefinition = {
     },
     dark: {
       bg: '#002b36',
-      surface: '#073642',
-      surfaceAlt: '#002b36',
-      hover: '#073642',
+      surface: '#03303c',
+      surfaceAlt: '#073642',
+      hover: '#0e414e',
       text: '#839496',
-      textMuted: '#93a1a1',
+      textMuted: '#657b83',
       accent: '#268bd2',
       accentStrong: '#6c71c4',
       focus: '#2aa198',

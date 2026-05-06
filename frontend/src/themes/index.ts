@@ -8,7 +8,9 @@ import { solarizedTheme } from './solarizedTheme'
 import { kanagawaTheme } from './kanagawaTheme'
 import { kanagawaWaveTheme } from './kanagawaWaveTheme'
 import { draculaTheme } from './draculaTheme'
+import { rosePineTheme } from './rosePineTheme'
+import { tokyoNightTheme } from './tokyoNightTheme'
 
-export { defaultTheme, everforestTheme, nordTheme, catppuccinTheme, scienceTheme, gruvboxTheme, solarizedTheme, kanagawaTheme, kanagawaWaveTheme, draculaTheme }
+export { defaultTheme, everforestTheme, nordTheme, catppuccinTheme, scienceTheme, gruvboxTheme, solarizedTheme, kanagawaTheme, kanagawaWaveTheme, draculaTheme, tokyoNightTheme, rosePineTheme }
 
-export const themes = [defaultTheme, catppuccinTheme, draculaTheme, everforestTheme, gruvboxTheme, kanagawaTheme, kanagawaWaveTheme, nordTheme, scienceTheme, solarizedTheme]
+export const themes = [defaultTheme, catppuccinTheme, draculaTheme, everforestTheme, gruvboxTheme, kanagawaTheme, kanagawaWaveTheme, nordTheme, rosePineTheme, scienceTheme, solarizedTheme, tokyoNightTheme]

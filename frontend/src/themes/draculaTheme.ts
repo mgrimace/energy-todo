@@ -6,8 +6,8 @@ export const draculaTheme: ThemeDefinition = {
   palettes: {
     light: {
       bg: '#DEDCCF',
-      surface: '#EFEDDC',
-      surfaceAlt: '#ECE9DF',
+      surface: '#CECCC0',
+      surfaceAlt: '#BCBAB3',
       hover: '#ECE9DF',
       text: '#1F1F1F',
       textMuted: '#6C664B',
@@ -37,7 +37,7 @@ export const draculaTheme: ThemeDefinition = {
       accent: '#8BE9FD',
       accentStrong: '#BD93F9',
       focus: '#815CD6',
-      border: '#343746',
+      border: '#282A36',
       borderStrong: '#424450',
       danger: '#FF5555',
       energyLowBg: '#343746',

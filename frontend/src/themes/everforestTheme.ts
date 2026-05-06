@@ -6,9 +6,9 @@ export const everforestTheme: ThemeDefinition = {
   palettes: {
     light: {
       bg: '#FDF6E3',
-      surface: '#EFEBD4',
-      surfaceAlt: '#F4F0D9',
-      hover: '#EFEBD4',
+      surface: '#F4F0D9',
+      surfaceAlt: '#EFEBD4',
+      hover: '#E6E2CC',
       text: '#5C6A72',
       textMuted: '#829181',
       accent: '#3A94C5',
@@ -31,7 +31,7 @@ export const everforestTheme: ThemeDefinition = {
       bg: '#2D353B',
       surface: '#343F44',
       surfaceAlt: '#3D484D',
-      hover: '#343F44',
+      hover: '#475258',
       text: '#D3C6AA',
       textMuted: '#9DA9A0',
       accent: '#7FBBB3',

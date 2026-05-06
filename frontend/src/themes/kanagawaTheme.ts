@@ -7,8 +7,8 @@ export const kanagawaTheme: ThemeDefinition = {
     light: {
       // Kanagawa Lotus
       bg: '#f2ecbc',
-      surface: '#e4dfa8',
-      surfaceAlt: '#ece8b3',
+      surface: '#ece8b3',
+      surfaceAlt: '#e4dfa8',
       hover: '#e8e3a8',
       text: '#545464',
       textMuted: '#8a8980',
@@ -31,8 +31,8 @@ export const kanagawaTheme: ThemeDefinition = {
     dark: {
       // Kanagawa Dragon
       bg: '#181616',
-      surface: '#22231f',
-      surfaceAlt: '#1f1d1a',
+      surface: '#1f1d1a',
+      surfaceAlt: '#22231f',
       hover: '#2a2826',
       text: '#c5c9c5',
       textMuted: '#a6a69c',

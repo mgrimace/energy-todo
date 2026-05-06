@@ -6,7 +6,7 @@ export const scienceTheme: ThemeDefinition = {
   palettes: {
     light: {
       bg: '#f1f8fd',
-      surface: '#e6f1fc',
+      surface: '#f8fbfe',
       surfaceAlt: '#ffffff',
       hover: '#dde6ed',
       text: '#2a3a46',
@@ -22,7 +22,7 @@ export const scienceTheme: ThemeDefinition = {
       danger: '#8c4b2a',
 
       energyLowBg: '#e8f3ed',
-      energyLowAccent: '#a8c8b8',
+      energyLowAccent: '#4d8f78',
       energyLowText: '#2f5a44',
 
       energyMediumBg: '#e8f0f8',
@@ -36,7 +36,7 @@ export const scienceTheme: ThemeDefinition = {
 
     dark: {
       bg: '#0f1720',
-      surface: '#1b2a36',
+      surface: '#121c26',
       surfaceAlt: '#16222c',
       hover: '#233645',
 
@@ -53,7 +53,7 @@ export const scienceTheme: ThemeDefinition = {
       danger: '#d07b57',
 
       energyLowBg: '#1f2d27',
-      energyLowAccent: '#3d5e50',
+      energyLowAccent: '#5a9882',
       energyLowText: '#a7d0bb',
 
       energyMediumBg: '#223243',

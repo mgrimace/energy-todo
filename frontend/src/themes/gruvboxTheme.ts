@@ -6,8 +6,8 @@ export const gruvboxTheme: ThemeDefinition = {
   palettes: {
     light: {
       bg: '#fbf1c7',
-      surface: '#ebdbb2',
-      surfaceAlt: '#f2e5bc',
+      surface: '#f2e5bc',
+      surfaceAlt: '#ebdbb2',
       hover: '#ebdbb2',
       text: '#3c3836',
       textMuted: '#665c54',
@@ -29,8 +29,8 @@ export const gruvboxTheme: ThemeDefinition = {
     },
     dark: {
       bg: '#282828',
-      surface: '#3c3836',
-      surfaceAlt: '#32302f',
+      surface: '#32302f',
+      surfaceAlt: '#3c3836',
       hover: '#504945',
       text: '#ebdbb2',
       textMuted: '#bdae93',
