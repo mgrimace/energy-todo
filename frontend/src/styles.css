@@ -548,11 +548,10 @@ main {
   flex-direction: column;
   gap: var(--spacing-md);
   width: 100%;
-  align-items: center;
-  padding-left: calc(var(--spacing-xl) + var(--spacing-md) + env(safe-area-inset-left, 0px));
-  padding-right: calc(var(--spacing-md) + env(safe-area-inset-right, 0px));
+  align-items: stretch;
+  padding-left: calc(var(--spacing-xl) + env(safe-area-inset-left, 0px));
+  padding-right: calc(var(--spacing-xl) + env(safe-area-inset-right, 0px));
   position: relative;
-  overflow: hidden;
 }
 
 .filter-row {
@@ -586,6 +585,7 @@ main {
 .filter-pill-track {
   display: flex;
   align-items: stretch;
+  justify-content: center;
   gap: var(--spacing-2xs);
   width: 100%;
   overflow-x: auto;
@@ -1192,6 +1192,8 @@ button.energy-badge:focus-visible {
 @media (max-width: 599px) {
   .task-input {
     flex-wrap: wrap;
+    padding-left: 0;
+    padding-right: 0;
   }
 
   .task-input-caret     { order: -1; flex-shrink: 0; align-self: center; }
@@ -1202,7 +1204,13 @@ button.energy-badge:focus-visible {
   .search {
     width: 100%;
     min-width: 0;
-    flex: 1 1 100%;
+  }
+
+  .filter-pill-button:first-child { padding-left: 0; }
+  .filter-pill-button:last-child  { padding-right: 0; }
+
+  .filter-pill-chip {
+    width: 100%;
   }
 }
 
@@ -1211,7 +1219,8 @@ button.energy-badge:focus-visible {
     flex-direction: row;
     align-items: center;
     gap: var(--spacing-sm);
-    padding-left: calc(var(--spacing-2xl) + env(safe-area-inset-left, 0px));
+    padding-left: calc(var(--spacing-xl) + env(safe-area-inset-left, 0px));
+    padding-right: 0;
   }
 
   .filter-row {
@@ -1237,8 +1246,6 @@ button.energy-badge:focus-visible {
     flex: 0 1 clamp(var(--size-search-min), 32vw, var(--size-search-max));
     width: auto;
     order: 2;
-    margin-left: var(--spacing-md);
-    margin-right: var(--spacing-md);
   }
 }
 
