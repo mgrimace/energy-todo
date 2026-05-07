@@ -3,66 +3,68 @@ import type { ThemeDefinition } from './types'
 export const scienceTheme: ThemeDefinition = {
   id: 'science',
   name: 'Science',
+
   palettes: {
     light: {
       bg: '#f1f8fd',
       surface: '#f8fbfe',
       surfaceAlt: '#ffffff',
       hover: '#dde6ed',
+
       text: '#2a3a46',
       textMuted: '#5c6b76',
 
-      accent: '#3a8ed0',
-      accentStrong: '#1f5e91',
-      focus: '#6aa6d8',
+      accent: '#3e9fda',
+      accentStrong: '#2478b5',
+      focus: '#73bbe8',
 
       border: '#d6dde3',
       borderStrong: '#b8c3cc',
 
-      danger: '#8c4b2a',
+      danger: '#cfa3ad',
 
-      energyLowBg: '#e8f3ed',
-      energyLowAccent: '#4d8f78',
-      energyLowText: '#2f5a44',
+      energyLowBg: '#dcf5eb',
+      energyLowAccent: '#1f9a74',
+      energyLowText: '#163126',
 
-      energyMediumBg: '#e8f0f8',
-      energyMediumAccent: '#8fa9c4',
-      energyMediumText: '#2e4a66',
+      energyMediumBg: '#deeffd',
+      energyMediumAccent: '#2b7fc2',
+      energyMediumText: '#10283b',
 
-      energyHighBg: '#ece9f4',
-      energyHighAccent: '#b7aed1',
-      energyHighText: '#4b4266'
+      energyHighBg: '#f4e7f1',
+      energyHighAccent: '#b05c8d',
+      energyHighText: '#341827'
     },
 
     dark: {
-      bg: '#0f1720',
-      surface: '#121c26',
-      surfaceAlt: '#16222c',
-      hover: '#233645',
+      bg: '#0d141b',
+      surface: '#111b24',
+      surfaceAlt: '#16212b',
+      hover: '#223240',
 
-      text: '#d4dde4',
-      textMuted: '#9fb0bd',
+      text: '#d7e0e7',
+      textMuted: '#98aab7',
 
-      accent: '#4fa3e0',
-      accentStrong: '#3a8ed0',
-      focus: '#66b3ea',
+      accent: '#4db2ea',
+      accentStrong: '#3294cb',
+      focus: '#78baee',
 
-      border: '#2b3944',
-      borderStrong: '#364752',
+      border: '#2a3945',
+      borderStrong: '#344754',
 
-      danger: '#d07b57',
+      danger: '#cfa3ad',
 
-      energyLowBg: '#1f2d27',
-      energyLowAccent: '#5a9882',
-      energyLowText: '#a7d0bb',
+      energyLowBg: '#162922',
+      energyLowAccent: '#72d6b4',
+      energyLowText: '#d2f2e7',
 
-      energyMediumBg: '#223243',
-      energyMediumAccent: '#4f6f8a',
-      energyMediumText: '#b6cce0',
+      energyMediumBg: '#13283a',
+      energyMediumAccent: '#6fb7f2',
+      energyMediumText: '#d5ebff',
 
-      energyHighBg: '#27233a',
-      energyHighAccent: '#5c5775',
-      energyHighText: '#d2cce6'
+      energyHighBg: '#2a1d26',
+      energyHighAccent: '#d996c4',
+      energyHighText: '#f0d7e7'
     }
   }
 }
