@@ -21,7 +21,7 @@ export const scienceTheme: ThemeDefinition = {
       border: '#d6dde3',
       borderStrong: '#b8c3cc',
 
-      danger: '#cfa3ad',
+      danger: '#b85c5a',
 
       energyLowBg: '#dcf5eb',
       energyLowAccent: '#1f9a74',
@@ -52,7 +52,7 @@ export const scienceTheme: ThemeDefinition = {
       border: '#2a3945',
       borderStrong: '#344754',
 
-      danger: '#cfa3ad',
+      danger: '#b85c5a',
 
       energyLowBg: '#162922',
       energyLowAccent: '#72d6b4',
