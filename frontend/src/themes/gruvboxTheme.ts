@@ -12,13 +12,13 @@ export const gruvboxTheme: ThemeDefinition = {
       text: '#3c3836',
       textMuted: '#665c54',
       accent: '#458588',
-      accentStrong: '#83a598',
-      focus: '#8ec07c',
+      accentStrong: '#458588',     // neutral_blue — bright_blue #83a598 = 2.37:1, fails 3:1
+      focus: '#427b58',            // faded_aqua — bright_aqua #8ec07c = 1.85:1, fails 3:1
       border: '#bdae93',
       borderStrong: '#a89984',
       danger: '#cc241d',
       energyLowBg: '#edf1d4',
-      energyLowAccent: '#98971a',
+      energyLowAccent: '#79740e',  // faded_green — neutral_green #98971a = 2.73:1, fails 3:1
       energyLowText: '#3c3836',
       energyMediumBg: '#dfe9e9',
       energyMediumAccent: '#458588',

@@ -10,10 +10,10 @@ export const tokyoNightTheme: ThemeDefinition = {
       surfaceAlt: '#d6d8df',
       hover: '#c6c9d1',
       text: '#363c4d',
-      textMuted: '#707280',
+      textMuted: '#595e71',        // derived darker — TN comment #707280 = 4.09:1 on bg, fails 4.5:1; no canonical TN Light shade available
       accent: '#2959aa',
       accentStrong: '#1d4a8a',
-      focus: '#0da0ba',
+      focus: '#0f7c90',            // derived dark teal — cyan #0da0ba = 2.55:1, fails 3:1; distinct from accent
       border: '#c1c2c7',
       borderStrong: '#9da0ab',
       danger: '#bd4040',
@@ -33,7 +33,7 @@ export const tokyoNightTheme: ThemeDefinition = {
       surfaceAlt: '#1e202e',
       hover: '#232433',
       text: '#a9b1d6',
-      textMuted: '#787c99',
+      textMuted: '#8589a8',        // derived slightly lighter — TN comment #787c99 = 4.29:1 on bg, fails 4.5:1
       accent: '#7aa2f7',
       accentStrong: '#6183bb',
       focus: '#7dcfff',

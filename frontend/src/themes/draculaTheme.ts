@@ -10,7 +10,7 @@ export const draculaTheme: ThemeDefinition = {
       surfaceAlt: '#BCBAB3',
       hover: '#ECE9DF',
       text: '#1F1F1F',
-      textMuted: '#6C664B',
+      textMuted: '#3d362a',        // derived dark warm brown — Alucard comment #6C664B = 4.19:1 on bg but fails surface/surfaceAlt at 4.5:1; surfaces require near-black
       accent: '#036A96',
       accentStrong: '#644AC9',
       focus: '#815CD6',
@@ -33,7 +33,7 @@ export const draculaTheme: ThemeDefinition = {
       surfaceAlt: '#343746',
       hover: '#424450',
       text: '#F8F8F2',
-      textMuted: '#6272A4',
+      textMuted: '#a0acd8',        // derived lighter periwinkle — current-line #6272A4 = 3.68:1 on bg, fails 4.5:1 on all dark surfaces
       accent: '#8BE9FD',
       accentStrong: '#BD93F9',
       focus: '#815CD6',

@@ -10,7 +10,7 @@ export const rosePineTheme: ThemeDefinition = {
       surfaceAlt: '#f2e9e1',
       hover: '#dfdad9',
       text: '#575279',
-      textMuted: '#9893a5',
+      textMuted: '#686280',        // derived — dawn subtle #797593 = 4.30:1, fails 4.5:1; minimum lightness adjustment
       accent: '#286983',
       accentStrong: '#1f5470',
       focus: '#56949f',
@@ -21,7 +21,7 @@ export const rosePineTheme: ThemeDefinition = {
       energyLowAccent: '#286983',
       energyLowText: '#174a58',
       energyMediumBg: '#e2eef0',
-      energyMediumAccent: '#56949f',
+      energyMediumAccent: '#4d878f', // derived slightly darker foam — #56949f = 2.91:1 on energyMediumBg, fails 3:1
       energyMediumText: '#2a5c66',
       energyHighBg: '#ede9f0',
       energyHighAccent: '#907aa9',
