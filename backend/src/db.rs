@@ -102,13 +102,12 @@ pub fn seed_if_empty(conn: &Connection) -> Result<()> {
     }
 
     let seeds = [
-        Seed { title: "Low (Easy tasks, like making a cup of coffee)",    energy: "low",    tags: r#"["getting started"]"#, completed: false },
-        Seed { title: "Battery Low? Choose a \"Quick win\".",              energy: "low",    tags: r#"["tip"]"#,             completed: false },
-        Seed { title: "Medium (Standard work, like answering an e-mail)", energy: "medium", tags: r#"["getting started"]"#, completed: false },
-        Seed { title: "Feeling ok? Choose a \"Well Balanced\" task.",      energy: "medium", tags: r#"["tip"]"#,             completed: false },
-        Seed { title: "High (complex tasks, usually requiring deep focus)", energy: "high",  tags: r#"["getting started"]"#, completed: false },
-        Seed { title: "Focused? Choose \"Deep work\".",                    energy: "high",   tags: r#"["tip"]"#,             completed: false },
-        Seed { title: "Completed tasks appear below",                      energy: "medium", tags: "[]",                    completed: true  },
+        Seed { title: "Create a new task and assign it an energy cost", energy: "low",    tags: r#"["startup"]"#, completed: false },
+        Seed { title: "Battery Low? Knock out a \"quick win\"",         energy: "low",    tags: r#"["tip"]"#,     completed: false },
+        Seed { title: "Feeling ok? Choose a \"balanced\" task",         energy: "medium", tags: r#"["tip"]"#,     completed: false },
+        Seed { title: "Try swiping to complete this task",              energy: "medium", tags: r#"["ui"]"#,      completed: false },
+        Seed { title: "Hyper focused? Select a \"focused\" task",       energy: "high",   tags: r#"["tip"]"#,     completed: false },
+        Seed { title: "this is a completed task",                       energy: "high",   tags: "[]",             completed: true  },
     ];
 
     let mut active_pos = 0i64;

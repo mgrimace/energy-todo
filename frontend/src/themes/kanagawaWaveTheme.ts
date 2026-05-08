@@ -7,58 +7,50 @@ export const kanagawaWaveTheme: ThemeDefinition = {
     light: {
       // Kanagawa Lotus (same as kanagawa theme)
       bg: '#f2ecbc',
-      surface: '#e4dfa8',
-      surfaceAlt: '#ece8b3',
+      surface: '#ece8b3',
+      surfaceAlt: '#e4dfa8',
       hover: '#e8e3a8',
       text: '#545464',
-      textMuted: '#8a8980',
+      textMuted: '#616054',        // derived — bright.black #8a8980 = 2.93:1, fails 4.5:1; no canonical mid-shade in Lotus palette
       accent: '#4d699b',
-      accentStrong: '#6693bf',
-      accentOn: '#f2ecbc',
-      focus: '#6693bf',
+      accentStrong: '#4d699b',     // normal.blue — bright.blue #6693bf = 2.70:1, fails 3:1
+      focus: '#597b75',            // normal.cyan — bright.blue #6693bf = 2.70:1, fails 3:1
       border: '#d4cfa0',
       borderStrong: '#c0ba8a',
-      success: '#6f894e',
       danger: '#c84053',
-      warning: '#77713f',
-      dangerSoft: '#f5dcd6',
       energyLowBg: '#e5edda',
-      energyLowBorder: '#9ab580',
+      energyLowAccent: '#6f894e',  // lotus bright.green — #9ab580 = 1.88:1, fails 3:1
       energyLowText: '#4a6132',
       energyMediumBg: '#dce5f0',
-      energyMediumBorder: '#7a9cc4',
+      energyMediumAccent: '#4d699b', // normal.blue — #7a9cc4 = 2.37:1, fails 3:1
       energyMediumText: '#365080',
       energyHighBg: '#ecdce5',
-      energyHighBorder: '#c088a4',
+      energyHighAccent: '#b35b79',   // normal.magenta — #c088a4 = 2.40:1, fails 3:1
       energyHighText: '#7d3557'
     },
     dark: {
       // Kanagawa Wave
       bg: '#1f1f28',
-      surface: '#2a2a37',
-      surfaceAlt: '#252530',
+      surface: '#252530',
+      surfaceAlt: '#2a2a37',
       hover: '#313145',
       text: '#dcd7ba',
-      textMuted: '#727169',
+      textMuted: '#9e9b91',        // derived neutral warm grey — bright.black #727169 = 3.14:1, fails 4.5:1 on Wave dark surfaces
       accent: '#7fb4ca',
       accentStrong: '#7e9cd8',
-      accentOn: '#1f1f28',
       focus: '#7fb4ca',
       border: '#363646',
       borderStrong: '#54546d',
-      success: '#76946a',
       danger: '#c34043',
-      warning: '#c0a36e',
-      dangerSoft: '#313145',
       energyLowBg: '#253025',
-      energyLowBorder: '#4a6645',
+      energyLowAccent: '#98bb6c',  // wave bright.green — #4a6645 = 1.79:1, fails 3:1
       energyLowText: '#98bb6c',
       energyMediumBg: '#1e2d3e',
-      energyMediumBorder: '#3a5878',
+      energyMediumAccent: '#7fb4ca', // bright.blue — #3a5878 = 2.06:1, fails 3:1
       energyMediumText: '#7fb4ca',
       energyHighBg: '#2a2438',
-      energyHighBorder: '#5a4e78',
-      energyHighText: '#957fb8'
+      energyHighAccent: '#957fb8',   // normal.magenta — #5a4e78 = 1.84:1, fails 3:1
+      energyHighText: '#a192c2'      // derived slightly lighter — same hue as new accent but lightened to pass 4.5:1 on highBg
     }
   }
 }

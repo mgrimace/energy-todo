@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+- Refactor: complete UI overhaul to a flat, minimal card layout with a token-driven energy colour system across all surfaces, states, and themes.
+- Refactor: full WCAG contrast audit across all 12 themes; dead CSS removed and design-token coverage completed.
+
 ## [v1.5.2] - 2026-04-30
 
 - Fix: task input card now keeps its normal background and border while still preserving energy state on the save button.

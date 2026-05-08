@@ -3,74 +3,68 @@ import type { ThemeDefinition } from './types'
 export const scienceTheme: ThemeDefinition = {
   id: 'science',
   name: 'Science',
+
   palettes: {
     light: {
-      bg: '#f1f8fd',
-      surface: '#e6f1fc',
-      surfaceAlt: '#ffffff',
-      hover: '#dde6ed',
-      text: '#2a3a46',
-      textMuted: '#5c6b76',
+      bg: '#edf4f8',
+      surface: '#f5f9fc',
+      surfaceAlt: '#fbfdff',
+      hover: '#dce5eb',
 
-      accent: '#3a8ed0',
-      accentStrong: '#1f5e91',
-      accentOn: '#ffffff',
-      focus: '#6aa6d8',
+      text: '#2c3942',
+      textMuted: '#5d6b74',
 
-      border: '#d6dde3',
-      borderStrong: '#b8c3cc',
+      accent: '#4b8fba',
+      accentStrong: '#376f97',
+      focus: '#0f7c90',            // derived dark teal — sky #6ea8cb = 2.33:1, fails 3:1
 
-      success: '#2f5a44',
-      danger: '#8c4b2a',
-      warning: '#a1741a',
-      dangerSoft: '#f2e6e3',
+      border: '#d1dbe2',
+      borderStrong: '#b5c2cb',
 
-      energyLowBg: '#e8f3ed',
-      energyLowBorder: '#a8c8b8',
-      energyLowText: '#2f5a44',
+      danger: '#b86a68',
 
-      energyMediumBg: '#e8f0f8',
-      energyMediumBorder: '#8fa9c4',
-      energyMediumText: '#2e4a66',
+      energyLowBg: '#dceee7',
+      energyLowAccent: '#3f8b73',
+      energyLowText: '#1f332d',
 
-      energyHighBg: '#ece9f4',
-      energyHighBorder: '#b7aed1',
-      energyHighText: '#4b4266'
+      energyMediumBg: '#dce8f4',
+      energyMediumAccent: '#4d7faa',
+      energyMediumText: '#183247',
+
+      energyHighBg: '#ece3ef',
+      energyHighAccent: '#9a6fa9',
+      energyHighText: '#35223e'
     },
 
     dark: {
-      bg: '#0f1720',
-      surface: '#1b2a36',
-      surfaceAlt: '#16222c',
-      hover: '#233645',
+      bg: '#0f151b',
+      surface: '#141c23',
+      surfaceAlt: '#18222b',
+      hover: '#22303b',
 
-      text: '#d4dde4',
-      textMuted: '#9fb0bd',
+      text: '#d6dfe5',
+      textMuted: '#94a5b1',
 
-      accent: '#4fa3e0',
-      accentStrong: '#3a8ed0',
-      accentOn: '#0e151b',
-      focus: '#66b3ea',
+      accent: '#5a9dc6',
+      accentStrong: '#78b5db',
+      focus: '#7cb8db',
 
-      border: '#2b3944',
-      borderStrong: '#364752',
+      border: '#2b3943',
+      borderStrong: '#374753',
 
-      success: '#a7d0bb',
-      danger: '#d07b57',
-      warning: '#d8b46b',
-      dangerSoft: '#2a2320',
+      danger: '#b66b69',
 
-      energyLowBg: '#1f2d27',
-      energyLowBorder: '#3d5e50',
-      energyLowText: '#a7d0bb',
+      energyLowBg: '#1a2924',
+      energyLowAccent: '#79c3ab',
+      energyLowText: '#d6efe7',
 
-      energyMediumBg: '#223243',
-      energyMediumBorder: '#4f6f8a',
-      energyMediumText: '#b6cce0',
+      energyMediumBg: '#182737',
+      energyMediumAccent: '#78abd4',
+      energyMediumText: '#d8ebfb',
 
-      energyHighBg: '#27233a',
-      energyHighBorder: '#5c5775',
-      energyHighText: '#d2cce6'
+      energyHighBg: '#2a2230',
+      energyHighAccent: '#c08dc0',
+      energyHighText: '#efddef'
     }
   }
 }
