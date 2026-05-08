@@ -40,7 +40,7 @@ export const defaultTheme: ThemeDefinition = {
       border: '#2c343a',
       borderStrong: '#343f46',
       danger: '#c45858',
-      energyLowBg: '#1c201a',
+      energyLowBg: '#1f2721',
       energyLowAccent: '#87a07a',
       energyLowText: '#c2cebc',
       energyMediumBg: '#1c2431',

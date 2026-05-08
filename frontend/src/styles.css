@@ -19,11 +19,10 @@
   --font-family-base: 'Atkinson Hyperlegible', 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-size-xs: 0.75rem;
   --font-size-sm: 0.84rem;
-  --font-size-base: 0.96rem;
   --font-size-md: 1rem;
   --font-size-input: 1rem;
   --font-size-lg: 1.2rem;
-  --font-size-badge: 0.74rem;
+  --font-weight-normal: 400;
   --font-weight-medium: 500;
   --font-weight-semibold: 600;
   --font-weight-bold: 700;
@@ -43,12 +42,8 @@
   --size-chip-height: 28px;
   --size-checkbox: 14px;
   --size-icon-sm: 16px;
-  --size-energy-badge-height: 26px;
-  --size-button-compact-height: 40px;
-  --size-tag-input-min: 150px;
   --size-inline-input-min: 24px;
   --size-tag-pill-min: 20px;
-  --size-title-input-min: 34px;
   --size-tag-max-width: 420px;
   --size-search-min: 14rem;
   --size-search-max: 24rem;
@@ -58,11 +53,9 @@
 
   --motion-fast: 120ms ease-out;
   --motion-standard: 150ms ease;
-  --motion-focus: 120ms ease-out;
   --motion-swipe: 200ms cubic-bezier(0.2, 0.8, 0.2, 1);
 
   --transition-theme: background-color 150ms ease, color 150ms ease;
-  --transition-surface: background-color 150ms ease, border-color 150ms ease;
 
   /* ========== OPACITY SYSTEM ========== */
   --opacity-dim: 0.3;
@@ -202,12 +195,11 @@ main {
 .btn-icon:focus-visible {
   color: var(--color-text);
   background: var(--color-surface-muted);
-  outline: 2px solid var(--color-accent-strong);
-  outline-offset: 2px;
 }
 
-.btn-icon:hover {
-  outline: none;
+.btn-icon:focus-visible {
+  outline: 2px solid var(--color-accent-strong);
+  outline-offset: 2px;
 }
 
 .theme-selector {
@@ -220,40 +212,31 @@ main {
   border-radius: var(--radius-xs);
   background: transparent;
   color: var(--color-text-muted);
-  padding: var(--spacing-xs) var(--spacing-xs);
+  padding: var(--spacing-xs);
   display: inline-flex;
   align-items: center;
   gap: var(--spacing-xs);
   cursor: pointer;
   font-size: var(--font-size-xs);
   text-transform: lowercase;
-  transition: background-color var(--motion-standard), color var(--motion-standard), opacity var(--motion-standard);
+  transition: background-color var(--motion-standard), color var(--motion-standard);
 }
 
 .theme-selector-trigger:hover,
 .theme-selector-trigger:focus-visible {
   background: color-mix(in srgb, var(--color-accent-strong) 8%, transparent);
   color: var(--color-text);
-  box-shadow: none;
+}
+
+.theme-selector-trigger:focus-visible {
   outline: 2px solid var(--color-accent-strong);
   outline-offset: 2px;
-}
-
-.theme-selector-trigger:hover {
-  outline: none;
-}
-
-.theme-selector-trigger:hover .theme-selector-label,
-.theme-selector-trigger:focus-visible .theme-selector-label {
-  opacity: 1;
 }
 
 .theme-selector-label {
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-medium);
   margin-left: var(--spacing-xs);
-  opacity: 1;
-  transition: opacity var(--motion-standard);
 }
 
 .theme-selector-caret {
@@ -427,7 +410,7 @@ main {
   flex: 1 1 200px;
   min-width: 120px;
   gap: var(--spacing-sm);
-  border-bottom: 1px solid var(--color-border);
+  border-bottom: var(--border-hairline) solid var(--color-border);
   transition: border-color var(--motion-standard);
 }
 
@@ -456,21 +439,6 @@ main {
 .task-input #task-title:focus-visible {
   outline: none;
   box-shadow: none;
-}
-
-.task-input[data-energy='low'] #task-title:focus,
-.task-input[data-energy='low'] #task-title:focus-visible {
-  border-bottom-color: var(--energy-low-accent);
-}
-
-.task-input[data-energy='medium'] #task-title:focus,
-.task-input[data-energy='medium'] #task-title:focus-visible {
-  border-bottom-color: var(--energy-medium-accent);
-}
-
-.task-input[data-energy='high'] #task-title:focus,
-.task-input[data-energy='high'] #task-title:focus-visible {
-  border-bottom-color: var(--energy-high-accent);
 }
 
 .task-actions {
@@ -524,14 +492,12 @@ main {
 }
 
 .task-input .task-inline-tag {
-  border: 0;
-  cursor: pointer;
   color: var(--task-energy-text, var(--color-text-muted));
   flex-shrink: 0;
 }
 
 .task-input .task-inline-tag:hover {
-  opacity: 0.7;
+  opacity: var(--opacity-active);
 }
 
 .card-tags {
@@ -561,11 +527,6 @@ main {
   min-width: 0;
   gap: var(--spacing-sm);
   width: 100%;
-}
-
-/* intentional: filter-status-icon hidden per flat design — remove rule if icon restored */
-.filter-status-icon {
-  display: none;
 }
 
 .filter-pill {
@@ -632,26 +593,20 @@ main {
   background: transparent;
   color: var(--color-text-muted);
   font-size: var(--font-size-xs);
-  font-weight: 400;
+  font-weight: var(--font-weight-normal);
   white-space: nowrap;
   transition: color var(--motion-standard), background-color var(--motion-standard);
 }
 
 .filter-pill-button.is-active .filter-pill-chip {
   color: var(--color-text);
-  opacity: 1;
   background: transparent;
   border-bottom-color: var(--filter-active-border);
   font-weight: var(--font-weight-medium);
 }
 
-.filter-pill-button:not(.is-active) .filter-pill-chip {
-  opacity: 1;
-}
-
 .filter-pill-button:hover .filter-pill-chip,
 .filter-pill-button:focus-visible .filter-pill-chip {
-  opacity: 1;
   background: var(--filter-hover-bg);
   color: var(--color-text);
 }
@@ -704,7 +659,7 @@ main {
 }
 
 .search:focus-within .search-icon {
-  opacity: 0.7;
+  opacity: var(--opacity-active);
 }
 
 .search input {
@@ -722,7 +677,6 @@ main {
 .search input:focus,
 .search input:focus-visible {
   outline: none;
-  border-color: transparent;
   box-shadow: none;
 }
 
@@ -780,7 +734,6 @@ main {
 
 .card.is-complete {
   background: var(--color-bg);
-  opacity: 1;
 }
 
 .card.is-complete:hover {
@@ -896,18 +849,6 @@ main {
   position: relative;
 }
 
-.title-button::after {
-  content: '';
-  position: absolute;
-  bottom: calc(-1 * var(--border-hairline));
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: var(--color-border);
-  opacity: 0;
-  pointer-events: none;
-}
-
 .title-input {
   width: 100%;
   height: auto;
@@ -999,7 +940,6 @@ button.cmd-tag-token:focus-visible {
 .energy-badge {
   display: inline-flex;
   align-items: center;
-  gap: 0;
   min-height: unset;
   padding: 0;
   border-radius: 0;
@@ -1007,9 +947,8 @@ button.cmd-tag-token:focus-visible {
   background: transparent;
   font-size: var(--font-size-sm);
   font-family: var(--font-family-base);
-  font-weight: var(--font-weight-normal, 400);
+  font-weight: var(--font-weight-normal);
   text-transform: lowercase;
-  letter-spacing: 0;
 }
 
 .energy-badge.energy-low    { color: var(--energy-low-accent); }
@@ -1038,7 +977,6 @@ button.energy-badge:hover {
   border-radius: var(--radius-xs);
   padding: 0 var(--spacing-xs);
   margin: 0 calc(-1 * var(--spacing-xs));
-  opacity: 1;
   text-decoration: none;
 }
 
@@ -1053,50 +991,47 @@ button.energy-badge:focus-visible {
 }
 
 /* ================= Completed Section ================ */
-.completed-section {
-  margin-top: 0;
-  padding-top: 0;
+
+/* Shared label treatment for completed section divider and its action button */
+.completed-divider,
+.completed-clear-btn {
+  font-size: 11px; /* intentional one-off: smaller than --font-size-xs for secondary chrome */
+  font-weight: var(--font-weight-medium);
+  letter-spacing: 0.08em; /* intentional one-off: subtle all-caps style */
+  color: var(--color-text-muted);
 }
 
 .completed-divider {
   display: flex;
   align-items: center;
   gap: var(--spacing-sm);
-  margin: var(--spacing-lg) 0 var(--spacing-lg);
-  color: var(--color-text-muted);
-  font-size: 11px; /* intentional one-off */
-  font-weight: var(--font-weight-medium);
-  letter-spacing: 0.08em; /* intentional one-off */
-  opacity: 1;
-  position: relative;
+  margin: var(--spacing-xs) 0;
   justify-content: flex-start;
 }
 
 .completed-clear-btn {
   display: inline-flex;
   align-items: center;
-  gap: var(--spacing-xs);
-  position: absolute;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
+  margin-left: auto;
   border: 0;
   background: transparent;
-  color: var(--color-text-muted);
-  padding: var(--spacing-xs) var(--spacing-sm);
+  padding: 0;
   min-height: 44px;
   border-radius: var(--radius-xs);
   cursor: pointer;
-  font-size: 11px; /* intentional one-off */
-  font-weight: var(--font-weight-medium);
-  letter-spacing: 0.08em; /* intentional one-off */
-  opacity: 1;
-  transition: opacity var(--motion-standard);
 }
 
-.completed-clear-btn:hover,
-.completed-clear-btn:focus-visible {
-  opacity: 1;
+.completed-clear-chip {
+  display: inline-flex;
+  align-items: center;
+  height: var(--size-chip-height);
+  padding: 0 var(--spacing-sm);
+  border-radius: var(--radius-xs);
+  transition: color var(--motion-standard), background-color var(--motion-standard);
+}
+
+.completed-clear-btn:hover .completed-clear-chip,
+.completed-clear-btn:focus-visible .completed-clear-chip {
   color: var(--color-danger-text);
   background: color-mix(in srgb, var(--color-danger-text) 8%, transparent);
 }
@@ -1106,22 +1041,13 @@ button.energy-badge:focus-visible {
   outline-offset: 2px;
 }
 
-.completed-clear-btn svg {
-  display: none;
-}
-
 .completed-list {
   display: flex;
   flex-direction: column;
-  gap: 0;
 }
 
 .completed-list.stacked-list {
   background: transparent;
-}
-
-.completed-list .card {
-  opacity: 1;
 }
 
 .completed-list .card:hover {
@@ -1152,7 +1078,6 @@ button.energy-badge:focus-visible {
 
 .drag-handle:hover {
   opacity: var(--opacity-active);
-  cursor: grab;
 }
 
 .drag-handle svg {
@@ -1273,7 +1198,7 @@ button.energy-badge:focus-visible {
   pointer-events: none;
   z-index: 0;
   opacity: calc(var(--swipe-progress, 0));
-  transition: opacity 120ms ease-out;
+  transition: opacity var(--motion-fast);
 }
 
 .todo-swipe-wrapper:not([data-swipe-dir]) .swipe-complete,
@@ -1306,7 +1231,7 @@ button.energy-badge:focus-visible {
   justify-content: center;
   margin-right: var(--spacing-lg);
   opacity: clamp(0, (var(--swipe-progress, 0) - 0.6) * 3, 1);
-  transition: opacity 120ms ease-out;
+  transition: opacity var(--motion-fast);
 }
 
 .swipe-delete {
@@ -1321,7 +1246,7 @@ button.energy-badge:focus-visible {
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-semibold);
   opacity: clamp(0, (var(--swipe-progress, 0) - 0.6) * 3, 1);
-  transition: opacity 120ms ease-out;
+  transition: opacity var(--motion-fast);
 }
 
 .todo-swipe-wrapper[data-swipe-dir='right'] .checkbox {

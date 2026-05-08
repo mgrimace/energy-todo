@@ -82,7 +82,6 @@ export default function FilterTabs({ filter, setFilter }) {
               onClick={() => setFilter(tab.key)}
             >
               <span className="filter-pill-chip">
-                <tab.Icon className="filter-status-icon" weight="regular" aria-hidden="true" />
                 <span>{tab.label}</span>
               </span>
             </button>

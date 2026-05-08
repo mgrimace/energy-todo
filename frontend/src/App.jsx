@@ -4,7 +4,6 @@ import { restrictToVerticalAxis } from '@dnd-kit/modifiers'
 import { SortableContext, arrayMove, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import {
-  ChecksIcon,
   MagnifyingGlassIcon
 } from '@phosphor-icons/react'
 import useTodos from './hooks/useTodos'
@@ -183,18 +182,15 @@ export default function App() {
             {completedTodos.length > 0 ? (
               <section className="completed-section" aria-label="Completed todos">
                 <div className="completed-divider">
-                  <span className="completed-divider-rule" aria-hidden="true" />
                   <span>Completed</span>
-                  <span className="completed-divider-rule" aria-hidden="true" />
                   <button
                     type="button"
                     className="completed-clear-btn"
                     onClick={clearCompleted}
                     aria-label="Delete all completed tasks"
                   >
-                    Clear all
-                    <ChecksIcon weight="bold" aria-hidden="true" />
-                  </button>
+                    <span className="completed-clear-chip">Clear all</span>
+                    </button>
                 </div>
                 <div className="completed-list stacked-list">
                   {completedTodos.map(t => (
