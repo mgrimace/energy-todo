@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [v1.6.0] - 2026-05-08
+
 - Refactor: complete UI overhaul to a flat, minimal card layout with a token-driven energy colour system across all surfaces, states, and themes.
 - Refactor: full WCAG contrast audit across all 12 themes; dead CSS removed and design-token coverage completed.
 
