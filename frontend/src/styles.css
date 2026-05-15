@@ -99,7 +99,7 @@ body {
   font-size: var(--font-size-input);
 }
 
-:where(input:not([type='checkbox']):not([type='radio']), select, .btn) {
+:where(input:not([type='checkbox']):not([type='radio']), select) {
   height: var(--control-height);
   padding: 0 var(--size-control-padding-inline);
   line-height: 1.2; /* intentional one-off */
@@ -108,7 +108,7 @@ body {
 
 :where(button, input, select, textarea):focus-visible {
   outline: 2px solid var(--color-accent-strong);
-  outline-offset: 2px;
+  outline-offset: var(--spacing-2xs);
   box-shadow: none;
   border-color: var(--color-accent-strong);
 }
@@ -163,6 +163,7 @@ main {
   display: flex;
   flex-direction: column;
   gap: 0;
+  order: 3;
 }
 
 .list > * + * {
@@ -199,7 +200,7 @@ main {
 
 .btn-icon:focus-visible {
   outline: 2px solid var(--color-accent-strong);
-  outline-offset: 2px;
+  outline-offset: var(--spacing-2xs);
 }
 
 .theme-selector {
@@ -230,7 +231,7 @@ main {
 
 .theme-selector-trigger:focus-visible {
   outline: 2px solid var(--color-accent-strong);
-  outline-offset: 2px;
+  outline-offset: var(--spacing-2xs);
 }
 
 .theme-selector-label {
@@ -360,15 +361,15 @@ main {
   gap: var(--spacing-md);
   background: transparent;
   border: 0;
-  padding: var(--spacing-sm) 0 0 var(--spacing-xl);
+  padding: var(--spacing-sm) 0 var(--spacing-sm) var(--spacing-xl);
   flex-wrap: wrap;
+  order: 2;
 }
 
 .task-input[data-energy='low']    { --task-energy-accent: var(--energy-low-accent);    --task-energy-bg: var(--energy-low-bg);    --task-energy-text: var(--energy-low-text); }
 .task-input[data-energy='medium'] { --task-energy-accent: var(--energy-medium-accent); --task-energy-bg: var(--energy-medium-bg); --task-energy-text: var(--energy-medium-text); }
 .task-input[data-energy='high']   { --task-energy-accent: var(--energy-high-accent);   --task-energy-bg: var(--energy-high-bg);   --task-energy-text: var(--energy-high-text); }
 
-/* Left caret: decorative anchor, not interactive */
 .task-input-caret {
   flex-shrink: 0;
   align-self: center;
@@ -391,7 +392,7 @@ main {
   color: var(--task-energy-accent, var(--color-text-muted));
   cursor: pointer;
   transition: background-color var(--motion-fast);
-  line-height: 1.4;
+  line-height: 1.4; /* intentional one-off: no --line-height token at 1.4 */
   text-transform: lowercase;
   text-decoration: underline;
   text-decoration-style: dotted;
@@ -418,7 +419,6 @@ main {
   border-bottom-color: var(--task-energy-accent, var(--color-accent-strong));
 }
 
-/* Title input: no box, underline lives on the row */
 #task-title {
   flex: 1;
   min-width: 0;
@@ -428,7 +428,7 @@ main {
   color: var(--color-text);
   padding: var(--spacing-xs) 0;
   height: auto;
-  line-height: 1.4;
+  line-height: 1.4; /* intentional one-off: no --line-height token at 1.4 */
 }
 
 #task-title::placeholder {
@@ -448,7 +448,6 @@ main {
   flex-shrink: 0;
 }
 
-/* + button: shares underline with input, plain text character */
 .task-save-btn {
   flex-shrink: 0;
   display: inline-flex;
@@ -463,7 +462,7 @@ main {
   cursor: pointer;
   border-radius: 0;
   font-size: var(--font-size-input);
-  line-height: 1.4;
+  line-height: 1.4; /* intentional one-off: no --line-height token at 1.4 */
 }
 
 .task-save-btn:not(:disabled) {
@@ -481,7 +480,7 @@ main {
 
 .task-save-btn:not(:disabled):focus-visible {
   outline: 2px solid var(--color-accent-strong);
-  outline-offset: 2px;
+  outline-offset: var(--spacing-2xs);
   border-radius: var(--radius-xs);
 }
 
@@ -515,9 +514,8 @@ main {
   gap: var(--spacing-md);
   width: 100%;
   align-items: stretch;
-  padding-left: calc(var(--spacing-xl) + env(safe-area-inset-left, 0px));
-  padding-right: calc(var(--spacing-xl) + env(safe-area-inset-right, 0px));
   position: relative;
+  order: 1;
 }
 
 .filter-row {
@@ -533,14 +531,15 @@ main {
   display: flex;
   align-items: stretch;
   flex: 1 1 0;
-  width: 100%;
+  width: auto;
+  min-width: 0;
   border: 0;
   background: transparent;
   min-height: var(--filter-control-height);
   padding: 0;
   position: relative;
   z-index: 1;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .filter-pill-track {
@@ -549,8 +548,13 @@ main {
   justify-content: center;
   gap: var(--spacing-2xs);
   width: 100%;
-  overflow-x: auto;
+  overflow-x: clip;
   scroll-snap-type: x proximity;
+  position: relative;
+  border-bottom: var(--border-hairline) solid var(--color-border);
+  margin-left: 0;
+  padding-left: 0;
+  padding-right: 0;
 }
 
 .filter-pill-track::-webkit-scrollbar {
@@ -558,11 +562,13 @@ main {
 }
 
 .filter-pill-button {
-  --filter-active-border: var(--color-border); /* neutral for All/Done */
+  --filter-active-border: var(--color-border);
   --filter-hover-bg: var(--color-surface-muted);
   flex: 1 1 0;
-  min-height: 44px;
+  min-width: 0;
+  min-height: var(--filter-control-height);
   padding: 0 var(--spacing-xs);
+  padding-bottom: 0;
   background: transparent;
   border: 0;
   border-radius: 0;
@@ -575,7 +581,6 @@ main {
   transition: border-color var(--motion-standard), color var(--motion-standard);
 }
 
-/* Energy-state underline colors */
 .filter-pill-button[data-filter-tone='low']    { --filter-active-border: var(--energy-low-accent);    --filter-hover-bg: var(--energy-low-bg); }
 .filter-pill-button[data-filter-tone='medium'] { --filter-active-border: var(--energy-medium-accent); --filter-hover-bg: var(--energy-medium-bg); }
 .filter-pill-button[data-filter-tone='high']   { --filter-active-border: var(--energy-high-accent);   --filter-hover-bg: var(--energy-high-bg); }
@@ -586,23 +591,35 @@ main {
   justify-content: center;
   gap: var(--spacing-xs);
   height: var(--size-chip-height);
-  padding: 0 var(--spacing-sm);
+  padding: 0;
+  width: 100%;
   border-radius: 0;
-  border: 0;
-  border-bottom: var(--border-hairline) solid transparent;
+  border: none;
   background: transparent;
   color: var(--color-text-muted);
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-normal);
   white-space: nowrap;
-  transition: color var(--motion-standard), background-color var(--motion-standard);
+  position: relative;
+  z-index: 1;
+  transition: color var(--motion-fast) cubic-bezier(0.22, 1, 0.36, 1),
+              border-color var(--motion-standard) cubic-bezier(0.22, 1, 0.36, 1),
+              background var(--motion-fast) cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .filter-pill-button.is-active .filter-pill-chip {
+  border-left: var(--border-hairline) solid var(--color-border);
+  border-right: var(--border-hairline) solid var(--color-border);
+  border-top: var(--border-hairline) solid var(--color-border);
+  border-bottom: none;
+  border-radius: var(--radius-xs) var(--radius-xs) 0 0;
+  background: var(--color-bg);
   color: var(--color-text);
-  background: transparent;
-  border-bottom-color: var(--filter-active-border);
   font-weight: var(--font-weight-medium);
+  position: relative;
+  z-index: 2;
+  margin-bottom: calc(-1 * var(--border-hairline)); /* compensates for track's border-bottom */
+  height: calc(100% + var(--border-hairline)); /* compensates for track's border-bottom */
 }
 
 .filter-pill-button:hover .filter-pill-chip,
@@ -618,6 +635,7 @@ main {
   width: 100%;
   flex: 1 1 auto;
   border: var(--border-hairline) solid color-mix(in srgb, var(--color-border) 70%, transparent);
+  border-bottom: var(--border-hairline) solid var(--color-border);
   border-radius: var(--radius-xs);
   background: var(--color-surface-muted);
   padding: 0 var(--spacing-sm);
@@ -815,7 +833,7 @@ main {
 
 .checkbox:focus-visible {
   outline: 2px solid var(--color-accent-strong);
-  outline-offset: 2px;
+  outline-offset: var(--spacing-2xs);
 }
 
 .checkbox:active {
@@ -932,7 +950,7 @@ button.cmd-tag-token::after {
 
 button.cmd-tag-token:focus-visible {
   outline: 2px solid var(--color-accent-strong);
-  outline-offset: 2px;
+  outline-offset: var(--spacing-2xs);
   border-radius: var(--radius-xs);
 }
 
@@ -986,13 +1004,11 @@ button.energy-badge:active {
 
 button.energy-badge:focus-visible {
   outline: 2px solid var(--color-accent-strong);
-  outline-offset: 2px;
+  outline-offset: var(--spacing-2xs);
   border-radius: var(--radius-xs);
 }
 
 /* ================= Completed Section ================ */
-
-/* Shared label treatment for completed section divider and its action button */
 .completed-divider,
 .completed-clear-btn {
   font-size: 11px; /* intentional one-off: smaller than --font-size-xs for secondary chrome */
@@ -1038,7 +1054,7 @@ button.energy-badge:focus-visible {
 
 .completed-clear-btn:focus-visible {
   outline: 2px solid var(--color-accent-strong);
-  outline-offset: 2px;
+  outline-offset: var(--spacing-2xs);
 }
 
 .completed-list {
@@ -1112,13 +1128,12 @@ button.energy-badge:focus-visible {
     transition: none !important;
     animation: none !important;
   }
+  .filter-pill-chip { transition: none; }
 }
 
 @media (max-width: 599px) {
   .task-input {
     flex-wrap: wrap;
-    padding-left: 0;
-    padding-right: 0;
   }
 
   .task-input-caret     { order: -1; flex-shrink: 0; align-self: center; }
@@ -1137,15 +1152,17 @@ button.energy-badge:focus-visible {
   .filter-pill-chip {
     width: 100%;
   }
+
+  .list-controls { order: 1; }
+  .task-input    { order: 2; }
+  .list          { order: 3; }
 }
 
 @media (min-width: 640px) {
   .list-controls {
     flex-direction: row;
-    align-items: center;
-    gap: var(--spacing-sm);
-    padding-left: calc(var(--spacing-xl) + env(safe-area-inset-left, 0px));
-    padding-right: 0;
+    align-items: flex-end;
+    gap: 0;
   }
 
   .filter-row {
@@ -1157,6 +1174,10 @@ button.energy-badge:focus-visible {
   .filter-pill {
     flex: 1 1 auto;
     width: auto;
+  }
+
+  .filter-pill-button {
+    align-items: flex-start;
   }
 
   .filter-pill-track {
@@ -1171,6 +1192,8 @@ button.energy-badge:focus-visible {
     flex: 0 1 clamp(var(--size-search-min), 32vw, var(--size-search-max));
     width: auto;
     order: 2;
+    border-left-color: color-mix(in srgb, var(--color-border) 45%, transparent);
+    border-bottom-left-radius: 0;
   }
 }
 
@@ -1180,7 +1203,7 @@ button.energy-badge:focus-visible {
   }
 
   .task-input {
-    padding: var(--spacing-sm) 0 0 var(--spacing-xl);
+    padding: var(--spacing-sm) 0 var(--spacing-sm) var(--spacing-xl);
   }
 }
 

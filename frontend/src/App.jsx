@@ -44,6 +44,9 @@ export default function App() {
   const [filter, setFilter] = useState('all')
   const [search, setSearch] = useState('')
   const [activeId, setActiveId] = useState(null)
+
+  const FILTER_ENERGY_MAP = { all: 'medium', quick: 'low', priority: 'medium', deep: 'high' }
+  const syncedEnergy = FILTER_ENERGY_MAP[filter] ?? null
   const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 6 } }))
 
   const normalizedQuery = search.trim().toLowerCase()
@@ -112,6 +115,7 @@ export default function App() {
       <main>
         <TaskInput
           disabled={loading}
+          syncedEnergy={syncedEnergy}
           onAdd={async (title, energy, tags) => {
             await createTodo({ title, energy, tags })
           }}

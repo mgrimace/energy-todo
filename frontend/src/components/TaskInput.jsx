@@ -1,11 +1,15 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { CaretRightIcon } from '@phosphor-icons/react'
 
 const ENERGY_ORDER = ['low', 'medium', 'high']
 
-export default function TaskInput({ onAdd, disabled }) {
+export default function TaskInput({ onAdd, disabled, syncedEnergy }) {
   const [title, setTitle] = useState('')
   const [energy, setEnergy] = useState('low')
+
+  useEffect(() => {
+    if (syncedEnergy) setEnergy(syncedEnergy)
+  }, [syncedEnergy])
   const [confirmedTags, setConfirmedTags] = useState([])
   const inputRef = useRef(null)
 
@@ -24,7 +28,7 @@ export default function TaskInput({ onAdd, disabled }) {
 
     await onAdd(cleanTitle, energy, finalTags)
     setTitle('')
-    setEnergy('low')
+    setEnergy(syncedEnergy ?? energy)
     setConfirmedTags([])
   }
 
@@ -78,13 +82,11 @@ export default function TaskInput({ onAdd, disabled }) {
 
   return (
     <form className="task-input" data-energy={energy} onSubmit={submit}>
-      {/* Left caret anchor — decorative, not interactive */}
       <span className="task-input-caret" aria-hidden="true">
         <CaretRightIcon size={16} weight="bold" />
       </span>
 
       <div className="task-title-row">
-        {/* Energy selector: plain mono lowercase text */}
         <button
           type="button"
           className="task-energy-selector"
