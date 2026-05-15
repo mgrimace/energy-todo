@@ -82,13 +82,11 @@ export default function TaskInput({ onAdd, disabled, syncedEnergy }) {
 
   return (
     <form className="task-input" data-energy={energy} onSubmit={submit}>
-      {/* Left caret anchor — decorative, not interactive */}
       <span className="task-input-caret" aria-hidden="true">
         <CaretRightIcon size={16} weight="bold" />
       </span>
 
       <div className="task-title-row">
-        {/* Energy selector: plain mono lowercase text */}
         <button
           type="button"
           className="task-energy-selector"

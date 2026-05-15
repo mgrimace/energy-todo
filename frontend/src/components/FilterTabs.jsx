@@ -1,12 +1,11 @@
 import React from 'react'
-import { CirclesFourIcon, LeafIcon, CircleIcon, FlowerLotusIcon, CheckCircleIcon } from '@phosphor-icons/react'
 
 const TAB_CONFIG = [
-  { key: 'all',       label: 'All',       tone: 'base', Icon: CirclesFourIcon },
-  { key: 'quick',    label: 'Low',       tone: 'low',  Icon: LeafIcon },
-  { key: 'priority', label: 'Medium',    tone: 'medium', Icon: CircleIcon },
-  { key: 'deep',     label: 'High',      tone: 'high', Icon: FlowerLotusIcon },
-  { key: 'completed', label: 'Done', tone: 'base', Icon: CheckCircleIcon },
+  { key: 'all',       label: 'All',     tone: 'base' },
+  { key: 'quick',     label: 'Low',     tone: 'low' },
+  { key: 'priority',  label: 'Medium',  tone: 'medium' },
+  { key: 'deep',      label: 'High',    tone: 'high' },
+  { key: 'completed', label: 'Done',    tone: 'base' },
 ]
 
 export default function FilterTabs({ filter, setFilter }) {
