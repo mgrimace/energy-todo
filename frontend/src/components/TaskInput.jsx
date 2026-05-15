@@ -1,11 +1,15 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { CaretRightIcon } from '@phosphor-icons/react'
 
 const ENERGY_ORDER = ['low', 'medium', 'high']
 
-export default function TaskInput({ onAdd, disabled }) {
+export default function TaskInput({ onAdd, disabled, syncedEnergy }) {
   const [title, setTitle] = useState('')
   const [energy, setEnergy] = useState('low')
+
+  useEffect(() => {
+    if (syncedEnergy) setEnergy(syncedEnergy)
+  }, [syncedEnergy])
   const [confirmedTags, setConfirmedTags] = useState([])
   const inputRef = useRef(null)
 
@@ -24,7 +28,7 @@ export default function TaskInput({ onAdd, disabled }) {
 
     await onAdd(cleanTitle, energy, finalTags)
     setTitle('')
-    setEnergy('low')
+    setEnergy(syncedEnergy ?? energy)
     setConfirmedTags([])
   }
 

@@ -616,6 +616,7 @@ main {
   border-right: 1px solid var(--color-border);
   border-top: 1px solid var(--color-border);
   border-bottom: none;
+  border-radius: var(--radius-xs) var(--radius-xs) 0 0;
   background: var(--color-bg);
   color: var(--color-text);
   font-weight: var(--font-weight-medium);
@@ -1166,8 +1167,8 @@ button.energy-badge:focus-visible {
 @media (min-width: 640px) {
   .list-controls {
     flex-direction: row;
-    align-items: center;
-    gap: var(--spacing-sm);
+    align-items: flex-end;
+    gap: 0;
   }
 
   .filter-row {
@@ -1179,6 +1180,10 @@ button.energy-badge:focus-visible {
   .filter-pill {
     flex: 1 1 auto;
     width: auto;
+  }
+
+  .filter-pill-button {
+    align-items: flex-start;
   }
 
   .filter-pill-track {
@@ -1193,6 +1198,8 @@ button.energy-badge:focus-visible {
     flex: 0 1 clamp(var(--size-search-min), 32vw, var(--size-search-max));
     width: auto;
     order: 2;
+    border-left-color: color-mix(in srgb, var(--color-border) 45%, transparent);
+    border-bottom-left-radius: 0;
   }
 }
 
