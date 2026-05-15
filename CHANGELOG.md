@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 - Fix: swap Rosé Pine energy low and energy medium colour tokens so low is greener and medium is bluer, in both light and dark palettes.
+- Feat: UI layout redesign — reordered main layout, aligned filter row, balanced task input spacing, synced task input energy state with the active filter tab, and cleaned up CSS tokens and dead selectors.
 
 ## [v1.6.0] - 2026-05-08
 
