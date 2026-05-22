@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [v1.6.2] - 2026-05-22
+
 - Refactor: consolidate frontend theme implementation into a shared theme system for cross-app alignment.
 
 ## [v1.6.1] - 2026-05-15
