@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [v1.6.3] - 2026-05-22
+- Fix: minor tweaks to new Flexoki theme
+
 ## [v1.6.2] - 2026-05-22
 
 - Refactor: consolidate frontend theme implementation into a shared theme system for cross-app alignment.
