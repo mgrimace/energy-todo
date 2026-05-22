@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+- Refactor: consolidate frontend theme implementation into a shared theme system for cross-app alignment.
+
 ## [v1.6.1] - 2026-05-15
 
 - Fix: swap Rosé Pine energy low and energy medium colour tokens so low is greener and medium is bluer, in both light and dark palettes.
