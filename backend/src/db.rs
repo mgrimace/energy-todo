@@ -1,5 +1,5 @@
-use rusqlite::{params, Connection, Result};
 use crate::models::{Energy, NewTodo, Todo, UpdateTodo};
+use rusqlite::{params, Connection, Result};
 use std::time::{SystemTime, UNIX_EPOCH};
 
 fn now_unix_millis() -> i64 {
@@ -77,17 +77,36 @@ pub fn seed_if_empty(conn: &Connection) -> Result<()> {
                 let id = todo["id"].as_u64().unwrap_or(0) as i64;
                 let title = todo["title"].as_str().unwrap_or("").to_string();
                 let energy = todo["energy"].as_str().unwrap_or("medium").to_string();
-                let tags = todo.get("tags")
+                let tags = todo
+                    .get("tags")
                     .map(|t| serde_json::to_string(t).unwrap_or_else(|_| "[]".to_string()))
                     .unwrap_or_else(|| "[]".to_string());
                 let is_completed = todo["completed"].as_bool().unwrap_or(false);
-                let completed_at = todo.get("completedAt").and_then(|v| v.as_u64()).map(|v| v as i64);
-                let position = if is_completed { let p = completed_pos; completed_pos += 1; p }
-                               else           { let p = active_pos;    active_pos    += 1; p };
+                let completed_at = todo
+                    .get("completedAt")
+                    .and_then(|v| v.as_u64())
+                    .map(|v| v as i64);
+                let position = if is_completed {
+                    let p = completed_pos;
+                    completed_pos += 1;
+                    p
+                } else {
+                    let p = active_pos;
+                    active_pos += 1;
+                    p
+                };
                 conn.execute(
                     "INSERT INTO todos (id, title, energy, tags, completed, completed_at, position)
                      VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7)",
-                    params![id, title, energy, tags, is_completed as i64, completed_at, position],
+                    params![
+                        id,
+                        title,
+                        energy,
+                        tags,
+                        is_completed as i64,
+                        completed_at,
+                        position
+                    ],
                 )?;
             }
             return Ok(());
@@ -102,12 +121,42 @@ pub fn seed_if_empty(conn: &Connection) -> Result<()> {
     }
 
     let seeds = [
-        Seed { title: "Create a new task and assign it an energy cost", energy: "low",    tags: r#"["startup"]"#, completed: false },
-        Seed { title: "Battery Low? Knock out a \"quick win\"",         energy: "low",    tags: r#"["tip"]"#,     completed: false },
-        Seed { title: "Feeling ok? Choose a \"balanced\" task",         energy: "medium", tags: r#"["tip"]"#,     completed: false },
-        Seed { title: "Try swiping to complete this task",              energy: "medium", tags: r#"["ui"]"#,      completed: false },
-        Seed { title: "Hyper focused? Select a \"focused\" task",       energy: "high",   tags: r#"["tip"]"#,     completed: false },
-        Seed { title: "this is a completed task",                       energy: "high",   tags: "[]",             completed: true  },
+        Seed {
+            title: "Create a new task and assign it an energy cost",
+            energy: "low",
+            tags: r#"["startup"]"#,
+            completed: false,
+        },
+        Seed {
+            title: "Battery Low? Knock out a \"quick win\"",
+            energy: "low",
+            tags: r#"["tip"]"#,
+            completed: false,
+        },
+        Seed {
+            title: "Feeling ok? Choose a \"balanced\" task",
+            energy: "medium",
+            tags: r#"["tip"]"#,
+            completed: false,
+        },
+        Seed {
+            title: "Try swiping to complete this task",
+            energy: "medium",
+            tags: r#"["ui"]"#,
+            completed: false,
+        },
+        Seed {
+            title: "Hyper focused? Select a \"focused\" task",
+            energy: "high",
+            tags: r#"["tip"]"#,
+            completed: false,
+        },
+        Seed {
+            title: "this is a completed task",
+            energy: "high",
+            tags: "[]",
+            completed: true,
+        },
     ];
 
     let mut active_pos = 0i64;
@@ -116,7 +165,11 @@ pub fn seed_if_empty(conn: &Connection) -> Result<()> {
     for (i, seed) in seeds.iter().enumerate() {
         let id = (i + 1) as i64;
         let completed_val = seed.completed as i64;
-        let completed_at: Option<i64> = if seed.completed { Some(1_735_000_000_000) } else { None };
+        let completed_at: Option<i64> = if seed.completed {
+            Some(1_735_000_000_000)
+        } else {
+            None
+        };
         let position = if seed.completed {
             let p = completed_pos;
             completed_pos += 1;
@@ -130,7 +183,15 @@ pub fn seed_if_empty(conn: &Connection) -> Result<()> {
         conn.execute(
             "INSERT INTO todos (id, title, energy, tags, completed, completed_at, position)
              VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7)",
-            params![id, seed.title, seed.energy, seed.tags, completed_val, completed_at, position],
+            params![
+                id,
+                seed.title,
+                seed.energy,
+                seed.tags,
+                completed_val,
+                completed_at,
+                position
+            ],
         )?;
     }
 
@@ -158,11 +219,9 @@ pub fn get_active_ids(conn: &Connection) -> Result<Vec<u64>> {
 }
 
 pub fn create_todo(conn: &Connection, new_todo: &NewTodo) -> Result<Todo> {
-    let max_id: i64 =
-        conn.query_row("SELECT COALESCE(MAX(id), 0) FROM todos", [], |r| r.get(0))?;
+    let max_id: i64 = conn.query_row("SELECT COALESCE(MAX(id), 0) FROM todos", [], |r| r.get(0))?;
     let id = max_id + 1;
-    let tags_json =
-        serde_json::to_string(&new_todo.tags).unwrap_or_else(|_| "[]".to_string());
+    let tags_json = serde_json::to_string(&new_todo.tags).unwrap_or_else(|_| "[]".to_string());
     let energy = energy_to_str(&new_todo.energy);
 
     // High-energy tasks go to the end of active; all others prepend (position 0).

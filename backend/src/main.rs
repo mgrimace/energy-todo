@@ -5,33 +5,29 @@ mod routes;
 mod state;
 
 use actix_files::{Files, NamedFile};
-use actix_web::{dev::Service, error, http::header, web, App, HttpRequest, HttpResponse, HttpServer, Responder, ResponseError, Result};
+use actix_web::{
+    dev::Service, error, http::header, web, App, HttpRequest, HttpResponse, HttpServer, Responder,
+    ResponseError, Result,
+};
+use state::AppState;
 use std::fs;
 use std::path::Path;
-use std::sync::Arc;
-use state::AppState;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-
     let db_path = "data/todos.db";
 
     if let Some(parent) = Path::new(db_path).parent() {
         fs::create_dir_all(parent)?;
     }
-    let conn = db::open_db(db_path).map_err(|e| {
-        std::io::Error::other(format!("failed to open database: {}", e))
-    })?;
-    db::seed_if_empty(&conn).map_err(|e| {
-        std::io::Error::other(format!("failed to seed database: {}", e))
-    })?;
+    let conn = db::open_db(db_path)
+        .map_err(|e| std::io::Error::other(format!("failed to open database: {}", e)))?;
+    db::seed_if_empty(&conn)
+        .map_err(|e| std::io::Error::other(format!("failed to seed database: {}", e)))?;
 
-    let (broadcaster, _rx) = tokio::sync::broadcast::channel::<String>(100);
+    let (broadcaster, _rx) = tokio::sync::broadcast::channel::<(u64, String)>(100);
 
-    let app_state = AppState {
-        db: Arc::new(tokio::sync::Mutex::new(conn)),
-        broadcaster,
-    };
+    let app_state = AppState::new(conn, broadcaster);
 
     let addr = ("0.0.0.0", 3000);
     eprintln!("starting energy todo backend on {}:{}", addr.0, addr.1);
@@ -65,7 +61,9 @@ async fn main() -> std::io::Result<()> {
         .error_handler(|err, _req| {
             let app_err = match err {
                 actix_web::error::JsonPayloadError::OverflowKnownLength { .. }
-                | actix_web::error::JsonPayloadError::Overflow { .. } => crate::errors::AppError::PayloadTooLarge,
+                | actix_web::error::JsonPayloadError::Overflow { .. } => {
+                    crate::errors::AppError::PayloadTooLarge
+                }
                 _ => crate::errors::AppError::BadRequest,
             };
             actix_web::error::InternalError::from_response(err, app_err.error_response()).into()
