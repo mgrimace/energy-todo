@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+- Fix: live todo updates now recover missed changes after reconnects, keep backgrounded PWAs connected more reliably, and avoid unnecessary refreshes on resume.
+- Fix: creating, editing, deleting, and clearing tasks now feel instant in the UI while rolling back cleanly if a request fails.
+
 ## [v1.6.3] - 2026-05-22
 - Fix: minor tweaks to new Flexoki theme
 
