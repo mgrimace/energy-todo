@@ -2,7 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
+## [v1.6.5] -2026-09-09
+
+- Fix: Fixed the grabber on mobile/touch devices so drag-to-reorder works smoother
 
 ## [v1.6.4] - 2026-06-02
 
