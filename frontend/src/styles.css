@@ -42,6 +42,8 @@
   --size-chip-height: 28px;
   --size-checkbox: 14px;
   --size-icon-sm: 16px;
+  --size-icon-md: 20px;
+  --size-tap-target: 44px;
   --size-inline-input-min: 24px;
   --size-tag-pill-min: 20px;
   --size-tag-max-width: 420px;
@@ -463,6 +465,16 @@ main {
   border-radius: 0;
   font-size: var(--font-size-input);
   line-height: 1.4; /* intentional one-off: no --line-height token at 1.4 */
+  position: relative;
+}
+
+.task-save-btn::after {
+  content: '';
+  position: absolute;
+  inset: 50%;
+  width: var(--size-tap-target);
+  height: var(--size-tap-target);
+  transform: translate(-50%, -50%);
 }
 
 .task-save-btn:not(:disabled) {
@@ -821,7 +833,7 @@ main {
 .checkbox::after {
   content: '';
   position: absolute;
-  inset: -15px;
+  inset: calc((var(--size-checkbox) - var(--size-tap-target)) / 2);
 }
 
 .checkbox:hover,
@@ -1204,6 +1216,28 @@ button.energy-badge:focus-visible {
 
   .task-input {
     padding: var(--spacing-sm) 0 var(--spacing-sm) var(--spacing-xl);
+  }
+}
+
+/* ================= Touch Devices (mobile/PWA) ================ */
+
+@media (pointer: coarse) {
+  /* Drag handle: always visible on touch (no hover to reveal it) */
+  .card .drag-handle {
+    opacity: var(--opacity-dim);
+    pointer-events: auto;
+    width: var(--size-tap-target);
+    min-width: var(--size-tap-target);
+    height: var(--size-tap-target);
+  }
+
+  .drag-handle svg {
+    width: var(--size-icon-md);
+    height: var(--size-icon-md);
+  }
+
+  .drag-handle:active {
+    opacity: var(--opacity-active);
   }
 }
 
