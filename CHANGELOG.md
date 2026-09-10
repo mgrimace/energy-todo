@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v1.6.6] -2026-09-09
+
+- Refactor: Improve layout of task entry on mobile, larger icon for plus
+
 ## [v1.6.5] -2026-09-09
 
 - Fix: Fixed the grabber on mobile/touch devices so drag-to-reorder works smoother

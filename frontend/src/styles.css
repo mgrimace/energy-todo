@@ -409,7 +409,7 @@ main {
 
 .task-title-row {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   flex: 1 1 200px;
   min-width: 120px;
   gap: var(--spacing-sm);
@@ -457,7 +457,7 @@ main {
   justify-content: center;
   height: auto;
   min-width: unset;
-  padding: var(--spacing-xs) 0;
+  padding: 0;
   border: 0;
   background: transparent;
   color: var(--color-text-muted);
@@ -1145,13 +1145,38 @@ button.energy-badge:focus-visible {
 
 @media (max-width: 599px) {
   .task-input {
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    justify-content: center;
+    padding-left: 0;
+    padding-right: 0;
   }
 
-  .task-input-caret     { order: -1; flex-shrink: 0; align-self: center; }
-  .task-energy-selector { order: 0; }
-  #task-title           { order: 1; flex: 1 1 100%; }
-  .task-actions         { order: 2; margin-left: auto; }
+  .task-input-caret {
+    order: 0;
+    flex: 0 0 auto;
+  }
+
+  .task-title-row {
+    order: 1;
+    flex: 0 1 360px;
+    min-width: 0;
+    align-items: center;
+  }
+
+  #task-title {
+    order: 1;
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .task-energy-selector {
+    order: 0;
+  }
+
+  .task-actions {
+    order: 2;
+    margin-left: 0;
+  }
 
   .search {
     width: 100%;
@@ -1163,49 +1188,6 @@ button.energy-badge:focus-visible {
 
   .filter-pill-chip {
     width: 100%;
-  }
-
-  .list-controls { order: 1; }
-  .task-input    { order: 2; }
-  .list          { order: 3; }
-}
-
-@media (min-width: 640px) {
-  .list-controls {
-    flex-direction: row;
-    align-items: flex-end;
-    gap: 0;
-  }
-
-  .filter-row {
-    flex: 1 1 auto;
-    width: auto;
-    order: 1;
-  }
-
-  .filter-pill {
-    flex: 1 1 auto;
-    width: auto;
-  }
-
-  .filter-pill-button {
-    align-items: flex-start;
-  }
-
-  .filter-pill-track {
-    gap: var(--spacing-xs);
-  }
-
-  .filter-pill-chip {
-    padding: 0 var(--spacing-md);
-  }
-
-  .search {
-    flex: 0 1 clamp(var(--size-search-min), 32vw, var(--size-search-max));
-    width: auto;
-    order: 2;
-    border-left-color: color-mix(in srgb, var(--color-border) 45%, transparent);
-    border-bottom-left-radius: 0;
   }
 }
 
@@ -1223,6 +1205,11 @@ button.energy-badge:focus-visible {
 
 @media (pointer: coarse) {
   /* Drag handle: always visible on touch (no hover to reveal it) */
+
+  .card {
+  padding-right: var(--spacing-xs);
+  }
+  
   .card .drag-handle {
     opacity: var(--opacity-dim);
     pointer-events: auto;
@@ -1238,6 +1225,23 @@ button.energy-badge:focus-visible {
 
   .drag-handle:active {
     opacity: var(--opacity-active);
+  }
+
+  .card-left {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .checkbox {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+    width: 1px;
+    height: 1px;
+  }
+
+  .task-save-btn {
+    font-size: 1.3rem;
+    line-height: 1;
   }
 }
 
