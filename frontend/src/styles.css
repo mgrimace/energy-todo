@@ -729,6 +729,10 @@ main {
   color: var(--color-text);
 }
 
+.filter-pill-label-short {
+  display: none;
+}
+
 .search {
   display: flex;
   align-items: center;
@@ -1326,6 +1330,14 @@ button.energy-badge:focus-visible {
 
   .filter-pill-chip {
     width: 100%;
+  }
+
+  .filter-pill-label-full {
+    display: none;
+  }
+
+  .filter-pill-label-short {
+    display: inline;
   }
 
   .task-position-icon {

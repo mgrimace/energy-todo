@@ -3,7 +3,7 @@ import React from 'react'
 const TAB_CONFIG = [
   { key: 'all',       label: 'All',     tone: 'base' },
   { key: 'quick',     label: 'Low',     tone: 'low' },
-  { key: 'priority',  label: 'Medium',  tone: 'medium' },
+  { key: 'priority',  label: 'Medium',  shortLabel: 'Med', tone: 'medium' },
   { key: 'deep',      label: 'High',    tone: 'high' },
   { key: 'completed', label: 'Done',    tone: 'base' },
 ]
@@ -81,7 +81,14 @@ export default function FilterTabs({ filter, setFilter }) {
               onClick={() => setFilter(tab.key)}
             >
               <span className="filter-pill-chip">
-                <span>{tab.label}</span>
+                {tab.shortLabel ? (
+                  <>
+                    <span className="filter-pill-label-full">{tab.label}</span>
+                    <span className="filter-pill-label-short">{tab.shortLabel}</span>
+                  </>
+                ) : (
+                  <span>{tab.label}</span>
+                )}
               </span>
             </button>
           )
