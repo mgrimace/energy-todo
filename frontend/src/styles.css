@@ -1285,6 +1285,7 @@ button.energy-badge:focus-visible {
 
   .search:focus-within,
   .search[data-has-value='true'] {
+    flex: 0 1 55%;
     width: auto;
     max-width: 55%;
     padding: 0 var(--spacing-sm);
