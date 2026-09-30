@@ -124,24 +124,24 @@ export default function App() {
         <div className="list-controls">
           <div className="filter-row">
             <FilterTabs filter={filter} setFilter={setFilter} />
+            <label className="search" htmlFor="task-search" data-has-value={search ? 'true' : undefined}>
+              <span className="search-chip">
+                <MagnifyingGlassIcon
+                  className="search-icon"
+                  weight="regular"
+                  aria-hidden="true"
+                />
+                <input
+                  id="task-search"
+                  type="search"
+                  aria-label="Search tasks"
+                  value={search}
+                  onChange={event => setSearch(event.target.value)}
+                  placeholder="Search"
+                />
+              </span>
+            </label>
           </div>
-          <label className="search" htmlFor="task-search">
-            <span className="search-chip">
-              <MagnifyingGlassIcon
-                className="search-icon"
-                weight="regular"
-                aria-hidden="true"
-              />
-              <input
-                id="task-search"
-                type="search"
-                aria-label="Search tasks"
-                value={search}
-                onChange={event => setSearch(event.target.value)}
-                placeholder="Search"
-              />
-            </span>
-          </label>
         </div>
 
         {loading ? (
