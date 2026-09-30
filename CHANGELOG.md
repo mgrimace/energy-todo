@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v1.6.7] - 2026-09-30
+
+- Feat: add a warning/amber semantic color to every theme, tuned for WCAG contrast.
+- Feat: choose whether new tasks are added sooner (top) or later (bottom).
+- Feat: merge search into the filter tab row and expand search on mobile.
+- Fix: shorten the Medium energy label on mobile.
+- Fix: show strikethrough feedback while swiping a task to complete it.
+
 ## [v1.6.6] -2026-09-09
 
 - Refactor: Improve layout of task entry on mobile, larger icon for plus
