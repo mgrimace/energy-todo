@@ -24,6 +24,7 @@ export interface ThemePalette {
 
   // Semantic
   positive: string      // income, success
+  warning: string       // caution, amber
   negative: string      // expense, danger (was 'danger' in todo)
 
   // Energy levels — todo-specific, silently ignored by budget themeManager
