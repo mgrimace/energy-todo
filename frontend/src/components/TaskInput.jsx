@@ -1,11 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { CaretRightIcon } from '@phosphor-icons/react'
+import { CaretDownIcon, CaretRightIcon, CaretUpIcon } from '@phosphor-icons/react'
 
 const ENERGY_ORDER = ['low', 'medium', 'high']
 
 export default function TaskInput({ onAdd, disabled, syncedEnergy }) {
   const [title, setTitle] = useState('')
   const [energy, setEnergy] = useState('low')
+  const [position, setPosition] = useState('top')
 
   useEffect(() => {
     if (syncedEnergy) setEnergy(syncedEnergy)
@@ -26,10 +27,11 @@ export default function TaskInput({ onAdd, disabled, syncedEnergy }) {
 
     if (!cleanTitle) return
 
-    await onAdd(cleanTitle, energy, finalTags)
+    await onAdd(cleanTitle, energy, finalTags, position)
     setTitle('')
     setEnergy(syncedEnergy ?? energy)
     setConfirmedTags([])
+    setPosition('top')
   }
 
   const cycleEnergy = (event) => {
@@ -81,7 +83,7 @@ export default function TaskInput({ onAdd, disabled, syncedEnergy }) {
   }
 
   return (
-    <form className="task-input" data-energy={energy} onSubmit={submit}>
+    <form className="task-input" data-energy={energy} data-has-title={title.trim() ? 'true' : undefined} onSubmit={submit}>
       <span className="task-input-caret" aria-hidden="true">
         <CaretRightIcon size={16} weight="bold" />
       </span>
@@ -120,6 +122,40 @@ export default function TaskInput({ onAdd, disabled, syncedEnergy }) {
               #{tag}
             </button>
           ))}
+          <div className="task-position-toggle" role="group" aria-label="New task placement">
+            <div className="task-position-track">
+              <button
+                type="button"
+                className={`task-position-tab${position === 'top' ? ' is-active' : ''}`}
+                onClick={() => setPosition('top')}
+                onPointerDown={e => e.preventDefault()}
+                aria-pressed={position === 'top'}
+                aria-label="Add to top of list (sooner)"
+                title="Add to top of list (sooner)"
+                disabled={disabled}
+              >
+                <span className="task-position-chip">
+                  <CaretUpIcon className="task-position-icon" size={16} weight="bold" aria-hidden="true" />
+                  <span className="task-position-label">sooner</span>
+                </span>
+              </button>
+              <button
+                type="button"
+                className={`task-position-tab${position === 'bottom' ? ' is-active' : ''}`}
+                onClick={() => setPosition('bottom')}
+                onPointerDown={e => e.preventDefault()}
+                aria-pressed={position === 'bottom'}
+                aria-label="Add to bottom of list (later)"
+                title="Add to bottom of list (later)"
+                disabled={disabled}
+              >
+                <span className="task-position-chip">
+                  <CaretDownIcon className="task-position-icon" size={16} weight="bold" aria-hidden="true" />
+                  <span className="task-position-label">later</span>
+                </span>
+              </button>
+            </div>
+          </div>
           <button
             type="submit"
             className="task-save-btn"

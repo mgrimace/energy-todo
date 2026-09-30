@@ -116,8 +116,8 @@ export default function App() {
         <TaskInput
           disabled={loading}
           syncedEnergy={syncedEnergy}
-          onAdd={async (title, energy, tags) => {
-            await createTodo({ title, energy, tags })
+          onAdd={async (title, energy, tags, position) => {
+            await createTodo({ title, energy, tags, position })
           }}
         />
 

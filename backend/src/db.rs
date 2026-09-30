@@ -224,21 +224,13 @@ pub fn create_todo(conn: &Connection, new_todo: &NewTodo) -> Result<Todo> {
     let tags_json = serde_json::to_string(&new_todo.tags).unwrap_or_else(|_| "[]".to_string());
     let energy = energy_to_str(&new_todo.energy);
 
-    // High-energy tasks go to the end of active; all others prepend (position 0).
-    let position: i64 = match &new_todo.energy {
-        Energy::High => {
-            conn.query_row("SELECT COUNT(*) FROM todos WHERE completed = 0", [], |r| {
-                r.get(0)
-            })?
-        }
-        _ => {
-            conn.execute(
-                "UPDATE todos SET position = position + 1 WHERE completed = 0",
-                [],
-            )?;
-            0
-        }
-    };
+    // New todos prepend (position 0); the client explicitly reorders
+    // afterwards to honor the sooner/later placement choice.
+    conn.execute(
+        "UPDATE todos SET position = position + 1 WHERE completed = 0",
+        [],
+    )?;
+    let position: i64 = 0;
 
     conn.execute(
         "INSERT INTO todos (id, title, energy, tags, completed, completed_at, position)

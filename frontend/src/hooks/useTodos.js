@@ -211,32 +211,49 @@ export default function useTodos() {
   }, [connectSSE])
 
   const createTodo = async (payload) => {
+    const { position = 'top', ...body } = payload
     const optimisticId = `temp-${Date.now()}-${tempTodoIdRef.current += 1}`
     const optimisticTodo = {
       id: optimisticId,
-      title: payload.title,
-      energy: payload.energy,
-      tags: Array.isArray(payload.tags) ? payload.tags : [],
+      title: body.title,
+      energy: body.energy,
+      tags: Array.isArray(body.tags) ? body.tags : [],
       completed: false,
       completedAt: null,
     }
 
-    setTodos(prev => [optimisticTodo, ...prev])
+    const placeInActive = (list, todo) => position === 'bottom'
+      ? [...list.filter(t => !t.completed), todo, ...list.filter(t => t.completed)]
+      : [todo, ...list]
+
+    setTodos(prev => placeInActive(prev, optimisticTodo))
 
     try {
-      const res = await axios.post('/api/todos', payload)
+      const res = await axios.post('/api/todos', body)
       const createdTodo = res.data
 
+      let activeIds = null
       setTodos(prev => {
         const withoutOptimistic = prev.filter(todo => todo.id !== optimisticId)
         const existingIndex = withoutOptimistic.findIndex(todo => todo.id === createdTodo.id)
 
-        if (existingIndex >= 0) {
-          return withoutOptimistic.map(todo => (todo.id === createdTodo.id ? createdTodo : todo))
-        }
+        const next = existingIndex >= 0
+          ? withoutOptimistic.map(todo => (todo.id === createdTodo.id ? createdTodo : todo))
+          : placeInActive(withoutOptimistic, createdTodo)
 
-        return [createdTodo, ...withoutOptimistic]
+        activeIds = next.filter(t => !t.completed).map(t => t.id)
+        return next
       })
+
+      // Server-side creation defaults ordering by energy; enforce the
+      // user's chosen placement explicitly so it persists across refresh/SSE.
+      if (activeIds) {
+        try {
+          await axios.post('/api/todos/reorder', { active_ids: activeIds })
+        } catch (error) {
+          if (import.meta.env.DEV) console.error(error)
+        }
+      }
 
       return createdTodo
     } catch (error) {
