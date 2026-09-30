@@ -1420,6 +1420,17 @@ button.energy-badge:focus-visible {
   );
 }
 
+/* Progressive strikethrough as a card is swiped/dragged toward completion */
+.todo-swipe-wrapper .card:not(.is-complete) .title {
+  text-decoration-line: line-through;
+  text-decoration-thickness: 1px;
+  text-decoration-color: transparent;
+}
+
+.todo-swipe-wrapper[data-swipe-dir='right'] .card:not(.is-complete) .title {
+  text-decoration-color: color-mix(in srgb, var(--color-text-muted) calc(var(--swipe-progress, 0) * 100%), transparent);
+}
+
 .todo-swipe-wrapper .card {
   position: relative;
   z-index: 1;
