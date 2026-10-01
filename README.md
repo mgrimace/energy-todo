@@ -9,14 +9,15 @@ A self-hosted task manager for neurodiverse and neurospicy brains. Most to-do li
 ## Screenshot
 
 <p align="center">
-  <a href="./docs/screenshot-light.png"><img src="./docs/screenshot-light.png" alt="Energy Todo in light mode on desktop." width="270" /></a>
-  <a href="./docs/screenshot-dark.png"><img src="./docs/screenshot-dark.png" alt="Energy Todo in dark mode on desktop." width="270" /></a>
-  <a href="./docs/mobile-light.png"><img src="./docs/mobile-light.png" alt="Energy Todo on a phone in light mode." width="120" /></a>
-  <a href="./docs/mobile-dark.png"><img src="./docs/mobile-dark.png" alt="Energy Todo on a phone in dark mode." width="120" /></a>
+  <a href="./docs/screenshot-light.png"><img src="./docs/screenshot-light.png" alt="Energy Todo in light mode on desktop. Tabs for All, Low, Medium, High and Done sit above a task list, with tasks tagged quick win, balanced or focused and a completed section below." height="195" /></a>
+  <a href="./docs/screenshot-dark.png"><img src="./docs/screenshot-dark.png" alt="Energy Todo in dark mode on desktop. Tabs for All, Low, Medium, High and Done sit above a task list, with tasks tagged quick win, balanced or focused and a completed section below." height="195" /></a>
+  <a href="./docs/mobile-light.png"><img src="./docs/mobile-light.png" alt="Energy Todo on a phone in light mode, showing energy filter tabs, a new task field and a list of tasks tagged quick win, balanced or focused." height="195" /></a>
+  <a href="./docs/mobile-dark.png"><img src="./docs/mobile-dark.png" alt="Energy Todo on a phone in dark mode, showing energy filter tabs, a new task field and a list of tasks tagged quick win, balanced or focused." height="195" /></a>
 </p>
 
 > [!TIP]
 > Now with themes support: Nord, Everforest, Gruvbox, Solarized, Catppuccin, and more!
+
 ## About This Project
 
 I'm Mike, a healthcare provider, researcher, and educator who’s learning to code as a hobby. I built this after struggling to find a minimal, self-hosted task manager that worked with the way my brain organizes energy and attention.
