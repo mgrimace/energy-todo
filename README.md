@@ -10,7 +10,11 @@ A self-hosted task manager for neurodiverse and neurospicy brains. Most to-do li
 
 | Light mode | Dark mode |
 | --- | --- |
-| ![Light mode screenshot](./docs/screenshot-light.png) | ![Dark mode screenshot](./docs/screenshot-dark.png) |
+| <img src="./docs/screenshot-light.png" alt="Energy Todo in light mode on desktop. Tabs for All, Low, Medium, High and Done sit above a task list, with tasks tagged quick win, balanced or focused and a completed section below." width="400" /> | <img src="./docs/screenshot-dark.png" alt="Energy Todo in dark mode on desktop. Tabs for All, Low, Medium, High and Done sit above a task list, with tasks tagged quick win, balanced or focused and a completed section below." width="400" /> |
+
+| Mobile light | Mobile dark |
+| --- | --- |
+| <img src="./docs/mobile-light.png" alt="Energy Todo on a phone in light mode, showing energy filter tabs, a new task field and a list of tasks tagged quick win, balanced or focused." width="200" /> | <img src="./docs/mobile-dark.png" alt="Energy Todo on a phone in dark mode, showing energy filter tabs, a new task field and a list of tasks tagged quick win, balanced or focused." width="200" /> |
 
 > [!TIP]
 > Now with themes support: Nord, Everforest, Gruvbox, Solarized, Catppuccin, and more!
@@ -42,38 +46,49 @@ I'm Mike, a healthcare provider, researcher, and educator who’s learning to co
 
 **Prerequisites:** Docker and Docker Compose
 
-1. create a `docker-compose.yaml` file:
-   ```yaml   
+1. Create a `docker-compose.yaml` or copy the [sample compose file](./docker-compose.yml) file:
+
+   ```yaml
    services:
      energy-todo:
        container_name: energy-todo
        image: ghcr.io/mgrimace/energy-todo:latest
        ports:
          - "3000:3000"
+       environment:
+         - PUID=${PUID:-1000}
+         - PGID=${PGID:-1000}
        volumes:
-         - ./energy-data:/app/data:rw
+         - ./energy-data:/app/data:rw,z
        restart: unless-stopped
-   ```   
+   ```
 
 2. (Optional) Set up your environment:
-  ```bash
-  cp .env.example .env
-  ```
+   ```bash
+   cp env.example .env
+   ```
+
+   Then set `PUID` and `PGID` in `.env` to your own user and group IDs, so the data folder belongs to you instead of root. Find them with `id -u` and `id -g`. If you skip this, both default to `1000`, which matches most single-user Linux setups.
+
+   ```bash
+   PUID=1000
+   PGID=1000
+   ```
 
 3. Create the data directory (this matches the `./energy-data:/app/data` volume):
-  ```bash
-  mkdir -p energy-data
-  # If you get permission errors writing to this folder, run:
-  sudo chown -R 1000:1000 energy-data
-  ```
+   ```bash
+   mkdir -p energy-data
+   ```
 
-  > [!TIP]
-  > If you changed the container `user:` in `docker-compose.yaml`, update the `1000:1000` above to match the UID/GID you set (via `LOCAL_UID`/`LOCAL_GID`).
+   The container fixes ownership of this folder on startup, so no `chown` is needed.
+
+   > [!TIP]
+   > Prefer to run the container as a fixed user instead? Replace the `environment:` block with `user: "1000:1000"` and make sure `energy-data` is owned by that user (create it yourself with `mkdir` first, since Docker creates missing folders as root).
 
 4. Start the app:
-  ```bash
-  docker compose up -d
-  ```
+   ```bash
+   docker compose up -d
+   ```
 
 5. Open your browser and go to `http://localhost:3000`
 

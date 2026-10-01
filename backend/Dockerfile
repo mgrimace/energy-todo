@@ -35,18 +35,23 @@ RUN --mount=type=cache,target=/usr/local/cargo/registry \
 	strip target/release/energy_todo_backend
 
 # Stage 4 — minimal runtime image
-FROM debian:bookworm-slim
+FROM debian:trixie-slim
 RUN apt-get update \
-	&& apt-get install -y --no-install-recommends ca-certificates \
+	&& apt-get install -y --no-install-recommends ca-certificates gosu \
 	&& rm -rf /var/lib/apt/lists/* \
 	&& groupadd --system app \
 	&& useradd --system --create-home --gid app --uid 10001 app
 WORKDIR /app
 COPY --from=backend-builder /app/backend/target/release/energy_todo_backend ./energy_todo_backend
 COPY --from=frontend-builder /app/frontend/dist ./dist
-RUN mkdir -p /app/data && chown -R app:app /app
+COPY backend/entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN mkdir -p /app/data \
+	&& chmod +x /usr/local/bin/entrypoint.sh \
+	&& chmod -R a+rX /app \
+	&& chown -R app:app /app/data
 VOLUME ["/app/data"]
 EXPOSE 3000
 ENV RUST_LOG=info
-USER app:app
+# No USER line: the entrypoint drops privileges after fixing /app/data
+ENTRYPOINT ["entrypoint.sh"]
 CMD ["./energy_todo_backend"]
