@@ -6,13 +6,24 @@
 
 A self-hosted task manager for neurodiverse and neurospicy brains. Most to-do lists are built around deadlines and priority, but for some folks it’s not about time, it’s about *energy*. Tag tasks by energy cost instead of urgency, then filter your list to match your actual battery: Low battery? Clear a low-energy task for a quick win. Hyperfocused? Settle into a deep work task.
 
-## Screenshot
+## Screenshots
 
 <p align="center">
-  <a href="./docs/screenshot-light.png"><img src="./docs/screenshot-light.png" alt="Energy Todo in light mode on desktop. Tabs for All, Low, Medium, High and Done sit above a task list, with tasks tagged quick win, balanced or focused and a completed section below." height="195" /></a>
-  <a href="./docs/screenshot-dark.png"><img src="./docs/screenshot-dark.png" alt="Energy Todo in dark mode on desktop. Tabs for All, Low, Medium, High and Done sit above a task list, with tasks tagged quick win, balanced or focused and a completed section below." height="195" /></a>
-  <a href="./docs/mobile-light.png"><img src="./docs/mobile-light.png" alt="Energy Todo on a phone in light mode, showing energy filter tabs, a new task field and a list of tasks tagged quick win, balanced or focused." height="195" /></a>
-  <a href="./docs/mobile-dark.png"><img src="./docs/mobile-dark.png" alt="Energy Todo on a phone in dark mode, showing energy filter tabs, a new task field and a list of tasks tagged quick win, balanced or focused." height="195" /></a>
+  <a href="./docs/screenshot-light.png">
+    <img src="./docs/screenshot-light.png" alt="Energy Todo in light mode on desktop, showing energy filter tabs and a task list." width="48%" />
+  </a>
+  <a href="./docs/screenshot-dark.png">
+    <img src="./docs/screenshot-dark.png" alt="Energy Todo in dark mode on desktop, showing energy filter tabs and a task list." width="48%" />
+  </a>
+</p>
+
+<p align="center">
+  <a href="./docs/mobile-light.png">
+    <img src="./docs/mobile-light.png" alt="Energy Todo on a phone in light mode, showing energy filters and a task list." width="24%" />
+  </a>
+  <a href="./docs/mobile-dark.png">
+    <img src="./docs/mobile-dark.png" alt="Energy Todo on a phone in dark mode, showing energy filters and a task list." width="24%" />
+  </a>
 </p>
 
 > [!TIP]
