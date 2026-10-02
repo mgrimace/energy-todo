@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v1.6.8] - 2026-10-02
+- Feat: add optional colourization of the header (via slider)
+- Feat: add `/` keyboard shortcut for search
+- Refactor: Improve layout and design of search and header for new colour options
+
+
 ## [v1.6.7] - 2026-09-30
 
 - Feat: add a warning/amber semantic color to every theme, tuned for WCAG contrast.
