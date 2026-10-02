@@ -14,7 +14,24 @@ const readStored = () => {
   }
 }
 
-// The stylesheet (or the active theme) decides the starting strength; the slider only overrides it
+const storeStrength = value => {
+  try {
+    window.localStorage.setItem(STORAGE_KEY, String(value))
+    return true
+  } catch {
+    return false
+  }
+}
+
+const clearStoredStrength = () => {
+  try {
+    window.localStorage.removeItem(STORAGE_KEY)
+    return true
+  } catch {
+    return false
+  }
+}
+
 const readCssDefault = () =>
   Math.round(parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--tint-strength'))) || 0
 
@@ -25,7 +42,6 @@ const applyStrength = value => {
 export default function TintSlider() {
   const [value, setValue] = React.useState(() => readStored() ?? readCssDefault())
 
-  // Restore a saved choice before first paint so the tint doesn't flash from the default
   React.useLayoutEffect(() => {
     const stored = readStored()
     if (stored !== null) applyStrength(stored)
@@ -35,21 +51,12 @@ export default function TintSlider() {
     const next = Number(event.target.value)
     setValue(next)
     applyStrength(next)
-    try {
-      window.localStorage.setItem(STORAGE_KEY, String(next))
-    } catch {
-      // Storage unavailable (private mode, etc.): the slider still works for this session
-    }
+    storeStrength(next)
   }
 
-  // Double-click returns to the stylesheet/theme default
   const handleReset = () => {
     document.documentElement.style.removeProperty('--tint-strength')
-    try {
-      window.localStorage.removeItem(STORAGE_KEY)
-    } catch {
-      // ignore
-    }
+    clearStoredStrength()
     setValue(readCssDefault())
   }
 

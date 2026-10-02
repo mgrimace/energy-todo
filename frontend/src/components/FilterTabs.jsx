@@ -18,7 +18,6 @@ export default function FilterTabs({ filter, setFilter }) {
   const [focusIndex, setFocusIndex] = React.useState(selectedIndex)
   const activeTab = TAB_CONFIG[selectedIndex]
 
-  // Exposes the active filter to CSS so the page can tint itself (see --page-tint-*)
   React.useEffect(() => {
     const root = document.documentElement
     root.dataset.energyFilter = activeTab.tone
@@ -29,7 +28,6 @@ export default function FilterTabs({ filter, setFilter }) {
     }
   }, [activeTab.tone, activeTab.key])
 
-  // Tells CSS where the tab line sits (px from the page top) so the page tint can stop exactly there
   React.useLayoutEffect(() => {
     const root = document.documentElement
     const track = trackRef.current

@@ -103,10 +103,14 @@
   --tint-medium:  color-mix(in srgb, var(--energy-medium-bg) var(--tint-strength), transparent);
   --tint-high:    color-mix(in srgb, var(--energy-high-bg) var(--tint-strength), transparent);
   --tint-neutral: color-mix(in srgb, var(--color-surface-muted) var(--tint-strength), transparent);
+  --tint-from: var(--tint-neutral);
+  --tint-via: var(--tint-neutral);
+  --tint-to: var(--tint-neutral);
   --page-tint-height: 0px;
   --size-tint-slider-width: 4.5rem;
   --size-tint-slider-thumb: 12px;
   --size-tint-slider-track: 2px;
+  --size-tint-slider-thumb-touch: 20px;
   --size-search-label: calc(var(--font-size-xs) * 3.3);
 }
 
@@ -135,16 +139,16 @@ body {
               --page-tint-end var(--motion-standard),
               --page-tint-edge var(--motion-standard);
 
-  --page-tint-start: var(--tint-neutral);
-  --page-tint-mid: var(--tint-neutral);
-  --page-tint-end: var(--tint-neutral);
+  --page-tint-start: var(--tint-from);
+  --page-tint-mid: var(--tint-via);
+  --page-tint-end: var(--tint-to);
   --page-tint-edge: var(--color-border);
 }
 
-:root[data-energy-filter='low']    body { --page-tint-start: var(--tint-low);    --page-tint-mid: var(--tint-low);    --page-tint-end: var(--tint-low); }
-:root[data-energy-filter='medium'] body { --page-tint-start: var(--tint-medium); --page-tint-mid: var(--tint-medium); --page-tint-end: var(--tint-medium); }
-:root[data-energy-filter='high']   body { --page-tint-start: var(--tint-high);   --page-tint-mid: var(--tint-high);   --page-tint-end: var(--tint-high); }
-:root[data-filter-key='all']       body { --page-tint-start: var(--tint-low);    --page-tint-mid: var(--tint-medium); --page-tint-end: var(--tint-high); }
+:root[data-energy-filter='low']    { --tint-from: var(--tint-low);    --tint-via: var(--tint-low);    --tint-to: var(--tint-low); }
+:root[data-energy-filter='medium'] { --tint-from: var(--tint-medium); --tint-via: var(--tint-medium); --tint-to: var(--tint-medium); }
+:root[data-energy-filter='high']   { --tint-from: var(--tint-high);   --tint-via: var(--tint-high);   --tint-to: var(--tint-high); }
+:root[data-filter-key='all']       { --tint-from: var(--tint-low);    --tint-via: var(--tint-medium); --tint-to: var(--tint-high); }
 
 :where(button, input, select, textarea) {
   outline: none;
@@ -172,7 +176,7 @@ body {
 .app {
   max-width: var(--max-content-width);
   margin: 0 auto;
-  padding: var(--spacing-2xl) var(--spacing-lg);
+  padding: calc(var(--spacing-2xl) + env(safe-area-inset-top, 0px)) var(--spacing-lg) var(--spacing-2xl);
 }
 
 main {
@@ -223,11 +227,18 @@ main {
   cursor: pointer;
   opacity: var(--opacity-faded);
   transition: opacity var(--motion-standard);
+  -webkit-touch-callout: none;
+  user-select: none;
 }
 
-.tint-slider-wrap:hover,
 .tint-slider-wrap:focus-within {
   opacity: 1;
+}
+
+@media (hover: hover) {
+  .tint-slider-wrap:hover {
+    opacity: 1;
+  }
 }
 
 .tint-slider-icon {
@@ -246,6 +257,7 @@ main {
   border: 0;
   background: transparent;
   cursor: pointer;
+  touch-action: pan-y;
 }
 
 .tint-slider::-webkit-slider-runnable-track {
@@ -311,10 +323,16 @@ main {
   transition: color var(--motion-standard), background-color var(--motion-standard);
 }
 
-.btn-icon:hover,
 .btn-icon:focus-visible {
   color: var(--color-text);
   background: var(--color-surface-muted);
+}
+
+@media (hover: hover) {
+  .btn-icon:hover {
+    color: var(--color-text);
+    background: var(--color-surface-muted);
+  }
 }
 
 .btn-icon:focus-visible {
@@ -342,10 +360,16 @@ main {
   transition: background-color var(--motion-standard), color var(--motion-standard);
 }
 
-.theme-selector-trigger:hover,
 .theme-selector-trigger:focus-visible {
   background: color-mix(in srgb, var(--color-accent-strong) 8%, transparent);
   color: var(--color-text);
+}
+
+@media (hover: hover) {
+  .theme-selector-trigger:hover {
+    background: color-mix(in srgb, var(--color-accent-strong) 8%, transparent);
+    color: var(--color-text);
+  }
 }
 
 .theme-selector-trigger:focus-visible {
@@ -452,9 +476,14 @@ main {
   min-width: 0;
 }
 
-.theme-selector-option:hover,
 .theme-selector-option:focus-visible {
   background: var(--surface-hover);
+}
+
+@media (hover: hover) {
+  .theme-selector-option:hover {
+    background: var(--surface-hover);
+  }
 }
 
 .theme-selector-option.is-active {
@@ -519,9 +548,11 @@ main {
   text-underline-offset: var(--spacing-2xs);
 }
 
-.task-energy-selector:hover {
-  background: color-mix(in srgb, var(--task-energy-bg, var(--color-surface-muted)) 60%, transparent);
-  text-decoration: none;
+@media (hover: hover) {
+  .task-energy-selector:hover {
+    background: color-mix(in srgb, var(--task-energy-bg, var(--color-surface-muted)) 60%, transparent);
+    text-decoration: none;
+  }
 }
 
 .task-title-row {
@@ -599,13 +630,15 @@ main {
   color: var(--task-energy-accent, var(--color-accent));
 }
 
-.task-save-btn:not(:disabled):hover {
-  background: color-mix(in srgb, var(--task-energy-bg, var(--color-surface-muted)) 60%, transparent);
-  border-radius: var(--radius-xs);
-  padding-inline: var(--spacing-xs);
-  padding-bottom: 0;
-  margin-inline: calc(-1 * var(--spacing-xs));
-  margin-bottom: var(--spacing-xs);
+@media (hover: hover) {
+  .task-save-btn:not(:disabled):hover {
+    background: color-mix(in srgb, var(--task-energy-bg, var(--color-surface-muted)) 60%, transparent);
+    border-radius: var(--radius-xs);
+    padding-inline: var(--spacing-xs);
+    padding-bottom: 0;
+    margin-inline: calc(-1 * var(--spacing-xs));
+    margin-bottom: var(--spacing-xs);
+  }
 }
 
 .task-save-btn:not(:disabled):focus-visible {
@@ -674,10 +707,16 @@ main {
   display: none;
 }
 
-.task-position-tab:hover .task-position-chip,
 .task-position-tab:focus-visible .task-position-chip {
   background: var(--color-surface-muted);
   color: var(--color-text);
+}
+
+@media (hover: hover) {
+  .task-position-tab:hover .task-position-chip {
+    background: var(--color-surface-muted);
+    color: var(--color-text);
+  }
 }
 
 .task-position-tab.is-active .task-position-chip {
@@ -713,8 +752,10 @@ main {
   flex-shrink: 0;
 }
 
-.task-input .task-inline-tag:hover {
-  opacity: var(--opacity-active);
+@media (hover: hover) {
+  .task-input .task-inline-tag:hover {
+    opacity: var(--opacity-active);
+  }
 }
 
 .card-tags {
@@ -840,10 +881,16 @@ main {
   height: calc(100% + var(--border-hairline)); /* compensates for track's border-bottom */
 }
 
-.filter-pill-button:hover .filter-pill-chip,
 .filter-pill-button:focus-visible .filter-pill-chip {
   background: var(--filter-hover-bg);
   color: var(--color-text);
+}
+
+@media (hover: hover) {
+  .filter-pill-button:hover .filter-pill-chip {
+    background: var(--filter-hover-bg);
+    color: var(--color-text);
+  }
 }
 
 .filter-pill-label-short {
@@ -899,9 +946,11 @@ main {
   justify-content: flex-start;
 }
 
-.search:hover .search-chip {
-  background: var(--filter-hover-bg);
-  color: var(--color-text);
+@media (hover: hover) {
+  .search:hover .search-chip {
+    background: var(--filter-hover-bg);
+    color: var(--color-text);
+  }
 }
 
 .search-icon {
@@ -965,12 +1014,14 @@ main {
   opacity: 1;
 }
 
-.search:hover input::placeholder {
-  color: var(--color-text);
-}
+@media (hover: hover) {
+  .search:hover input::placeholder {
+    color: var(--color-text);
+  }
 
-.search:focus-within:hover input::placeholder {
-  color: var(--text-dim);
+  .search:focus-within:hover input::placeholder {
+    color: var(--text-dim);
+  }
 }
 
 /* ================= Todo List ================ */
@@ -1012,8 +1063,10 @@ main {
   position: relative;
 }
 
-.card:hover {
-  background: var(--surface-hover);
+@media (hover: hover) {
+  .card:hover {
+    background: var(--surface-hover);
+  }
 }
 
 .card:focus-within {
@@ -1024,8 +1077,10 @@ main {
   background: var(--color-bg);
 }
 
-.card.is-complete:hover {
-  background: var(--color-bg);
+@media (hover: hover) {
+  .card.is-complete:hover {
+    background: var(--color-bg);
+  }
 }
 
 .card.is-complete:focus-within {
@@ -1062,10 +1117,16 @@ main {
   transition: opacity var(--motion-fast);
 }
 
-.card:hover .drag-handle,
 .card:focus-within .drag-handle {
   opacity: 1;
   pointer-events: auto;
+}
+
+@media (hover: hover) {
+  .card:hover .drag-handle {
+    opacity: 1;
+    pointer-events: auto;
+  }
 }
 
 .checkbox {
@@ -1094,11 +1155,17 @@ main {
   inset: calc((var(--size-checkbox) - var(--size-tap-target)) / 2);
 }
 
-.checkbox:hover,
-.card:hover .checkbox,
 .checkbox:focus-visible {
   background: color-mix(in srgb, var(--task-accent-bg, var(--color-surface-muted)) 35%, var(--color-bg));
   transition: border-color var(--motion-fast), background-color var(--motion-fast);
+}
+
+@media (hover: hover) {
+  .checkbox:hover,
+  .card:hover .checkbox {
+    background: color-mix(in srgb, var(--task-accent-bg, var(--color-surface-muted)) 35%, var(--color-bg));
+    transition: border-color var(--motion-fast), background-color var(--motion-fast);
+  }
 }
 
 .checkbox:focus-visible {
@@ -1260,12 +1327,14 @@ button.energy-badge::after {
   inset: -14px -12px;
 }
 
-button.energy-badge:hover {
-  background: color-mix(in srgb, var(--task-accent-bg, var(--color-surface-muted)) 60%, transparent);
-  border-radius: var(--radius-xs);
-  padding: 0 var(--spacing-xs);
-  margin: 0 calc(-1 * var(--spacing-xs));
-  text-decoration: none;
+@media (hover: hover) {
+  button.energy-badge:hover {
+    background: color-mix(in srgb, var(--task-accent-bg, var(--color-surface-muted)) 60%, transparent);
+    border-radius: var(--radius-xs);
+    padding: 0 var(--spacing-xs);
+    margin: 0 calc(-1 * var(--spacing-xs));
+    text-decoration: none;
+  }
 }
 
 button.energy-badge:active {
@@ -1316,10 +1385,16 @@ button.energy-badge:focus-visible {
   transition: color var(--motion-standard), background-color var(--motion-standard);
 }
 
-.completed-clear-btn:hover .completed-clear-chip,
 .completed-clear-btn:focus-visible .completed-clear-chip {
   color: var(--color-danger-text);
   background: color-mix(in srgb, var(--color-danger-text) 8%, transparent);
+}
+
+@media (hover: hover) {
+  .completed-clear-btn:hover .completed-clear-chip {
+    color: var(--color-danger-text);
+    background: color-mix(in srgb, var(--color-danger-text) 8%, transparent);
+  }
 }
 
 .completed-clear-btn:focus-visible {
@@ -1336,8 +1411,10 @@ button.energy-badge:focus-visible {
   background: transparent;
 }
 
-.completed-list .card:hover {
-  background: var(--surface-hover);
+@media (hover: hover) {
+  .completed-list .card:hover {
+    background: var(--surface-hover);
+  }
 }
 
 .completed-list .card:focus-within {
@@ -1362,8 +1439,10 @@ button.energy-badge:focus-visible {
   transition: opacity var(--motion-fast);
 }
 
-.drag-handle:hover {
-  opacity: var(--opacity-active);
+@media (hover: hover) {
+  .drag-handle:hover {
+    opacity: var(--opacity-active);
+  }
 }
 
 .drag-handle svg {
@@ -1579,6 +1658,11 @@ button.energy-badge:focus-visible {
   .search input {
     font-size: var(--font-size-input);
   }
+
+  .tint-slider {
+    --size-tint-slider-thumb: var(--size-tint-slider-thumb-touch);
+    height: var(--size-tap-target);
+  }
 }
 
 /* ================= Swipe Gestures ================ */
@@ -1675,8 +1759,10 @@ button.energy-badge:focus-visible {
   background: var(--color-item-cards-bg);
 }
 
-.todo-swipe-wrapper .card:not(.is-complete):hover {
-  background: var(--surface-hover);
+@media (hover: hover) {
+  .todo-swipe-wrapper .card:not(.is-complete):hover {
+    background: var(--surface-hover);
+  }
 }
 
 .todo-swipe-wrapper .card:not(.is-complete):focus-within {

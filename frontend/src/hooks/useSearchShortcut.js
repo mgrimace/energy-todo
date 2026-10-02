@@ -1,6 +1,5 @@
 import { useEffect } from 'react'
 
-// Pressing "/" anywhere on the page focuses the search field, unless you're already typing somewhere.
 export default function useSearchShortcut(inputRef) {
   useEffect(() => {
     const handleKeyDown = event => {
@@ -16,7 +15,7 @@ export default function useSearchShortcut(inputRef) {
       const input = inputRef.current
       if (!input) return
 
-      event.preventDefault() // stops the "/" from landing in the field
+      event.preventDefault()
       input.focus()
       input.select()
     }
