@@ -13,7 +13,7 @@ A self-hosted task manager for neurodiverse and neurospicy brains. Most to-do li
 | ![Energy Todo in dark mode on desktop, showing energy filter tabs and a task list.](./docs/screenshot-dark.png) | ![Energy Todo in dark mode on mobile, showing energy filter tabs and a task list.](./docs/mobile-dark.png) |
 
 > [!TIP]
-> Includes themes support: Nord, Everforest, Gruvbox, Solarized, Catppuccin, and more!
+> Includes theme support (e.g., Nord, Everforest, Gruvbox, Solarized, Catppuccin, and more), with customizable and optional header colourization.
 
 ## About This Project
 
