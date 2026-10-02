@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { DndContext, DragOverlay, PointerSensor, useSensor, useSensors } from '@dnd-kit/core'
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers'
 import { SortableContext, arrayMove, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable'
@@ -7,6 +7,7 @@ import {
   MagnifyingGlassIcon
 } from '@phosphor-icons/react'
 import useTodos from './hooks/useTodos'
+import useSearchShortcut from './hooks/useSearchShortcut'
 import Header from './components/Header'
 import FilterTabs from './components/FilterTabs'
 import TodoCard from './components/TodoCard'
@@ -44,6 +45,9 @@ export default function App() {
   const [filter, setFilter] = useState('all')
   const [search, setSearch] = useState('')
   const [activeId, setActiveId] = useState(null)
+  const searchInputRef = useRef(null)
+
+  useSearchShortcut(searchInputRef)
 
   const FILTER_ENERGY_MAP = { all: 'medium', quick: 'low', priority: 'medium', deep: 'high' }
   const syncedEnergy = FILTER_ENERGY_MAP[filter] ?? null
@@ -132,6 +136,7 @@ export default function App() {
                   aria-hidden="true"
                 />
                 <input
+                  ref={searchInputRef}
                   id="task-search"
                   type="search"
                   aria-label="Search tasks"

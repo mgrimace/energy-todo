@@ -1,6 +1,7 @@
 import React from 'react'
 import ThemeToggle from './ThemeToggle'
 import ThemeSelector from './ThemeSelector'
+import TintSlider from './TintSlider'
 
 export default function Header() {
   const iconSrc = '/icons/icon-dark-transparent.svg'
@@ -12,6 +13,7 @@ export default function Header() {
         <span>Energy Todo</span>
       </h1>
       <div className="header-actions">
+        <TintSlider />
         <ThemeSelector />
         <ThemeToggle />
       </div>

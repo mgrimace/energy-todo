@@ -71,11 +71,11 @@ export default function ThemeSelector() {
       }
     }
 
-    window.addEventListener('mousedown', handlePointerDown)
+    window.addEventListener('pointerdown', handlePointerDown)
     window.addEventListener('keydown', handleEscape)
 
     return () => {
-      window.removeEventListener('mousedown', handlePointerDown)
+      window.removeEventListener('pointerdown', handlePointerDown)
       window.removeEventListener('keydown', handleEscape)
     }
   }, [isOpen])

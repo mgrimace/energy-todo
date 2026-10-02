@@ -10,11 +10,49 @@ const TAB_CONFIG = [
 
 export default function FilterTabs({ filter, setFilter }) {
   const tabRefs = React.useRef([])
+  const trackRef = React.useRef(null)
   const selectedIndex = React.useMemo(
     () => Math.max(0, TAB_CONFIG.findIndex(tab => tab.key === filter)),
     [filter]
   )
   const [focusIndex, setFocusIndex] = React.useState(selectedIndex)
+  const activeTab = TAB_CONFIG[selectedIndex]
+
+  // Exposes the active filter to CSS so the page can tint itself (see --page-tint-*)
+  React.useEffect(() => {
+    const root = document.documentElement
+    root.dataset.energyFilter = activeTab.tone
+    root.dataset.filterKey = activeTab.key
+    return () => {
+      delete root.dataset.energyFilter
+      delete root.dataset.filterKey
+    }
+  }, [activeTab.tone, activeTab.key])
+
+  // Tells CSS where the tab line sits (px from the page top) so the page tint can stop exactly there
+  React.useLayoutEffect(() => {
+    const root = document.documentElement
+    const track = trackRef.current
+    if (!track) return undefined
+
+    const syncTintHeight = () => {
+      const bottom = track.getBoundingClientRect().bottom + window.scrollY
+      root.style.setProperty('--page-tint-height', `${Math.round(bottom)}px`)
+    }
+
+    syncTintHeight()
+    const observer = new ResizeObserver(syncTintHeight)
+    observer.observe(document.body)
+    observer.observe(track)
+    window.addEventListener('resize', syncTintHeight)
+    document.fonts?.ready.then(syncTintHeight)
+
+    return () => {
+      observer.disconnect()
+      window.removeEventListener('resize', syncTintHeight)
+      root.style.removeProperty('--page-tint-height')
+    }
+  }, [])
 
   React.useEffect(() => {
     setFocusIndex(selectedIndex)
@@ -60,7 +98,7 @@ export default function FilterTabs({ filter, setFilter }) {
 
   return (
     <div className="filter-pill">
-      <div className="filter-pill-track" role="tablist" aria-label="Filter todos by energy state">
+      <div ref={trackRef} className="filter-pill-track" role="tablist" aria-label="Filter todos by energy state">
         {TAB_CONFIG.map((tab, index) => {
           const isActive = filter === tab.key
           return (
