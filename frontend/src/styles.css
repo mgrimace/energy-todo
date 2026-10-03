@@ -246,7 +246,7 @@ main {
   gap: var(--spacing-xs);
   color: var(--color-text-muted);
   cursor: pointer;
-  opacity: var(--opacity-faded);
+  opacity: min(var(--opacity-faded), var(--ui-opacity));
   transition: opacity var(--motion-standard);
   -webkit-touch-callout: none;
   user-select: none;
@@ -859,6 +859,7 @@ main {
 .filter-pill {
   display: flex;
   align-items: stretch;
+  gap: var(--spacing-2xs);
   flex: 5 1 0;
   width: auto;
   min-width: 0;
@@ -1016,6 +1017,7 @@ main {
   color: var(--color-text);
   z-index: 2;
   height: calc(var(--size-chip-height) + var(--border-hairline));
+  margin-bottom: calc(-1 * var(--border-hairline));
   justify-content: flex-start;
   box-shadow: var(--shadow-tab-active);
 }

@@ -1,4 +1,6 @@
 import React from 'react'
+import { MagnifyingGlassIcon } from '@phosphor-icons/react'
+import useSearchShortcut from '../hooks/useSearchShortcut'
 
 const TAB_CONFIG = [
   { key: 'all',       label: 'All',     tone: 'base' },
@@ -8,8 +10,9 @@ const TAB_CONFIG = [
   { key: 'completed', label: 'Done',    tone: 'base' },
 ]
 
-export default function FilterTabs({ filter, setFilter }) {
+export default function FilterTabs({ filter, setFilter, search, onSearchChange }) {
   const tabRefs = React.useRef([])
+  const searchInputRef = React.useRef(null)
   const trackRef = React.useRef(null)
   const selectedIndex = React.useMemo(
     () => Math.max(0, TAB_CONFIG.findIndex(tab => tab.key === filter)),
@@ -17,6 +20,8 @@ export default function FilterTabs({ filter, setFilter }) {
   )
   const [focusIndex, setFocusIndex] = React.useState(selectedIndex)
   const activeTab = TAB_CONFIG[selectedIndex]
+
+  useSearchShortcut(searchInputRef)
 
   React.useEffect(() => {
     const root = document.documentElement
@@ -95,40 +100,57 @@ export default function FilterTabs({ filter, setFilter }) {
   }
 
   return (
-    <div className="filter-pill">
-      <div ref={trackRef} className="filter-pill-track" role="tablist" aria-label="Filter todos by energy state">
-        {TAB_CONFIG.map((tab, index) => {
-          const isActive = filter === tab.key
-          return (
-            <button
-              type="button"
-              key={tab.key}
-              role="tab"
-              ref={element => {
-                tabRefs.current[index] = element
-              }}
-              className={`filter-pill-button ${isActive ? 'is-active' : ''}`}
-              data-filter-key={tab.key}
-              data-filter-tone={tab.tone}
-              aria-selected={isActive}
-              tabIndex={focusIndex === index ? 0 : -1}
-              onFocus={() => setFocusIndex(index)}
-              onKeyDown={event => handleTabKeyDown(event, index, tab.key)}
-              onClick={() => setFilter(tab.key)}
-            >
-              <span className="filter-pill-chip">
-                {tab.shortLabel ? (
-                  <>
-                    <span className="filter-pill-label-full">{tab.label}</span>
-                    <span className="filter-pill-label-short">{tab.shortLabel}</span>
-                  </>
-                ) : (
-                  <span>{tab.label}</span>
-                )}
-              </span>
-            </button>
-          )
-        })}
+    <div className="filter-row">
+      <div ref={trackRef} className="filter-pill-track">
+        <div className="filter-pill" role="tablist" aria-label="Filter todos by energy state">
+          {TAB_CONFIG.map((tab, index) => {
+            const isActive = filter === tab.key
+            return (
+              <button
+                type="button"
+                key={tab.key}
+                role="tab"
+                ref={element => {
+                  tabRefs.current[index] = element
+                }}
+                className={`filter-pill-button ${isActive ? 'is-active' : ''}`}
+                data-filter-key={tab.key}
+                data-filter-tone={tab.tone}
+                aria-selected={isActive}
+                tabIndex={focusIndex === index ? 0 : -1}
+                onFocus={() => setFocusIndex(index)}
+                onKeyDown={event => handleTabKeyDown(event, index, tab.key)}
+                onClick={() => setFilter(tab.key)}
+              >
+                <span className="filter-pill-chip">
+                  {tab.shortLabel ? (
+                    <>
+                      <span className="filter-pill-label-full">{tab.label}</span>
+                      <span className="filter-pill-label-short">{tab.shortLabel}</span>
+                    </>
+                  ) : (
+                    <span>{tab.label}</span>
+                  )}
+                </span>
+              </button>
+            )
+          })}
+        </div>
+
+        <label className="search" htmlFor="task-search" data-has-value={search ? 'true' : undefined}>
+          <span className="search-chip">
+            <MagnifyingGlassIcon className="search-icon" weight="regular" aria-hidden="true" />
+            <input
+              ref={searchInputRef}
+              id="task-search"
+              type="search"
+              aria-label="Search tasks"
+              value={search}
+              onChange={event => onSearchChange(event.target.value)}
+              placeholder="Search"
+            />
+          </span>
+        </label>
       </div>
     </div>
   )
