@@ -112,6 +112,13 @@
   --size-tint-slider-track: 2px;
   --size-tint-slider-thumb-touch: 20px;
   --size-search-label: calc(var(--font-size-xs) * 3.3);
+
+  /* ========== SHADOWS ========== */
+  --shadow-color: color-mix(in srgb, black 20%, transparent);
+  --shadow-color-soft: color-mix(in srgb, black 12%, transparent);
+  --shadow-thumb: 0 1px 3px var(--shadow-color);
+  --shadow-surface: 0 2px 12px var(--shadow-color-soft);
+  --shadow-tab-active: 0 -1px 4px color-mix(in srgb, black 5%, transparent);
 }
 
 * {
@@ -280,6 +287,7 @@ main {
   border: 0;
   border-radius: var(--radius-pill);
   background: var(--color-text-muted);
+  box-shadow: var(--shadow-thumb);
 }
 
 .tint-slider::-moz-range-thumb {
@@ -288,6 +296,7 @@ main {
   border: 0;
   border-radius: var(--radius-pill);
   background: var(--color-text-muted);
+  box-shadow: var(--shadow-thumb);
 }
 
 .list {
@@ -728,6 +737,7 @@ main {
   font-weight: var(--font-weight-medium);
   margin-bottom: calc(-1 * var(--border-hairline));
   height: calc(var(--size-chip-height) + var(--border-hairline));
+  box-shadow: var(--shadow-tab-active);
 }
 
 .task-input[data-has-title='true'] .task-position-tab.is-active .task-position-chip,
@@ -854,6 +864,7 @@ main {
   width: 100%;
   border-radius: 0;
   border: none;
+  border-color: transparent;
   background: transparent;
   color: var(--color-text-muted);
   font-size: var(--font-size-xs);
@@ -879,6 +890,7 @@ main {
   z-index: 2;
   margin-bottom: calc(-1 * var(--border-hairline)); /* compensates for track's border-bottom */
   height: calc(100% + var(--border-hairline)); /* compensates for track's border-bottom */
+  box-shadow: var(--shadow-tab-active);
 }
 
 .filter-pill-button:focus-visible .filter-pill-chip {
@@ -922,6 +934,7 @@ main {
   width: 100%;
   padding: 0 var(--spacing-sm);
   border: none;
+  border-color: transparent;
   border-radius: 0;
   background: transparent;
   color: var(--color-text-muted);
@@ -944,6 +957,7 @@ main {
   z-index: 2;
   height: calc(var(--size-chip-height) + var(--border-hairline));
   justify-content: flex-start;
+  box-shadow: var(--shadow-tab-active);
 }
 
 @media (hover: hover) {
@@ -1032,6 +1046,10 @@ main {
   display: flex;
   flex-direction: column;
   overflow: hidden;
+}
+
+.active-stack {
+  box-shadow: var(--shadow-surface);
 }
 
 .stacked-list:empty {
