@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v1.7.0] - 2026-10-03
+- Refactor: Conslidate search tab from App to FilterTabs
+- Feat: add subtle shadow
+- Feat: add 'focus' mode to tint slider to dim header items
+
 ## [v1.6.9] - 2026-10-02
 - Fix: improve header on iOS
 - Fix: improve colour slider tap on mobile
