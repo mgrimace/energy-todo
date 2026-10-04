@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v1.7.1] - 2026-10-04
+- Feat: add buttons to the task list to quickly send tasks to the top or bottom of th elist.
+
 ## [v1.7.0] - 2026-10-03
 - Refactor: Conslidate search tab from App to FilterTabs
 - Feat: add subtle shadow
