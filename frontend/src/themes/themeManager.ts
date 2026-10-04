@@ -13,6 +13,7 @@ const tokenToCssVarMap: Record<string, string[]> = {
   accentHover:       ['--color-accent-strong'],
   focus:             ['--color-focus-ring'],
   negative:          ['--color-danger-text'],
+  warning:           ['--color-warning'],
   energyLowBg:       ['--energy-low-bg'],
   energyLowAccent:   ['--energy-low-accent'],
   energyLowText:     ['--energy-low-text'],

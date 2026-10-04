@@ -1501,6 +1501,60 @@ button.energy-badge:focus-visible {
   background: var(--color-surface-muted);
 }
 
+/* ================= Move To Top / Bottom ================ */
+.card-move {
+  display: none;
+  align-items: center;
+  gap: var(--spacing-2xs);
+  flex: 0 0 auto;
+}
+
+@media (hover: hover) and (pointer: fine) and (min-width: 600px) {
+  .card-move {
+    display: inline-flex;
+  }
+}
+
+.card-move-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--size-icon-sm);
+  height: var(--size-checkbox);
+  padding: 0;
+  color: var(--color-text-muted);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--motion-fast);
+}
+
+.card-move-btn svg {
+  pointer-events: none;
+}
+
+.card-move-btn:disabled {
+  visibility: hidden;
+}
+
+.card:focus-within .card-move-btn {
+  opacity: var(--opacity-faded);
+  pointer-events: auto;
+}
+
+@media (hover: hover) {
+  .card:hover .card-move-btn {
+    opacity: var(--opacity-faded);
+    pointer-events: auto;
+  }
+
+  .card .card-move-btn:hover {
+    opacity: 1;
+  }
+}
+
 /* ================= Drag Handle ================ */
 .drag-handle {
   display: inline-flex;

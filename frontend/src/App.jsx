@@ -9,7 +9,7 @@ import FilterTabs from './components/FilterTabs'
 import TodoCard from './components/TodoCard'
 import TaskInput from './components/TaskInput'
 
-function SortableActiveTodo({ todo, onToggle, onDelete, onEdit, onEditTags, onToggleEnergy }) {
+function SortableActiveTodo({ todo, onToggle, onDelete, onEdit, onEditTags, onToggleEnergy, onMoveToTop, onMoveToBottom, isFirst, isLast }) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: String(todo.id)
   })
@@ -29,6 +29,10 @@ function SortableActiveTodo({ todo, onToggle, onDelete, onEdit, onEditTags, onTo
         onEditTitle={onEdit}
         onEditTags={onEditTags}
         onToggleEnergy={onToggleEnergy}
+        onMoveToTop={onMoveToTop}
+        onMoveToBottom={onMoveToBottom}
+        isFirst={isFirst}
+        isLast={isLast}
         dragHandleProps={{ ...attributes, ...listeners }}
       />
     </div>
@@ -77,15 +81,10 @@ export default function App() {
   const onDragStart = ({ active }) => setActiveId(active.id)
   const onDragCancel = () => setActiveId(null)
 
-  const onActiveDragEnd = ({ active, over }) => {
-    setActiveId(null)
-    if (!over || active.id === over.id) return
+  const reorderVisibleActive = (sourceIndex, targetIndex) => {
+    if (sourceIndex === -1 || targetIndex === -1 || sourceIndex === targetIndex) return
 
-    const visibleSourceIndex = activeTodos.findIndex(todo => String(todo.id) === String(active.id))
-    const visibleTargetIndex = activeTodos.findIndex(todo => String(todo.id) === String(over.id))
-    if (visibleSourceIndex === -1 || visibleTargetIndex === -1) return
-
-    const reorderedVisible = arrayMove(activeTodos, visibleSourceIndex, visibleTargetIndex)
+    const reorderedVisible = arrayMove(activeTodos, sourceIndex, targetIndex)
     const reorderedVisibleById = new Map(reorderedVisible.map(todo => [todo.id, todo]))
 
     let cursor = 0
@@ -103,6 +102,23 @@ export default function App() {
         console.error('failed to reorder active todos', error)
       }
     })
+  }
+
+  const onActiveDragEnd = ({ active, over }) => {
+    setActiveId(null)
+    if (!over || active.id === over.id) return
+
+    reorderVisibleActive(
+      activeTodos.findIndex(todo => String(todo.id) === String(active.id)),
+      activeTodos.findIndex(todo => String(todo.id) === String(over.id))
+    )
+  }
+
+  const moveActiveTodo = (id, edge) => {
+    reorderVisibleActive(
+      activeTodos.findIndex(todo => String(todo.id) === String(id)),
+      edge === 'top' ? 0 : activeTodos.length - 1
+    )
   }
 
   return (
@@ -134,10 +150,14 @@ export default function App() {
                   items={activeTodos.map(todo => String(todo.id))}
                   strategy={verticalListSortingStrategy}
                 >
-                  {activeTodos.map(t => (
+                  {activeTodos.map((t, index) => (
                     <SortableActiveTodo
                       key={t.id}
                       todo={t}
+                      isFirst={index === 0}
+                      isLast={index === activeTodos.length - 1}
+                      onMoveToTop={() => moveActiveTodo(t.id, 'top')}
+                      onMoveToBottom={() => moveActiveTodo(t.id, 'bottom')}
                       onToggle={() => updateTodo(t.id, { completed: !t.completed })}
                       onDelete={() => deleteTodo(t.id)}
                       onEdit={(title) => updateTodo(t.id, { title })}

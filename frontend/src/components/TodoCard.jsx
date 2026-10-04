@@ -1,12 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react'
 import EnergyBadge from './EnergyBadge'
-import { CheckIcon, SquareIcon, DotsSixVerticalIcon } from '@phosphor-icons/react'
+import { CaretDoubleDownIcon, CaretDoubleUpIcon, CheckIcon, SquareIcon, DotsSixVerticalIcon } from '@phosphor-icons/react'
 
 const SWIPE_THRESHOLD = 80
 const SWIPE_EASING = 'cubic-bezier(0.2, 0.8, 0.2, 1)'
 
-export default function TodoCard({ todo, onToggle, onDelete, onEditTitle, onEditTags, onToggleEnergy, dragHandleProps, isDraggingOverlay }) {
+export default function TodoCard({ todo, onToggle, onDelete, onEditTitle, onEditTags, onToggleEnergy, dragHandleProps, isDraggingOverlay, onMoveToTop, onMoveToBottom, isFirst, isLast }) {
   const tags = Array.isArray(todo.tags) ? todo.tags : []
+  const canMove = !isDraggingOverlay && typeof onMoveToTop === 'function' && typeof onMoveToBottom === 'function'
   const [isEditing, setIsEditing] = useState(false)
   const [draftTitle, setDraftTitle] = useState(todo.title)
 
@@ -111,7 +112,7 @@ export default function TodoCard({ todo, onToggle, onDelete, onEditTitle, onEdit
     const handleDown = (e) => {
       if (isEditing) return
       if (e.pointerType === 'mouse' && e.button !== 0) return
-      if (e.target.closest?.('.drag-handle')) return
+      if (e.target.closest?.('.drag-handle, .card-move')) return
       swipe.current = {
         startX: e.clientX,
         active: false,
@@ -327,6 +328,30 @@ export default function TodoCard({ todo, onToggle, onDelete, onEditTitle, onEdit
           </div>
         </div>
       </div>
+      {canMove ? (
+        <div className="card-move">
+          <button
+            type="button"
+            className="card-move-btn"
+            onClick={onMoveToTop}
+            disabled={isFirst}
+            title="Send to top"
+            aria-label="Send to top"
+          >
+            <CaretDoubleUpIcon size={16} aria-hidden="true" />
+          </button>
+          <button
+            type="button"
+            className="card-move-btn"
+            onClick={onMoveToBottom}
+            disabled={isLast}
+            title="Send to bottom"
+            aria-label="Send to bottom"
+          >
+            <CaretDoubleDownIcon size={16} aria-hidden="true" />
+          </button>
+        </div>
+      ) : null}
       <button
         type="button"
         className="drag-handle"
