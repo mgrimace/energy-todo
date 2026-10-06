@@ -8,8 +8,12 @@ import Header from './components/Header'
 import FilterTabs from './components/FilterTabs'
 import TodoCard from './components/TodoCard'
 import TaskInput from './components/TaskInput'
+import TintToggles from './components/TintToggles'
 
-function SortableActiveTodo({ todo, onToggle, onDelete, onEdit, onEditTags, onToggleEnergy, onMoveToTop, onMoveToBottom, isFirst, isLast }) {
+const ENERGY_LEVELS = ['low', 'medium', 'high']
+const flowColor = energy => (ENERGY_LEVELS.includes(energy) ? `var(--flow-${energy})` : undefined)
+
+function SortableActiveTodo({ todo, onToggle, onDelete, onEdit, onEditTags, onToggleEnergy, onMoveToTop, onMoveToBottom, isFirst, isLast, prevEnergy, nextEnergy }) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: String(todo.id)
   })
@@ -18,6 +22,9 @@ function SortableActiveTodo({ todo, onToggle, onDelete, onEdit, onEditTags, onTo
     transform: CSS.Transform.toString(transform),
     transition,
     opacity: isDragging ? 0 : undefined,
+    '--flow-base': flowColor(todo.energy),
+    '--flow-prev-base': flowColor(prevEnergy),
+    '--flow-next-base': flowColor(nextEnergy),
   }
 
   return (
@@ -156,6 +163,8 @@ export default function App() {
                       todo={t}
                       isFirst={index === 0}
                       isLast={index === activeTodos.length - 1}
+                      prevEnergy={activeTodos[index - 1]?.energy}
+                      nextEnergy={activeTodos[index + 1]?.energy}
                       onMoveToTop={() => moveActiveTodo(t.id, 'top')}
                       onMoveToBottom={() => moveActiveTodo(t.id, 'bottom')}
                       onToggle={() => updateTodo(t.id, { completed: !t.completed })}
@@ -212,6 +221,10 @@ export default function App() {
           </div>
         )}
       </main>
+
+      <footer className="app-footer">
+        <TintToggles />
+      </footer>
     </div>
   )
 }

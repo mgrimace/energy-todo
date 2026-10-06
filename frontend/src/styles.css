@@ -6,6 +6,24 @@
   initial-value: 0;
 }
 
+@property --flow-self {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --flow-top {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --flow-bottom {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: transparent;
+}
+
 @property --page-tint-start {
   syntax: '<color>';
   inherits: false;
@@ -122,6 +140,15 @@
   --size-tint-slider-thumb-touch: 20px;
   --size-search-label: calc(var(--font-size-xs) * 3.3);
 
+  /* ========== ENERGY FLOW ========== */
+  --flow-x: 10%;
+  --flow-mix: 0%;
+  --flow-reach: max(22%, calc(22% + (var(--tint-strength) - 50%) * 3.96));
+  --flow-reach-edge: calc(var(--flow-reach) * 0.73);
+  --flow-low: color-mix(in srgb, var(--energy-low-accent) var(--flow-mix), var(--energy-low-bg));
+  --flow-medium: color-mix(in srgb, var(--energy-medium-accent) var(--flow-mix), var(--energy-medium-bg));
+  --flow-high: color-mix(in srgb, var(--energy-high-accent) var(--flow-mix), var(--energy-high-bg));
+
   /* ========== INTERFACE DIM ========== */
   --ui-dim-floor: 0.45;
   --ui-opacity: calc(1 - var(--ui-dim) * (1 - var(--ui-dim-floor)));
@@ -170,6 +197,13 @@ body {
 :root[data-energy-filter='medium'] { --tint-from: var(--tint-medium); --tint-via: var(--tint-medium); --tint-to: var(--tint-medium); }
 :root[data-energy-filter='high']   { --tint-from: var(--tint-high);   --tint-via: var(--tint-high);   --tint-to: var(--tint-high); }
 :root[data-filter-key='all']       { --tint-from: var(--tint-low);    --tint-via: var(--tint-medium); --tint-to: var(--tint-high); }
+:root[data-tint-header='off']      { --tint-from: transparent;        --tint-via: transparent;        --tint-to: transparent; }
+
+:root[data-tint-list='off'] .active-stack .card {
+  --flow-self: transparent;
+  --flow-top: transparent;
+  --flow-bottom: transparent;
+}
 
 :where(button, input, select, textarea) {
   outline: none;
@@ -340,21 +374,24 @@ main {
 
 .top-header h1,
 .header-actions > :not(.tint-slider-wrap),
-.filter-row {
+.filter-row,
+.app-footer {
   opacity: var(--ui-opacity);
   transition: opacity var(--motion-standard);
 }
 
 .top-header h1:focus-within,
 .header-actions > :not(.tint-slider-wrap):focus-within,
-.filter-row:focus-within {
+.filter-row:focus-within,
+.app-footer:focus-within {
   opacity: 1;
 }
 
 @media (hover: hover) {
   .top-header h1:hover,
   .header-actions > :not(.tint-slider-wrap):hover,
-  .filter-row:hover {
+  .filter-row:hover,
+  .app-footer:hover {
     opacity: 1;
   }
 }
@@ -1114,6 +1151,25 @@ main {
   box-shadow: var(--shadow-surface);
 }
 
+.active-stack .card {
+  --flow-self: color-mix(in srgb, var(--flow-base, transparent) var(--tint-strength), transparent);
+  --flow-top: color-mix(in srgb, color-mix(in srgb, var(--flow-prev-base, var(--flow-base, transparent)) 50%, var(--flow-base, transparent)) var(--tint-strength), transparent);
+  --flow-bottom: color-mix(in srgb, color-mix(in srgb, var(--flow-next-base, var(--flow-base, transparent)) 50%, var(--flow-base, transparent)) var(--tint-strength), transparent);
+  transition: --flow-self var(--motion-standard), --flow-top var(--motion-standard), --flow-bottom var(--motion-standard);
+}
+
+.active-stack .card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse var(--flow-reach) 100% at var(--flow-x) 50%, var(--flow-self), transparent),
+    radial-gradient(ellipse var(--flow-reach-edge) 50% at var(--flow-x) 0%, var(--flow-top), transparent),
+    radial-gradient(ellipse var(--flow-reach-edge) 50% at var(--flow-x) 100%, var(--flow-bottom), transparent);
+}
+
 .stacked-list:empty {
   display: none;
 }
@@ -1501,6 +1557,50 @@ button.energy-badge:focus-visible {
   background: var(--color-surface-muted);
 }
 
+/* ================= Footer Tint Toggles ================ */
+.app-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-top: var(--spacing-2xl);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+}
+
+.tint-toggles {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.tint-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--filter-control-height);
+  height: var(--filter-control-height);
+  padding: 0;
+  color: var(--color-text-muted);
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  opacity: var(--opacity-faded);
+  transition: opacity var(--motion-fast), color var(--motion-fast), background var(--motion-fast);
+}
+
+.tint-toggle[aria-pressed='true'] {
+  color: var(--color-text);
+  opacity: 1;
+}
+
+@media (hover: hover) {
+  .tint-toggle:hover {
+    opacity: 1;
+    background: var(--surface-hover);
+  }
+}
+
 /* ================= Move To Top / Bottom ================ */
 .card-move {
   display: none;
@@ -1791,6 +1891,11 @@ button.energy-badge:focus-visible {
 
   .search input {
     font-size: var(--font-size-input);
+  }
+
+  .tint-toggle {
+    min-width: var(--size-tap-target);
+    height: var(--size-tap-target);
   }
 
   .tint-slider-field {
