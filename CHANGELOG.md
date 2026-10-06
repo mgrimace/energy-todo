@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v1.7.2] - 2026-10-06
+- Feat: add list tint, with intensity controlled by tint slider
+- Feat: add tint toggles to footer to selectively enable/disable header and list tinting.
+
 ## [v1.7.1] - 2026-10-04
 - Feat: add buttons to the task list to quickly send tasks to the top or bottom of th elist.
 
