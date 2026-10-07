@@ -1170,6 +1170,24 @@ main {
     radial-gradient(ellipse var(--flow-reach-edge) 50% at var(--flow-x) 100%, var(--flow-bottom), transparent);
 }
 
+.active-stack > .sortable-item:nth-child(n + 4),
+.completed-section {
+  opacity: var(--ui-opacity);
+  transition: opacity var(--motion-standard);
+}
+
+.active-stack > .sortable-item:nth-child(n + 4):focus-within,
+.completed-section:focus-within {
+  opacity: 1;
+}
+
+@media (hover: hover) {
+  .active-stack > .sortable-item:nth-child(n + 4):hover,
+  .completed-section:hover {
+    opacity: 1;
+  }
+}
+
 .stacked-list:empty {
   display: none;
 }
@@ -1561,7 +1579,7 @@ button.energy-badge:focus-visible {
 .app-footer {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: center;
   margin-top: var(--spacing-2xl);
   color: var(--color-text-muted);
   font-size: var(--font-size-xs);
