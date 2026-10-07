@@ -1,6 +1,6 @@
 import React from 'react'
-import ThemeToggle from './ThemeToggle'
 import ThemeSelector from './ThemeSelector'
+import FocusToggle from './FocusToggle'
 import TintSlider from './TintSlider'
 
 export default function Header() {
@@ -13,9 +13,9 @@ export default function Header() {
         <span>Energy Todo</span>
       </h1>
       <div className="header-actions">
+        <FocusToggle />
         <TintSlider />
         <ThemeSelector />
-        <ThemeToggle />
       </div>
     </header>
   )

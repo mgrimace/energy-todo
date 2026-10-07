@@ -132,9 +132,6 @@
   --tint-to: var(--tint-neutral);
   --page-tint-height: 0px;
   --size-tint-slider-width: 5rem;
-  --size-tint-slider-notch: 2px;
-  --size-tint-slider-dash: 2px;
-  --tint-slider-track-dim: color-mix(in srgb, var(--color-border-strong) 50%, transparent);
   --size-tint-slider-thumb: 12px;
   --size-tint-slider-track: 2px;
   --size-tint-slider-thumb-touch: 20px;
@@ -318,13 +315,13 @@ main {
 .tint-slider::-webkit-slider-runnable-track {
   height: var(--size-tint-slider-track);
   border-radius: var(--radius-pill);
-  background: var(--tint-slider-track);
+  background: var(--color-border-strong);
 }
 
 .tint-slider::-moz-range-track {
   height: var(--size-tint-slider-track);
   border-radius: var(--radius-pill);
-  background: var(--tint-slider-track);
+  background: var(--color-border-strong);
 }
 
 .tint-slider::-webkit-slider-thumb {
@@ -347,53 +344,74 @@ main {
   box-shadow: var(--shadow-thumb);
 }
 
-.tint-slider[data-focus='on']::-webkit-slider-thumb {
-  background: var(--color-text);
-}
-
-.tint-slider[data-focus='on']::-moz-range-thumb {
-  background: var(--color-text);
-}
-
 .tint-slider-field {
-  --tint-slider-zero-point: calc(var(--size-tint-slider-thumb) / 2 + (100% - var(--size-tint-slider-thumb)) * var(--tint-slider-zero));
-  --tint-slider-track:
-    repeating-linear-gradient(
-      to right,
-      var(--tint-slider-track-dim) 0 var(--size-tint-slider-dash),
-      transparent var(--size-tint-slider-dash) calc(var(--size-tint-slider-dash) * 2)
-    ) left center / calc(var(--tint-slider-zero-point) - var(--size-tint-slider-notch) / 2) 100% no-repeat,
-    linear-gradient(
-      to right,
-      transparent 0 calc(var(--tint-slider-zero-point) + var(--size-tint-slider-notch) / 2),
-      var(--color-border-strong) calc(var(--tint-slider-zero-point) + var(--size-tint-slider-notch) / 2) 100%
-    );
   display: inline-flex;
   align-items: center;
 }
 
+.focus-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  color: var(--color-text-muted);
+  opacity: min(var(--opacity-faded), var(--ui-opacity));
+  transition: opacity var(--motion-standard);
+}
+
+.focus-toggle:focus-within {
+  opacity: 1;
+}
+
+.focus-toggle .icon-toggle {
+  opacity: 1;
+}
+
+@media (hover: hover) {
+  .focus-toggle:hover {
+    opacity: 1;
+  }
+}
+
 .top-header h1,
-.header-actions > :not(.tint-slider-wrap),
-.filter-row,
+.header-actions > :not(.tint-slider-wrap, .focus-toggle),
 .app-footer {
   opacity: var(--ui-opacity);
   transition: opacity var(--motion-standard);
 }
 
 .top-header h1:focus-within,
-.header-actions > :not(.tint-slider-wrap):focus-within,
-.filter-row:focus-within,
+.header-actions > :not(.tint-slider-wrap, .focus-toggle):focus-within,
 .app-footer:focus-within {
   opacity: 1;
 }
 
 @media (hover: hover) {
   .top-header h1:hover,
-  .header-actions > :not(.tint-slider-wrap):hover,
-  .filter-row:hover,
+  .header-actions > :not(.tint-slider-wrap, .focus-toggle):hover,
   .app-footer:hover {
     opacity: 1;
   }
+}
+
+.filter-row {
+  --row-opacity: var(--ui-opacity);
+  --row-line: color-mix(in srgb, var(--color-border) calc(var(--row-opacity) * 100%), transparent);
+}
+
+.filter-row:focus-within {
+  --row-opacity: 1;
+}
+
+@media (hover: hover) {
+  .filter-row:hover {
+    --row-opacity: 1;
+  }
+}
+
+.filter-pill-chip > *,
+.search-chip > * {
+  opacity: var(--row-opacity);
+  transition: opacity var(--motion-standard);
 }
 
 .list {
@@ -412,10 +430,6 @@ main {
 }
 
 /* ================= Theme Toggle ================ */
-.theme-toggle {
-  margin-left: auto;
-}
-
 .btn-icon {
   display: inline-flex;
   align-items: center;
@@ -918,7 +932,7 @@ main {
   overflow-x: clip;
   scroll-snap-type: x proximity;
   position: relative;
-  border-bottom: var(--border-hairline) solid var(--color-border);
+  border-bottom: var(--border-hairline) solid var(--row-line);
   margin-left: 0;
   padding-left: 0;
   padding-right: 0;
@@ -976,9 +990,9 @@ main {
 }
 
 .filter-pill-button.is-active .filter-pill-chip {
-  border-left: var(--border-hairline) solid var(--color-border);
-  border-right: var(--border-hairline) solid var(--color-border);
-  border-top: var(--border-hairline) solid var(--color-border);
+  border-left: var(--border-hairline) solid var(--row-line);
+  border-right: var(--border-hairline) solid var(--row-line);
+  border-top: var(--border-hairline) solid var(--row-line);
   border-bottom: none;
   border-radius: var(--radius-xs) var(--radius-xs) 0 0;
   background: var(--color-bg);
@@ -1008,7 +1022,7 @@ main {
 }
 
 .search {
-  --filter-active-border: var(--color-border);
+  --filter-active-border: var(--row-line);
   --filter-hover-bg: var(--color-surface-muted);
   display: flex;
   align-items: flex-start;
@@ -1114,7 +1128,7 @@ main {
   content: '/' / '';
   flex: 0 0 auto;
   color: var(--color-text-muted);
-  opacity: var(--opacity-faded);
+  opacity: calc(var(--opacity-faded) * var(--row-opacity, 1));
 }
 
 .search:focus-within input::placeholder {
@@ -1579,7 +1593,8 @@ button.energy-badge:focus-visible {
 .app-footer {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
+  gap: var(--spacing-md);
   margin-top: var(--spacing-2xl);
   color: var(--color-text-muted);
   font-size: var(--font-size-xs);
@@ -1591,7 +1606,7 @@ button.energy-badge:focus-visible {
   gap: var(--spacing-xs);
 }
 
-.tint-toggle {
+.icon-toggle {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -1607,13 +1622,13 @@ button.energy-badge:focus-visible {
   transition: opacity var(--motion-fast), color var(--motion-fast), background var(--motion-fast);
 }
 
-.tint-toggle[aria-pressed='true'] {
+.icon-toggle[aria-pressed='true'] {
   color: var(--color-text);
   opacity: 1;
 }
 
 @media (hover: hover) {
-  .tint-toggle:hover {
+  .icon-toggle:hover {
     opacity: 1;
     background: var(--surface-hover);
   }
@@ -1911,7 +1926,7 @@ button.energy-badge:focus-visible {
     font-size: var(--font-size-input);
   }
 
-  .tint-toggle {
+  .icon-toggle {
     min-width: var(--size-tap-target);
     height: var(--size-tap-target);
   }

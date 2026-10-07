@@ -9,6 +9,7 @@ import FilterTabs from './components/FilterTabs'
 import TodoCard from './components/TodoCard'
 import TaskInput from './components/TaskInput'
 import TintToggles from './components/TintToggles'
+import ThemeToggle from './components/ThemeToggle'
 
 const ENERGY_LEVELS = ['low', 'medium', 'high']
 const flowColor = energy => (ENERGY_LEVELS.includes(energy) ? `var(--flow-${energy})` : undefined)
@@ -224,6 +225,7 @@ export default function App() {
 
       <footer className="app-footer">
         <TintToggles />
+        <ThemeToggle />
       </footer>
     </div>
   )

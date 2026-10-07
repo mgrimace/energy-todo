@@ -39,13 +39,13 @@ export default function TintToggles() {
   const toggle = key => setEnabled(previous => ({ ...previous, [key]: !previous[key] }))
 
   return (
-    <div className="tint-toggles" role="group" aria-label="toggle tint">
-      <span className="tint-toggles-label">toggle tint:</span>
+    <div className="tint-toggles" role="group" aria-label="Tint">
+      <span className="tint-toggles-label">Tint Toggles:</span>
       {TARGETS.map(({ key, label, Icon }) => (
         <button
           key={key}
           type="button"
-          className="tint-toggle"
+          className="icon-toggle"
           aria-pressed={enabled[key]}
           aria-label={label}
           title={`${label}: ${enabled[key] ? 'on' : 'off'}`}

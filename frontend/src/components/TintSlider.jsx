@@ -2,45 +2,13 @@ import React from 'react'
 import { PaletteIcon } from '@phosphor-icons/react'
 
 const STORAGE_KEY = 'energy-todo-tint-strength'
-const MIN = -20
+const MIN = 0
 const MAX = 100
-const DETENT = 6
-const ENGAGE = 0.6
-const RELEASE = 0.4
-const ZERO_POSITION = -MIN / (MAX - MIN)
-
-let hapticLabel = null
-
-const haptic = duration => {
-  if (!window.matchMedia('(pointer: coarse)').matches) return
-  if (typeof navigator.vibrate === 'function') {
-    navigator.vibrate(duration)
-    return
-  }
-  if (!hapticLabel) {
-    hapticLabel = document.createElement('label')
-    hapticLabel.setAttribute('aria-hidden', 'true')
-    hapticLabel.style.display = 'none'
-    const input = document.createElement('input')
-    input.type = 'checkbox'
-    input.setAttribute('switch', '')
-    hapticLabel.appendChild(input)
-    document.head.appendChild(hapticLabel)
-  }
-  hapticLabel.click()
-}
+const SNAP = 4
 
 const normalize = value => {
-  if (value < 0) return MIN
-  if (value <= DETENT) return 0
+  if (value <= SNAP) return 0
   return Math.min(MAX, value)
-}
-
-const resolve = (raw, previous) => {
-  if (raw >= 0) return raw <= DETENT ? 0 : raw
-  const depth = raw / MIN
-  if (previous === MIN) return depth > RELEASE ? MIN : 0
-  return depth >= ENGAGE ? MIN : 0
 }
 
 const readStored = () => {
@@ -76,16 +44,10 @@ const readCssDefault = () =>
   Math.round(parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--tint-strength'))) || 0
 
 const applyValue = value => {
-  const root = document.documentElement
-  root.style.setProperty('--tint-strength', `${Math.max(0, value)}%`)
-  root.style.setProperty('--ui-dim', value === MIN ? '1' : '0')
+  document.documentElement.style.setProperty('--tint-strength', `${value}%`)
 }
 
-const describe = value => {
-  if (value === MIN) return 'Focus mode on'
-  if (value === 0) return 'Header tint off'
-  return `Header tint ${value}%`
-}
+const describe = value => (value === 0 ? 'Tint off' : `Tint ${value}%`)
 
 export default function TintSlider() {
   const [value, setValue] = React.useState(() => readStored() ?? readCssDefault())
@@ -97,10 +59,7 @@ export default function TintSlider() {
   }, [])
 
   const commit = next => {
-    const previous = valueRef.current
-    if (next === previous) return
-    if (next === MIN || previous === MIN) haptic(18)
-    else if (next === 0) haptic(8)
+    if (next === valueRef.current) return
     valueRef.current = next
     setValue(next)
     applyValue(next)
@@ -108,30 +67,19 @@ export default function TintSlider() {
   }
 
   const handleChange = event => {
-    commit(resolve(Number(event.target.value), valueRef.current))
+    commit(normalize(Number(event.target.value)))
   }
 
   const handleKeyDown = event => {
-    const down = event.key === 'ArrowLeft' || event.key === 'ArrowDown'
     const up = event.key === 'ArrowRight' || event.key === 'ArrowUp'
-    const current = valueRef.current
-
-    if (down && current === 0) {
+    if (up && valueRef.current === 0) {
       event.preventDefault()
-      commit(MIN)
-    } else if (up && current === MIN) {
-      event.preventDefault()
-      commit(0)
-    } else if (up && current === 0) {
-      event.preventDefault()
-      commit(DETENT + 1)
+      commit(SNAP + 1)
     }
   }
 
   const handleReset = () => {
-    const root = document.documentElement
-    root.style.removeProperty('--tint-strength')
-    root.style.removeProperty('--ui-dim')
+    document.documentElement.style.removeProperty('--tint-strength')
     clearStoredValue()
     const next = readCssDefault()
     valueRef.current = next
@@ -139,8 +87,8 @@ export default function TintSlider() {
   }
 
   return (
-    <label className="tint-slider-wrap" title="Header tint and focus mode (double-click to reset)">
-      <span className="tint-slider-field" style={{ '--tint-slider-zero': ZERO_POSITION }}>
+    <label className="tint-slider-wrap" title="Tint strength (double-click to reset)">
+      <span className="tint-slider-field">
         <input
           type="range"
           className="tint-slider"
@@ -148,11 +96,10 @@ export default function TintSlider() {
           max={MAX}
           step="1"
           value={value}
-          data-focus={value === MIN ? 'on' : 'off'}
           onChange={handleChange}
           onKeyDown={handleKeyDown}
           onDoubleClick={handleReset}
-          aria-label="Header tint and focus mode"
+          aria-label="Tint strength"
           aria-valuetext={describe(value)}
         />
       </span>
