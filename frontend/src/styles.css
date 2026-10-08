@@ -358,17 +358,23 @@ main {
   transition: opacity var(--motion-standard);
 }
 
-.focus-toggle:focus-within {
+.focus-toggle:has(:focus-visible) {
   opacity: 1;
 }
 
-.focus-toggle .icon-toggle {
+.focus-toggle .icon-toggle[aria-pressed] {
+  min-width: var(--filter-control-height);
+  color: var(--color-text-muted);
   opacity: 1;
 }
 
 @media (hover: hover) {
   .focus-toggle:hover {
     opacity: 1;
+  }
+
+  .focus-toggle .icon-toggle[aria-pressed]:hover {
+    background: transparent;
   }
 }
 
@@ -1603,7 +1609,11 @@ button.energy-badge:focus-visible {
 .tint-toggles {
   display: inline-flex;
   align-items: center;
-  gap: var(--spacing-xs);
+}
+
+.tint-toggles .icon-toggle {
+  min-width: 0;
+  padding: 0 var(--spacing-sm);
 }
 
 .icon-toggle {

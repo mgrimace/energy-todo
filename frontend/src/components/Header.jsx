@@ -13,9 +13,9 @@ export default function Header() {
         <span>Energy Todo</span>
       </h1>
       <div className="header-actions">
-        <FocusToggle />
         <TintSlider />
         <ThemeSelector />
+        <FocusToggle />
       </div>
     </header>
   )

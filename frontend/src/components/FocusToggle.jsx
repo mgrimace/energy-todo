@@ -1,5 +1,5 @@
 import React from 'react'
-import { CircleDashedIcon, CircleIcon } from '@phosphor-icons/react'
+import { DropSimpleIcon, FireSimpleIcon } from '@phosphor-icons/react'
 
 const STORAGE_KEY = 'energy-todo-focus-mode'
 
@@ -28,7 +28,7 @@ export default function FocusToggle() {
     storeValue(focused)
   }, [focused])
 
-  const Icon = focused ? CircleIcon : CircleDashedIcon
+  const Icon = focused ? FireSimpleIcon : DropSimpleIcon
 
   return (
     <div className="focus-toggle">
