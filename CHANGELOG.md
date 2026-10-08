@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v1.7.3] - 2026-10-08
+- Feat: add dedicated focus mode button that dims everything but the first three items
+- Fix: tidy up header and footer layout
+
 ## [v1.7.2] - 2026-10-06
 - Feat: add list tint, with intensity controlled by tint slider
 - Feat: add tint toggles to footer to selectively enable/disable header and list tinting.
