@@ -1616,6 +1616,15 @@ button.energy-badge:focus-visible {
   padding: 0 var(--spacing-sm);
 }
 
+.tint-toggles::after {
+  content: '';
+  align-self: center;
+  width: var(--border-hairline);
+  height: var(--size-icon-ui-sm);
+  margin-left: var(--spacing-md);
+  background: var(--color-border-strong);
+}
+
 .icon-toggle {
   display: inline-flex;
   align-items: center;
