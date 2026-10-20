@@ -135,7 +135,7 @@
   --size-tint-slider-thumb: 12px;
   --size-tint-slider-track: 2px;
   --size-tint-slider-thumb-touch: 20px;
-  --size-search-label: calc(var(--font-size-xs) * 3.3);
+  --size-search-label: calc(var(--font-size-xs) * 4.5);
 
   /* ========== ENERGY FLOW ========== */
   --flow-x: 10%;
