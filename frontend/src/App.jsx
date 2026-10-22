@@ -6,6 +6,7 @@ import { CSS } from '@dnd-kit/utilities'
 import useTodos from './hooks/useTodos'
 import Header from './components/Header'
 import FilterTabs from './components/FilterTabs'
+import TagFilter, { matchesEnergy } from './components/TagFilter' // CHANGED: new import
 import TodoCard from './components/TodoCard'
 import TaskInput from './components/TaskInput'
 import TintToggles from './components/TintToggles'
@@ -51,6 +52,7 @@ export default function App() {
   const { todos, loading, createTodo, updateTodo, deleteTodo, clearCompleted, reorderActive } = useTodos()
 
   const [filter, setFilter] = useState('all')
+  const [tag, setTag] = useState(null) // CHANGED: selected tag (lowercase key) or null
   const [search, setSearch] = useState('')
   const [activeId, setActiveId] = useState(null)
 
@@ -60,15 +62,14 @@ export default function App() {
 
   const normalizedQuery = search.trim().toLowerCase()
 
-  const matchesEnergyFilter = (todo) => {
-    if (filter === 'quick') return todo.energy === 'low'
-    if (filter === 'priority') return todo.energy === 'medium'
-    if (filter === 'deep') return todo.energy === 'high'
-    return true
-  }
+  // CHANGED: replaces the local matchesEnergyFilter (now matchesEnergy, imported
+  // from TagFilter so the tag counts and the list use the exact same rule).
+  const matchesTag = (todo) =>
+    !tag || (Array.isArray(todo.tags) && todo.tags.some(t => String(t).toLowerCase() === tag))
 
   const visible = todos.filter(todo => {
-    if (!matchesEnergyFilter(todo)) return false
+    if (!matchesEnergy(todo, filter)) return false // CHANGED
+    if (!matchesTag(todo)) return false            // CHANGED: new line
     if (!normalizedQuery) return true
 
     const title = (todo.title || '').toLowerCase()
@@ -144,6 +145,8 @@ export default function App() {
 
         <div className="list-controls">
           <FilterTabs filter={filter} setFilter={setFilter} search={search} onSearchChange={setSearch} />
+          {/* CHANGED: new tag row under the energy tabs */}
+          <TagFilter todos={todos} filter={filter} tag={tag} setTag={setTag} />
         </div>
 
         {loading ? (
