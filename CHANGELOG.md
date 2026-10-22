@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v1.8.0] - 2026-10-22
+- Feat: add tag filter to header to filter the list to only show that tag (e.g., #work). Tags are ordered by frequency
+
 ## [v1.7.3] - 2026-10-08
 - Feat: add dedicated focus mode button that dims everything but the first three items
 - Fix: tidy up header and footer layout
