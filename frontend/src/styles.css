@@ -1159,25 +1159,43 @@ main {
 
 /* ================= Tag filter row ================= */
 
-/* Card-grid alignment: the funnel sits in the checkbox/chevron column (card padding edge);
-   the TAGS label and tags start on the title-text column and share one even gap. */
+/* Alignment is driven by two offsets measured from the list's left edge:
+   --tag-icon-left: where the task-input chevron sits (funnel centers on it)
+   --tag-text-left: where card titles start (TAGS label + tags line up with them)
+   Defaults are desktop/mouse (chevron at padding-xl, titles after the checkbox column).
+   Touch hides the checkbox; narrow screens drop the task-input's left padding. */
 .tag-filter {
   --tag-accent: var(--color-text-muted);
+  --tag-icon-left: var(--spacing-xl);
+  --tag-text-left: calc(var(--spacing-xl) + var(--size-checkbox) + var(--spacing-lg));
   display: grid;
-  grid-template-columns: calc(var(--size-checkbox) + var(--spacing-lg)) minmax(0, 1fr);
+  grid-template-columns: calc(var(--tag-text-left) - var(--tag-icon-left)) minmax(0, 1fr);
   align-items: start;
-  padding-left: var(--spacing-xl);
+  padding-left: var(--tag-icon-left);
   /* Vertically centered between the filter track (above, --spacing-md gap) and the task entry
      (below, main's --spacing-lg gap + the input's own top padding): nudge down, pull entry up. */
   margin-top: var(--spacing-xs);
   margin-bottom: calc(var(--spacing-xs) * -2);
 }
 
+@media (pointer: coarse) {
+  .tag-filter { --tag-text-left: var(--spacing-xl); } /* no checkbox column on touch */
+}
+
+@media (max-width: 599px) {
+  .tag-filter {
+    --tag-icon-left: 0px; /* .task-input has no left padding on mobile */
+    /* Mobile: TAGS lines up with the energy-badge text in the entry line:
+       chevron width + .task-input gap + .task-energy-selector left padding. */
+    --tag-text-left: calc(var(--font-size-input) + var(--spacing-md) + var(--spacing-xs));
+  }
+}
+
 .tag-filter-icon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: var(--size-icon-sm); /* same box as the task-input chevron, so centers line up */
+  width: var(--font-size-input); /* same box as .task-input-caret, so centers line up */
   height: var(--size-tag-pill-min);
   font-size: var(--font-size-xs); /* icon is 1em: same size as the label and tags */
   color: var(--text-dim);
