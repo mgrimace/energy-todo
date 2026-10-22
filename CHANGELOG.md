@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v1.8.1] - 2026-10-22
+- Fix: Fix alignment of tag filter bar on mobile
+
 ## [v1.8.0] - 2026-10-22
 - Feat: add tag filter to header to filter the list to only show that tag (e.g., #work). Tags are ordered by frequency
 
