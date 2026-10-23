@@ -17,11 +17,13 @@ export default function TagFilter({ todos, filter, tag, setTag }) {
     const total = new Map()
     const inView = new Map()
     for (const todo of todos) {
-      const inEnergy = matchesEnergy(todo, filter)
+      // Counts show open tasks only (completed ones still filter/show in the list).
+      // On the Done tab the list is all completed, so count those there instead.
+      const counted = matchesEnergy(todo, filter) && (filter === 'completed' ? todo.completed : !todo.completed)
       for (const raw of Array.isArray(todo.tags) ? todo.tags : []) {
         const key = String(raw).toLowerCase()
         total.set(key, (total.get(key) ?? 0) + 1)
-        if (inEnergy) inView.set(key, (inView.get(key) ?? 0) + 1)
+        if (counted) inView.set(key, (inView.get(key) ?? 0) + 1)
       }
     }
     return [...total.entries()]

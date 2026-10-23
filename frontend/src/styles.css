@@ -1157,7 +1157,7 @@ main {
   }
 }
 
-/* ================= Tag filter row (append to styles.css, after .search rules) ================= */
+/* ================= Tag filter row ================= */
 
 /* Alignment is driven by two offsets measured from the list's left edge:
    --tag-icon-left: where the task-input chevron sits (funnel centers on it)
@@ -1339,6 +1339,7 @@ button.tag-filter-label:focus-visible {
   button.tag-filter-icon:hover,
   button.tag-filter-label:hover { color: var(--color-text); opacity: 1; }
 }
+
 /* ================= Todo List ================ */
 .stacked-list {
   border: var(--border-subtle);
