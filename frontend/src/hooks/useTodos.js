@@ -320,8 +320,9 @@ export default function useTodos() {
     }
   }
 
-  const clearCompleted = async () => {
-    const completedIds = todos.filter(t => t.completed).map(t => t.id)
+  // Optional ids limits the clear to those completed todos (e.g. only the selected tag's).
+  const clearCompleted = async (ids) => {
+    const completedIds = ids ?? todos.filter(t => t.completed).map(t => t.id)
     await Promise.all(completedIds.map(id => deleteTodo(id)))
   }
 

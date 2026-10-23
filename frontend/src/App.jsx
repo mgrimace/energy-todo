@@ -87,6 +87,10 @@ export default function App() {
 
   const completedTodos = visible.filter(todo => todo.completed)
 
+  // "Clear all" is scoped to the selected tag when one is active; otherwise it clears every completed todo.
+  const clearCompletedTodos = () =>
+    clearCompleted(tag ? todos.filter(t => t.completed && matchesTag(t)).map(t => t.id) : undefined)
+
   const onDragStart = ({ active }) => setActiveId(active.id)
   const onDragCancel = () => setActiveId(null)
 
@@ -202,10 +206,10 @@ export default function App() {
                   <button
                     type="button"
                     className="completed-clear-btn"
-                    onClick={clearCompleted}
-                    aria-label="Delete all completed tasks"
+                    onClick={clearCompletedTodos}
+                    aria-label={tag ? `Delete completed tasks tagged ${tag}` : 'Delete all completed tasks'}
                   >
-                    <span className="completed-clear-chip">Clear all</span>
+                    <span className="completed-clear-chip">{tag ? `Clear #${tag}` : 'Clear all'}</span>
                     </button>
                 </div>
                 <div className="completed-list stacked-list">
