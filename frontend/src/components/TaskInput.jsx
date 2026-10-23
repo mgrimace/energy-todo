@@ -3,7 +3,7 @@ import { CaretDownIcon, CaretRightIcon, CaretUpIcon } from '@phosphor-icons/reac
 
 const ENERGY_ORDER = ['low', 'medium', 'high']
 
-export default function TaskInput({ onAdd, disabled, syncedEnergy }) {
+export default function TaskInput({ onAdd, disabled, syncedEnergy, syncedTag }) {
   const [title, setTitle] = useState('')
   const [energy, setEnergy] = useState('low')
   const [position, setPosition] = useState('top')
@@ -13,6 +13,19 @@ export default function TaskInput({ onAdd, disabled, syncedEnergy }) {
   }, [syncedEnergy])
   const [confirmedTags, setConfirmedTags] = useState([])
   const inputRef = useRef(null)
+  const prevSyncedTagRef = useRef(null)
+
+  // Mirror the selected filter tag into the new task as a normal (removable) tag token.
+  // Swaps out the previously synced tag when the selection changes or is cleared.
+  useEffect(() => {
+    const prev = prevSyncedTagRef.current
+    prevSyncedTagRef.current = syncedTag ?? null
+    setConfirmedTags(tags => {
+      const rest = prev ? tags.filter(t => t.toLowerCase() !== prev) : tags
+      if (syncedTag && !rest.some(t => t.toLowerCase() === syncedTag)) return [syncedTag, ...rest]
+      return rest
+    })
+  }, [syncedTag])
 
   const submit = async (event) => {
     event.preventDefault()
@@ -21,16 +34,16 @@ export default function TaskInput({ onAdd, disabled, syncedEnergy }) {
     const cleanTitle = trailingMatch
       ? title.slice(0, -trailingMatch[0].length).trim()
       : title.trim()
-    const finalTags = trailingMatch
-      ? [...confirmedTags, trailingMatch[1]]
-      : confirmedTags
+    const finalTags = [...new Set(
+      trailingMatch ? [...confirmedTags, trailingMatch[1]] : confirmedTags
+    )]
 
     if (!cleanTitle) return
 
     await onAdd(cleanTitle, energy, finalTags, position)
     setTitle('')
     setEnergy(syncedEnergy ?? energy)
-    setConfirmedTags([])
+    setConfirmedTags(syncedTag ? [syncedTag] : [])
     setPosition('top')
   }
 

@@ -138,6 +138,7 @@ export default function App() {
         <TaskInput
           disabled={loading}
           syncedEnergy={syncedEnergy}
+          syncedTag={tag} /* CHANGED: new tasks inherit the selected tag filter */
           onAdd={async (title, energy, tags, position) => {
             await createTodo({ title, energy, tags, position })
           }}
