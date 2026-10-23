@@ -635,7 +635,7 @@ main {
   gap: var(--spacing-md);
   background: transparent;
   border: 0;
-  padding: var(--spacing-sm) 0 var(--spacing-sm) var(--spacing-xl);
+  padding: 0 0 var(--spacing-sm) var(--spacing-xl);
   flex-wrap: wrap;
   order: 2;
 }
@@ -1157,71 +1157,55 @@ main {
   }
 }
 
-/* ================= Tag filter row ================= */
-
-/* Alignment is driven by two offsets measured from the list's left edge:
-   --tag-icon-left: where the task-input chevron sits (funnel centers on it)
-   --tag-text-left: where card titles start (TAGS label + tags line up with them)
-   Defaults are desktop/mouse (chevron at padding-xl, titles after the checkbox column).
-   Touch hides the checkbox; narrow screens drop the task-input's left padding. */
+/* Tag filter: centered [funnel] TAGS #a 3 #b 2 #c 1 +N, sits under the energy tabs */
 .tag-filter {
   --tag-accent: var(--color-text-muted);
-  --tag-icon-left: var(--spacing-xl);
-  --tag-text-left: calc(var(--spacing-xl) + var(--size-checkbox) + var(--spacing-lg));
-  display: grid;
-  grid-template-columns: calc(var(--tag-text-left) - var(--tag-icon-left)) minmax(0, 1fr);
-  align-items: start;
-  padding-left: var(--tag-icon-left);
-  /* Vertically centered between the filter track (above, --spacing-md gap) and the task entry
-     (below, main's --spacing-lg gap + the input's own top padding): nudge down, pull entry up. */
+  --tag-icon-size: 1em;
+  --tag-icon-nudge: 0em;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: var(--spacing-sm);
   margin-top: var(--spacing-xs);
-  margin-bottom: calc(var(--spacing-xs) * -2);
 }
-
-@media (pointer: coarse) {
-  .tag-filter { --tag-text-left: var(--spacing-xl); } /* no checkbox column on touch */
-}
-
-@media (max-width: 599px) {
-  .tag-filter {
-    --tag-icon-left: 0px; /* .task-input has no left padding on mobile */
-    /* Mobile: TAGS lines up with the energy-badge text in the entry line:
-       chevron width + .task-input gap + .task-energy-selector left padding. */
-    --tag-text-left: calc(var(--font-size-input) + var(--spacing-md) + var(--spacing-xs));
-  }
-}
+:root[data-energy-filter='low']    .tag-filter { --tag-accent: var(--energy-low-accent); }
+:root[data-energy-filter='medium'] .tag-filter { --tag-accent: var(--energy-medium-accent); }
+:root[data-energy-filter='high']   .tag-filter { --tag-accent: var(--energy-high-accent); }
 
 .tag-filter-icon {
   display: inline-flex;
-  align-items: center;
+  align-items: center; /* icon and label share one 20px line */
   justify-content: center;
-  width: var(--font-size-input); /* same box as .task-input-caret, so centers line up */
   height: var(--size-tag-pill-min);
-  font-size: var(--font-size-xs); /* icon is 1em: same size as the label and tags */
+  font-size: var(--font-size-xs);
+  font-family: inherit;
   color: var(--text-dim);
   opacity: var(--row-opacity);
   transition: opacity var(--motion-standard);
 }
 
-/* Micro-label: same treatment as .completed-divider */
+.tag-filter-icon svg {
+  display: block;
+  width: var(--tag-icon-size);
+  height: var(--tag-icon-size);
+  position: relative;
+  top: var(--tag-icon-nudge);
+}
+
 .tag-filter-label {
   display: inline-flex;
   align-items: center;
   min-height: var(--size-tag-pill-min);
-  font-size: var(--font-size-xs); /* same size as the tags and icon */
+  font-size: var(--font-size-xs);
   font-weight: var(--font-weight-medium);
-  letter-spacing: 0.08em; /* intentional one-off: matches .completed-divider */
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--text-dim);
   white-space: nowrap;
   opacity: var(--row-opacity);
   transition: opacity var(--motion-standard);
 }
-:root[data-energy-filter='low']    .tag-filter { --tag-accent: var(--energy-low-accent); }
-:root[data-energy-filter='medium'] .tag-filter { --tag-accent: var(--energy-medium-accent); }
-:root[data-energy-filter='high']   .tag-filter { --tag-accent: var(--energy-high-accent); }
 
-/* Label stays put; only .tag-filter-list scrolls (mobile) or wraps (desktop). */
 .tag-filter-main {
   display: flex;
   align-items: flex-start;
@@ -1230,13 +1214,12 @@ main {
 }
 
 .tag-filter-list {
-  flex: 1 1 auto;
   display: flex;
   flex-wrap: wrap;
+  justify-content: center; /* expanded rows center too */
   align-items: center;
   gap: var(--spacing-xs) var(--spacing-lg);
   min-width: 0;
-  padding: 0;
 }
 
 .tag-filter-chip,
@@ -1258,12 +1241,12 @@ main {
   transition: color var(--motion-fast), opacity var(--motion-standard);
 }
 
+.tag-filter-more { color: var(--text-dim); }
+
 .tag-filter-count { font-size: var(--font-size-xs); color: var(--text-dim); }
 .tag-filter-chip[data-empty='true'] { opacity: min(var(--opacity-muted), var(--row-opacity)); }
 
-.tag-filter-chip.is-active {
-  opacity: 1;
-}
+.tag-filter-chip.is-active { opacity: 1; }
 
 .tag-filter-chip.is-active .tag-filter-name {
   text-decoration: underline;
@@ -1273,7 +1256,7 @@ main {
 }
 
 .tag-filter-chip::after,
-.tag-filter-more::after { content: ''; position: absolute; inset: -12px -6px; } /* tap target */
+.tag-filter-more::after { content: ''; position: absolute; inset: -12px -6px; }
 
 .tag-filter-chip:focus-visible,
 .tag-filter-more:focus-visible {
@@ -1287,35 +1270,10 @@ main {
   .tag-filter-more:hover { color: var(--color-text); opacity: 1; }
 }
 
-/* Collapsed on desktop: only the top few tags; "+N" reveals the rest. */
+/* Collapsed shows the top tags (plus the selected one); "+N" reveals the rest */
 .tag-filter:not([data-expanded='true']) .tag-filter-chip[data-overflow='true'] { display: none; }
 
-/* Mobile: one swipeable line, no wrapping, no "+N". */
-@media (max-width: 599px) {
-  .tag-filter-list {
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    overflow-y: hidden;          /* no vertical scroll inside the row */
-    touch-action: pan-x;         /* on rails: a swipe starting here only pans horizontally */
-    overscroll-behavior-x: contain; /* don't chain into page/browser back-swipe at the ends */
-    scrollbar-width: none;
-    gap: var(--spacing-lg);
-    padding-right: var(--spacing-xl);
-    --fade-start: 0px; /* fades are set from scroll position (data-fade-start / data-fade-end) */
-    --fade-end: 0px;
-    mask-image: linear-gradient(to right, transparent, #000 var(--fade-start), #000 calc(100% - var(--fade-end)), transparent);
-    -webkit-mask-image: linear-gradient(to right, transparent, #000 var(--fade-start), #000 calc(100% - var(--fade-end)), transparent);
-  }
-  .tag-filter-list[data-fade-start='true'] { --fade-start: var(--spacing-xl); }
-  .tag-filter-list[data-fade-end='true'] { --fade-end: var(--spacing-xl); }
-  .tag-filter-list::-webkit-scrollbar { display: none; }
-  .tag-filter-chip { flex: 0 0 auto; }
-  .tag-filter-label { flex: 0 0 auto; }
-  .tag-filter:not([data-expanded='true']) .tag-filter-chip[data-overflow='true'] { display: inline-flex; }
-  .tag-filter-more { display: none; }
-}
-
-/* Icon + TAGS label act as "clear selection" while a tag is selected */
+/* Icon + label clear the selection while a tag is selected */
 button.tag-filter-icon,
 button.tag-filter-label {
   appearance: none;
@@ -1328,7 +1286,7 @@ button.tag-filter-label {
   transition: color var(--motion-fast), opacity var(--motion-standard);
 }
 button.tag-filter-icon::after,
-button.tag-filter-label::after { content: ''; position: absolute; inset: -12px -6px; } /* tap target */
+button.tag-filter-label::after { content: ''; position: absolute; inset: -12px -6px; }
 button.tag-filter-icon:focus-visible,
 button.tag-filter-label:focus-visible {
   outline: 2px solid var(--color-accent-strong);
@@ -2077,7 +2035,7 @@ button.energy-badge:focus-visible {
   }
 
   .task-input {
-    padding: var(--spacing-sm) 0 var(--spacing-sm) var(--spacing-xl);
+    padding: 0 0 var(--spacing-sm) var(--spacing-xl);
   }
 }
 
