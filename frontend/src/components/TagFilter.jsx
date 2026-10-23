@@ -29,6 +29,27 @@ export default function TagFilter({ todos, filter, tag, setTag }) {
       .map(([key]) => ({ key, count: inView.get(key) ?? 0 }))
   }, [todos, filter])
 
+  // Mobile scroll fades: flag whether there's more content before/after the visible
+  // part of the list. Written straight to data attributes (no re-render per scroll).
+  const listRef = React.useRef(null)
+  const syncFades = React.useCallback(() => {
+    const el = listRef.current
+    if (!el) return
+    const hasMoreStart = el.scrollLeft > 1
+    const hasMoreEnd = el.scrollLeft + el.clientWidth < el.scrollWidth - 1
+    el.dataset.fadeStart = hasMoreStart ? 'true' : 'false'
+    el.dataset.fadeEnd = hasMoreEnd ? 'true' : 'false'
+  }, [])
+
+  React.useLayoutEffect(() => {
+    const el = listRef.current
+    if (!el) return undefined
+    syncFades()
+    const observer = new ResizeObserver(syncFades)
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [syncFades, stats, expanded])
+
   // Drop a selection whose tag no longer exists anywhere.
   React.useEffect(() => {
     if (tag && !stats.some(s => s.key === tag)) setTag(null)
@@ -49,8 +70,9 @@ export default function TagFilter({ todos, filter, tag, setTag }) {
       <ClearEl className="tag-filter-icon" {...clearProps}>
         <FunnelIcon size="1em" weight="regular" aria-hidden="true" />
       </ClearEl>
-      <div className="tag-filter-list" role="group" aria-label="Filter todos by tag">
+      <div className="tag-filter-main">
         <ClearEl className="tag-filter-label" {...clearProps}>Tags</ClearEl>
+        <div ref={listRef} onScroll={syncFades} className="tag-filter-list" role="group" aria-label="Filter todos by tag">
         {stats.map((s, index) => {
           const isActive = tag === s.key
           // The selected tag is never hidden behind "more".
@@ -80,6 +102,7 @@ export default function TagFilter({ todos, filter, tag, setTag }) {
             {expanded ? 'less' : `+${hiddenCount}`}
           </button>
         ) : null}
+        </div>
       </div>
     </div>
   )

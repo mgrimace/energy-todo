@@ -1157,7 +1157,7 @@ main {
   }
 }
 
-/* ================= Tag filter row ================= */
+/* ================= Tag filter row (append to styles.css, after .search rules) ================= */
 
 /* Alignment is driven by two offsets measured from the list's left edge:
    --tag-icon-left: where the task-input chevron sits (funnel centers on it)
@@ -1221,7 +1221,16 @@ main {
 :root[data-energy-filter='medium'] .tag-filter { --tag-accent: var(--energy-medium-accent); }
 :root[data-energy-filter='high']   .tag-filter { --tag-accent: var(--energy-high-accent); }
 
+/* Label stays put; only .tag-filter-list scrolls (mobile) or wraps (desktop). */
+.tag-filter-main {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-lg);
+  min-width: 0;
+}
+
 .tag-filter-list {
+  flex: 1 1 auto;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -1286,16 +1295,22 @@ main {
   .tag-filter-list {
     flex-wrap: nowrap;
     overflow-x: auto;
-    scroll-snap-type: x proximity;
+    overflow-y: hidden;          /* no vertical scroll inside the row */
+    touch-action: pan-x;         /* on rails: a swipe starting here only pans horizontally */
+    overscroll-behavior-x: contain; /* don't chain into page/browser back-swipe at the ends */
     scrollbar-width: none;
     gap: var(--spacing-lg);
     padding-right: var(--spacing-xl);
-    mask-image: linear-gradient(to right, #000 calc(100% - var(--spacing-xl)), transparent);
-    -webkit-mask-image: linear-gradient(to right, #000 calc(100% - var(--spacing-xl)), transparent);
+    --fade-start: 0px; /* fades are set from scroll position (data-fade-start / data-fade-end) */
+    --fade-end: 0px;
+    mask-image: linear-gradient(to right, transparent, #000 var(--fade-start), #000 calc(100% - var(--fade-end)), transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 var(--fade-start), #000 calc(100% - var(--fade-end)), transparent);
   }
+  .tag-filter-list[data-fade-start='true'] { --fade-start: var(--spacing-xl); }
+  .tag-filter-list[data-fade-end='true'] { --fade-end: var(--spacing-xl); }
   .tag-filter-list::-webkit-scrollbar { display: none; }
-  .tag-filter-chip { scroll-snap-align: start; flex: 0 0 auto; }
-  .tag-filter-label { flex: 0 0 auto; } /* funnel stays pinned; label scrolls away with the list */
+  .tag-filter-chip { flex: 0 0 auto; }
+  .tag-filter-label { flex: 0 0 auto; }
   .tag-filter:not([data-expanded='true']) .tag-filter-chip[data-overflow='true'] { display: inline-flex; }
   .tag-filter-more { display: none; }
 }
@@ -1324,7 +1339,6 @@ button.tag-filter-label:focus-visible {
   button.tag-filter-icon:hover,
   button.tag-filter-label:hover { color: var(--color-text); opacity: 1; }
 }
-
 /* ================= Todo List ================ */
 .stacked-list {
   border: var(--border-subtle);
