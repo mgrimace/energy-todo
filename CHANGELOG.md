@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v1.8.2] - 2026-10-23
+- Feat: when a tag is selected, clear all becomes clear tag (and only clears the completed with the corresponding tag)
+- Feat: when a tag filter is selected (e.g., #work), adding a new item will automatically tag it with the active tag
+- Fix: Simplified and improved the design of the tag filter bar
+
 ## [v1.8.1] - 2026-10-22
 - Fix: Fix alignment of tag filter bar on mobile
 
