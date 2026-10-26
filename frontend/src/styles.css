@@ -1159,7 +1159,6 @@ main {
 
 /* Tag filter: centered [funnel] TAGS #a 3 #b 2 #c 1 +N, sits under the energy tabs */
 .tag-filter {
-  --tag-accent: var(--color-text-muted);
   --tag-icon-size: 1em;
   --tag-icon-nudge: 0em;
   display: flex;
@@ -1168,9 +1167,6 @@ main {
   gap: var(--spacing-sm);
   margin-top: var(--spacing-xs);
 }
-:root[data-energy-filter='low']    .tag-filter { --tag-accent: var(--energy-low-accent); }
-:root[data-energy-filter='medium'] .tag-filter { --tag-accent: var(--energy-medium-accent); }
-:root[data-energy-filter='high']   .tag-filter { --tag-accent: var(--energy-high-accent); }
 
 .tag-filter-icon {
   display: inline-flex;
@@ -1238,6 +1234,9 @@ main {
   position: relative;
   white-space: nowrap;
   opacity: var(--row-opacity);
+  touch-action: manipulation; /* double-tap hides a tag; don't zoom the page */
+  user-select: none;
+  -webkit-user-select: none;
   transition: color var(--motion-fast), opacity var(--motion-standard);
 }
 
@@ -1246,13 +1245,28 @@ main {
 .tag-filter-count { font-size: var(--font-size-xs); color: var(--text-dim); }
 .tag-filter-chip[data-empty='true'] { opacity: min(var(--opacity-muted), var(--row-opacity)); }
 
-.tag-filter-chip.is-active { opacity: 1; }
+/* Selected tags: shown = accent + dotted underline, hidden = warning + strikethrough. The label
+   ("Showing" / "Hiding") carries the same tone. */
+.tag-filter-chip[data-state] { opacity: 1; }
+.tag-filter[data-mode] .tag-filter-label { opacity: 1; }
+.tag-filter[data-mode='show'] .tag-filter-label { color: var(--color-accent-strong); }
+.tag-filter[data-mode='hide'] .tag-filter-label { color: var(--color-warning); }
 
-.tag-filter-chip.is-active .tag-filter-name {
+.tag-filter-chip[data-state='active'] { color: var(--color-accent-strong); }
+.tag-filter-chip[data-state='hidden'] { color: var(--color-warning); }
+
+.tag-filter-chip[data-state] .tag-filter-count { color: color-mix(in srgb, currentColor 60%, transparent); }
+
+.tag-filter-chip[data-state='active'] .tag-filter-name {
   text-decoration: underline;
   text-decoration-style: dotted;
-  text-decoration-color: color-mix(in srgb, var(--tag-accent) 45%, transparent);
+  text-decoration-color: color-mix(in srgb, currentColor 60%, transparent);
   text-underline-offset: var(--spacing-2xs);
+}
+
+.tag-filter-chip[data-state='hidden'] .tag-filter-name {
+  text-decoration: line-through;
+  text-decoration-color: color-mix(in srgb, currentColor 70%, transparent);
 }
 
 .tag-filter-chip::after,
@@ -1266,14 +1280,14 @@ main {
 }
 
 @media (hover: hover) {
-  .tag-filter-chip:hover,
+  .tag-filter-chip:not([data-state]):hover,
   .tag-filter-more:hover { color: var(--color-text); opacity: 1; }
 }
 
-/* Collapsed shows the top tags (plus the selected one); "+N" reveals the rest */
+/* Collapsed shows the top tags (plus any with a filter set); "+N" reveals the rest */
 .tag-filter:not([data-expanded='true']) .tag-filter-chip[data-overflow='true'] { display: none; }
 
-/* Icon + label clear the selection while a tag is selected */
+/* Icon + label reset the tag filters while any are set */
 button.tag-filter-icon,
 button.tag-filter-label {
   appearance: none;

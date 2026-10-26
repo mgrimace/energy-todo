@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v1.8.3] - 2026-10-26
+- Feat: Multiple tags can be selected for filtering
+- Feat: Double clicking/tapping a tag in the filter bar will switch that tag to 'hiding' (alternatively, select the 'showing' TAG label to toggle 'hiding'), which will hide all list items with that tag from the list
+
 ## [v1.8.2] - 2026-10-23
 - Feat: when a tag is selected, clear all becomes clear tag (and only clears the completed with the corresponding tag)
 - Feat: when a tag filter is selected (e.g., #work), adding a new item will automatically tag it with the active tag

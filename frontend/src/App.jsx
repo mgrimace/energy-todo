@@ -6,7 +6,7 @@ import { CSS } from '@dnd-kit/utilities'
 import useTodos from './hooks/useTodos'
 import Header from './components/Header'
 import FilterTabs from './components/FilterTabs'
-import TagFilter, { matchesEnergy } from './components/TagFilter' // CHANGED: new import
+import TagFilter, { EMPTY_TAG_FILTER, matchesEnergy, matchesTagFilter } from './components/TagFilter'
 import TodoCard from './components/TodoCard'
 import TaskInput from './components/TaskInput'
 import TintToggles from './components/TintToggles'
@@ -52,7 +52,7 @@ export default function App() {
   const { todos, loading, createTodo, updateTodo, deleteTodo, clearCompleted, reorderActive } = useTodos()
 
   const [filter, setFilter] = useState('all')
-  const [tag, setTag] = useState(null) // CHANGED: selected tag (lowercase key) or null
+  const [tagFilter, setTagFilter] = useState(EMPTY_TAG_FILTER) // { mode: 'show' | 'hide', keys: [...] }
   const [search, setSearch] = useState('')
   const [activeId, setActiveId] = useState(null)
 
@@ -62,14 +62,12 @@ export default function App() {
 
   const normalizedQuery = search.trim().toLowerCase()
 
-  // CHANGED: replaces the local matchesEnergyFilter (now matchesEnergy, imported
-  // from TagFilter so the tag counts and the list use the exact same rule).
-  const matchesTag = (todo) =>
-    !tag || (Array.isArray(todo.tags) && todo.tags.some(t => String(t).toLowerCase() === tag))
+  // New tasks inherit the first shown tag (nothing to inherit while hiding).
+  const syncedTag = tagFilter.mode === 'show' ? tagFilter.keys[0] ?? null : null
 
   const visible = todos.filter(todo => {
-    if (!matchesEnergy(todo, filter)) return false // CHANGED
-    if (!matchesTag(todo)) return false            // CHANGED: new line
+    if (!matchesEnergy(todo, filter)) return false
+    if (!matchesTagFilter(todo, tagFilter)) return false
     if (!normalizedQuery) return true
 
     const title = (todo.title || '').toLowerCase()
@@ -87,9 +85,17 @@ export default function App() {
 
   const completedTodos = visible.filter(todo => todo.completed)
 
-  // "Clear all" is scoped to the selected tag when one is active; otherwise it clears every completed todo.
+  // "Clear" is scoped to the tag filter when one is set; otherwise it clears every completed todo.
+  const hasTagFilter = tagFilter.keys.length > 0
   const clearCompletedTodos = () =>
-    clearCompleted(tag ? todos.filter(t => t.completed && matchesTag(t)).map(t => t.id) : undefined)
+    clearCompleted(hasTagFilter
+      ? todos.filter(t => t.completed && matchesTagFilter(t, tagFilter)).map(t => t.id)
+      : undefined)
+  const clearLabel = !hasTagFilter
+    ? 'Clear all'
+    : tagFilter.mode === 'show' && tagFilter.keys.length === 1
+      ? `Clear #${tagFilter.keys[0]}`
+      : 'Clear filtered'
 
   const onDragStart = ({ active }) => setActiveId(active.id)
   const onDragCancel = () => setActiveId(null)
@@ -142,7 +148,7 @@ export default function App() {
         <TaskInput
           disabled={loading}
           syncedEnergy={syncedEnergy}
-          syncedTag={tag} /* CHANGED: new tasks inherit the selected tag filter */
+          syncedTag={syncedTag}
           onAdd={async (title, energy, tags, position) => {
             await createTodo({ title, energy, tags, position })
           }}
@@ -150,8 +156,7 @@ export default function App() {
 
         <div className="list-controls">
           <FilterTabs filter={filter} setFilter={setFilter} search={search} onSearchChange={setSearch} />
-          {/* CHANGED: new tag row under the energy tabs */}
-          <TagFilter todos={todos} filter={filter} tag={tag} setTag={setTag} />
+          <TagFilter todos={todos} filter={filter} tagFilter={tagFilter} setTagFilter={setTagFilter} />
         </div>
 
         {loading ? (
@@ -207,9 +212,9 @@ export default function App() {
                     type="button"
                     className="completed-clear-btn"
                     onClick={clearCompletedTodos}
-                    aria-label={tag ? `Delete completed tasks tagged ${tag}` : 'Delete all completed tasks'}
+                    aria-label={hasTagFilter ? 'Delete completed tasks matching the tag filter' : 'Delete all completed tasks'}
                   >
-                    <span className="completed-clear-chip">{tag ? `Clear #${tag}` : 'Clear all'}</span>
+                    <span className="completed-clear-chip">{clearLabel}</span>
                     </button>
                 </div>
                 <div className="completed-list stacked-list">
