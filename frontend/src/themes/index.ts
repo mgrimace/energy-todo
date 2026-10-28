@@ -1,4 +1,5 @@
 import { defaultTheme } from './defaultTheme'
+import { ashenTheme } from './ashenTheme'
 import { catppuccinTheme } from './catppuccinTheme'
 import { draculaTheme } from './draculaTheme'
 import { everforestTheme } from './everforestTheme'
@@ -14,6 +15,7 @@ import { tokyoNightTheme } from './tokyoNightTheme'
 
 export const themes = [
   defaultTheme,
+  ashenTheme,
   catppuccinTheme,
   draculaTheme,
   everforestTheme,
@@ -30,6 +32,7 @@ export const themes = [
 
 export {
   defaultTheme,
+  ashenTheme,
   catppuccinTheme,
   draculaTheme,
   everforestTheme,
